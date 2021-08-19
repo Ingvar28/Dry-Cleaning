@@ -17,31 +17,25 @@ import java.util.Optional;
 @RequestMapping("/client")
 public class ClientController {
 
-
-
-    @GetMapping//(value = {"", "/{id}"})
-    public String getSomeData(){
-        return "Hello Spring";
-    }
-
-    @GetMapping(value = {"", "/{id}"})
-    public List<ClientDTO> getById(@PathVariable Optional<Long> id) {
-        return service.getById(id);
-    }
-
-    @PostMapping
-    public ClientDTO create(@RequestBody ClientDTO dto) {
-        return service.create(dto);
-    }
-
-    @PutMapping
-    public ClientDTO update(@RequestBody ClientDTO dto) {
-        return service.update(dto);
-    }
-
-    @DeleteMapping("/{id}")
-    public void delete(@PathVariable Long id) {
-        service.delete(id);
-    }
+    //Дописать Веб сервис
+//    @GetMapping(value = {"", "/{id}"})
+//    public List<ClientDTO> getById(@PathVariable Optional<Long> id) {
+//        return service.getById(id);
+//    }
+//
+//    @PostMapping
+//    public ClientDTO create(@RequestBody ClientDTO dto) {
+//        return service.create(dto);
+//    }
+//
+//    @PutMapping
+//    public ClientDTO update(@RequestBody ClientDTO dto) {
+//        return service.update(dto);
+//    }
+//
+//    @DeleteMapping("/{id}")
+//    public void delete(@PathVariable Long id) {
+//        service.delete(id);
+//    }
 
 }

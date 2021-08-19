@@ -6,22 +6,19 @@ import lombok.ToString;
 
 import javax.persistence.*;
 
+
 @Entity
 @Getter
 @Setter
 @ToString
-public class Client {
+public class Service {
+
     @Id
+    @OneToOne
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String firstName;
-    private String lastName;
-    private String phone;
-    private String clientGrade;
-    private String description;
+    private String type;
+    private double price;
 
-    @OneToMany
-    @ToString.Exclude
-    private Long orderId;
 }
