@@ -1,4 +1,4 @@
-package ru.nosov.DryCleaning.dto;
+package ru.nosov.dry_cleaning.dto;
 
 import lombok.Data;
 

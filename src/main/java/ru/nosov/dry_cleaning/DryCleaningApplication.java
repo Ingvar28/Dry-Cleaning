@@ -1,4 +1,4 @@
-package ru.nosov.DryCleaning;
+package ru.nosov.dry_cleaning;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
