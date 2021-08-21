@@ -5,20 +5,26 @@ import lombok.Setter;
 import lombok.ToString;
 
 import javax.persistence.*;
+import java.util.Set;
 
 
-@Entity
+@Entity(name = "ClothesCategory")
 @Getter
 @Setter
 @ToString
-public class Service {
+@Table(name = "clothes_category")
+public class ClothesCategoryEntity {
 
     @Id
-    @OneToOne
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     private String type;
+    private String size;
     private double price;
+
+    @OneToMany(fetch = FetchType.LAZY)
+    private Set<ItemEntity> items;
+
 
 }

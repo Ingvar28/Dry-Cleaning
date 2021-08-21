@@ -5,23 +5,26 @@ import lombok.Setter;
 import lombok.ToString;
 
 import javax.persistence.*;
+import java.util.Set;
 
-@Entity
+
+@Entity(name = "ServiceType")
 @Getter
 @Setter
 @ToString
-public class Client {
+@Table(name = "service_type")
+public class ServiceTypeEntity {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String firstName;
-    private String lastName;
-    private String phone;
-    private String clientGrade;
-    private String description;
+    private String type;
+    private double price;
 
-    @OneToMany
-    @ToString.Exclude
-    private Long orderId;
+    @OneToMany(fetch = FetchType.LAZY)
+    private Set<OrderEntity> orders;
+
+
+
 }

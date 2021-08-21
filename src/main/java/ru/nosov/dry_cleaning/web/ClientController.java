@@ -1,15 +1,13 @@
 package ru.nosov.dry_cleaning.web;
 
-import ru.nosov.dry_cleaning.dto.ClientDTO;
-import ru.nosov.dry_cleaning.services.ClientService;
+
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 
 
-import java.util.List;
-import java.util.Optional;
+
 
 @Slf4j
 @RestController

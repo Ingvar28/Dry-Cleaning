@@ -6,22 +6,22 @@ import lombok.Setter;
 import lombok.ToString;
 
 import javax.persistence.*;
+import java.util.Set;
 
-
-@Entity
+@Entity(name = "Position")
 @Getter
 @Setter
 @ToString
-public class Payment {
+@Table(name = "position")
+public class PositionEntity {
 
     @Id
-    @OneToOne
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String paymentMethod;
-    private String status;
-    private Long employerId;
+    private String jobTitle;
+    private String duties;
 
-
+    @OneToMany(fetch = FetchType.LAZY)
+    private Set<EmployeeEntity> employees;
 }

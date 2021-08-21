@@ -1,7 +1,6 @@
 package ru.nosov.dry_cleaning.services;
 
-import ru.nosov.dry_cleaning.dto.ClientDTO;
-import ru.nosov.dry_cleaning.entities.Client;
+import ru.nosov.dry_cleaning.entities.ClientEntity;
 import ru.nosov.dry_cleaning.repositories.ClientRepository;
 
 
@@ -23,13 +22,13 @@ public class ClientService {
     private static final String DTO_MUST_NOT_BE_NULL_MESSAGE = "DTO must not be null!";
 
     @Transactional
-    public Client create(String firstName, String lastName,
-                         String phone,String clientGrade, String description, Long orderId) {
-        Client client = new Client();
+    public ClientEntity create(String firstName, String lastName,
+                               String phone, String clientGrade, String description, Long orderId) {
+        ClientEntity client = new ClientEntity();
         client.setFirstName(firstName);
         client.setLastName(lastName);
         client.setPhone(phone);
-        client.setClientGrade(clientGrade);
+        client.setClientLevel(clientGrade);
         client.setDescription(description);
 
         return repository.save(client);
