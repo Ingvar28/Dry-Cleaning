@@ -19,6 +19,7 @@ public interface ClientService {
     @Transactional
     ClientEntity update(String firstName,String lastName,String phone);
 
-    ClientEntity toDTO(ClientEntity clientEntity);
+    ClientEntity toInDTO(ClientEntity clientEntity);
+    ClientEntity toOutDTO(ClientEntity clientEntity);
 
 }

@@ -18,7 +18,6 @@ import java.util.List;
 @RequiredArgsConstructor
 public class ClientServiceImpl implements ClientService {
 
-
     private final ClientRepository repository;
 
     private static final String NO_USER_MESSAGE = "There is no such User!";
@@ -57,9 +56,13 @@ public class ClientServiceImpl implements ClientService {
     }
 
     @Override
-    public ClientEntity toDTO(ClientEntity clientEntity) {
+    public ClientEntity toInDTO(ClientEntity clientEntity) {
         return null;
     }
 
+    @Override
+    public ClientEntity toOutDTO(ClientEntity clientEntity) {
+        return null;
+    }
 
 }

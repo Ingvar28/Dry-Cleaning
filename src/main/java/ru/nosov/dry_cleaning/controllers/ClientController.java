@@ -5,7 +5,11 @@ package ru.nosov.dry_cleaning.controllers;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
+import ru.nosov.dry_cleaning.dto.in.ClientInDTO;
 import ru.nosov.dry_cleaning.dto.out.ClientOutDTO;
+import ru.nosov.dry_cleaning.webservices.ClientWebService;
+
+import java.util.List;
 
 
 @Slf4j
@@ -14,25 +18,31 @@ import ru.nosov.dry_cleaning.dto.out.ClientOutDTO;
 @RequestMapping("/client")
 public class ClientController {
 
-    //Дописать Веб сервис
-//    @GetMapping(value = {"", "/{id}"})
-//    public List<ClientDTO> getById(@PathVariable Optional<Long> id) {
-//        return service.getById(id);
-//    }
-//
+    private final ClientWebService service;
+
+    @GetMapping("/all")
+    public List<ClientOutDTO> getAll() {
+        return service.getAll();
+    }
+
+    @GetMapping("/{id}")
+    public ClientOutDTO getById(@PathVariable Long id) {
+        return service.getById(id);
+    }
+
     @PostMapping
-    public ClientOutDTO create(@RequestBody ClientOutDTO dto) {
+    public ClientOutDTO create(@RequestBody ClientInDTO dto) {
         return service.create(dto);
     }
-//
-//    @PutMapping
-//    public ClientDTO update(@RequestBody ClientDTO dto) {
-//        return service.update(dto);
-//    }
-//
-//    @DeleteMapping("/{id}")
-//    public void delete(@PathVariable Long id) {
-//        service.delete(id);
-//    }
+
+    @PutMapping
+    public ClientOutDTO update(@RequestBody ClientInDTO dto) {
+        return service.update(dto);
+    }
+
+    @DeleteMapping("/{id}")
+    public void delete(@PathVariable Long id) {
+        service.delete(id);
+    }
 
 }
