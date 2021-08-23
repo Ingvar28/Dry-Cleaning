@@ -1,9 +1,7 @@
 package ru.nosov.dry_cleaning.entities;
 
 
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.*;
 
 import javax.persistence.*;
 
@@ -11,7 +9,8 @@ import javax.persistence.*;
 @Entity(name = "Payment")
 @Getter
 @Setter
-@ToString
+@AllArgsConstructor
+@NoArgsConstructor
 @Table(name = "payment")
 public class PaymentEntity {
 

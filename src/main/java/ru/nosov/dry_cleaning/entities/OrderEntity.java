@@ -2,19 +2,17 @@ package ru.nosov.dry_cleaning.entities;
 
 
 
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.*;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
-import java.util.Set;
 
 @Entity(name = "Order")
 @Getter
 @Setter
-@ToString
-@Table(name = "order")
+@AllArgsConstructor
+@NoArgsConstructor
+@Table(name = "orders")
 public class OrderEntity {
 
     @Id
@@ -25,7 +23,6 @@ public class OrderEntity {
     private LocalDateTime orderEndTime;
 
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "client_id", nullable = false)
     private ClientEntity client;
 
     @OneToOne(fetch = FetchType.EAGER)
@@ -33,8 +30,8 @@ public class OrderEntity {
     @JoinColumn(name = "payment_id")
     private PaymentEntity payment;
 
-    @OneToMany(fetch = FetchType.EAGER)
-    private Set<ItemEntity> items;
+//    @OneToMany(fetch = FetchType.EAGER)
+//    private Set<ItemEntity> items;
 
 
     @OneToOne(fetch = FetchType.EAGER)
@@ -43,7 +40,6 @@ public class OrderEntity {
     private ServiceTypeEntity service;
 
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "employee_id", nullable = false)
     private EmployeeEntity employee;
 
     private String orderStatus;

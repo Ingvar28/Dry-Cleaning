@@ -1,8 +1,6 @@
 package ru.nosov.dry_cleaning.entities;
 
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.*;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
@@ -12,7 +10,8 @@ import java.util.Set;
 @Entity(name = "ClothesCategory")
 @Getter
 @Setter
-@ToString
+@AllArgsConstructor
+@NoArgsConstructor
 @Table(name = "clothes_category")
 public class ClothesCategoryEntity {
 
@@ -24,8 +23,8 @@ public class ClothesCategoryEntity {
     private String size;
     private BigDecimal price;
 
-    @OneToMany(fetch = FetchType.LAZY)
-    private Set<ItemEntity> items;
+//    @OneToMany(fetch = FetchType.LAZY)
+//    private Set<ItemEntity> items;
 
 
 }

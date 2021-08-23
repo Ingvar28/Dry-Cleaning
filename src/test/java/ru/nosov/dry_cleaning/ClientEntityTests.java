@@ -49,11 +49,9 @@ public class ClientEntityTests {
 
     @Test
     public void givenClient_whenSave_thenGetOk() {
-        ClientEntity client = new ClientEntity("John","Weak");
-        clientRepository.save(client);
-
-        ClientEntity client2 = clientRepository.getById(1L);
-        assertEquals("John", client.getFirstName());
+    //TODO make Entity test
+    //TODO make Controller test
+    //TODO make Services test
     }
 
 }
