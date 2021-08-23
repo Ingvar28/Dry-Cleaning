@@ -29,10 +29,7 @@ public class EmployeeEntity {
     @OneToMany(fetch = FetchType.LAZY)
     private Set<OrderEntity> orders;
 
-    @ManyToMany
-    @JoinTable(name = "payment_employee",
-            joinColumns = @JoinColumn(name = "employee_id"),
-            inverseJoinColumns = @JoinColumn(name = "payment_id"))
-    private Set<PaymentEntity> payment;
+    @OneToMany(fetch = FetchType.LAZY)
+    private Set<PaymentEntity> payments;
 
 }

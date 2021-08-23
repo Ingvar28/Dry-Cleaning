@@ -18,15 +18,12 @@ public class ClientEntity {
     private String firstName;
     private String lastName;
     private String phone;
+    private String email;
     private String clientLevel;
     private String description;
 
     @OneToMany(fetch = FetchType.LAZY)
     private Set<OrderEntity> orders;
 
-    public ClientEntity(String firstName, String lastName) {
 
-        this.firstName = firstName;
-        this.lastName = lastName;
-    }
 }

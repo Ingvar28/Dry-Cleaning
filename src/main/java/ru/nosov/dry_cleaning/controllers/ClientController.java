@@ -1,12 +1,11 @@
-package ru.nosov.dry_cleaning.web;
+package ru.nosov.dry_cleaning.controllers;
 
 
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
-
-
+import ru.nosov.dry_cleaning.dto.out.ClientOutDTO;
 
 
 @Slf4j
@@ -21,10 +20,10 @@ public class ClientController {
 //        return service.getById(id);
 //    }
 //
-//    @PostMapping
-//    public ClientDTO create(@RequestBody ClientDTO dto) {
-//        return service.create(dto);
-//    }
+    @PostMapping
+    public ClientOutDTO create(@RequestBody ClientOutDTO dto) {
+        return service.create(dto);
+    }
 //
 //    @PutMapping
 //    public ClientDTO update(@RequestBody ClientDTO dto) {

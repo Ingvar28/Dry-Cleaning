@@ -6,7 +6,6 @@ import lombok.Setter;
 import lombok.ToString;
 
 import javax.persistence.*;
-import java.util.Set;
 
 
 @Entity(name = "Payment")
@@ -22,9 +21,7 @@ public class PaymentEntity {
     private String paymentMethod;
     private String status;
 
-    @ManyToMany
-    @JoinTable(name = "payment_employee",
-            joinColumns = @JoinColumn(name = "payment_id"),
-            inverseJoinColumns = @JoinColumn(name = "employee_id"))
-    private Set<EmployeeEntity> employee;
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "employee_id", nullable = false)
+    private EmployeeEntity employee;
 }

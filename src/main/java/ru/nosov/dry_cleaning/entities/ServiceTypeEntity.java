@@ -5,6 +5,7 @@ import lombok.Setter;
 import lombok.ToString;
 
 import javax.persistence.*;
+import java.math.BigDecimal;
 import java.util.Set;
 
 
@@ -20,7 +21,7 @@ public class ServiceTypeEntity {
     private Long id;
 
     private String type;
-    private double price;
+    private BigDecimal price;
 
     @OneToMany(fetch = FetchType.LAZY)
     private Set<OrderEntity> orders;

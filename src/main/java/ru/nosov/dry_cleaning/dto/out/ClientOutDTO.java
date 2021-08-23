@@ -1,14 +1,15 @@
-package ru.nosov.dry_cleaning.dto;
+package ru.nosov.dry_cleaning.dto.out;
 
 import lombok.Data;
 
 @Data
-public class ClientDTO {
+public class ClientOutDTO {
     private Long id;
     private String firstName;
     private String lastName;
     private String phone;
-    private String clientGrade;
+    private String email;
+    private String clientLevel;
     private String description;
     private Long orderId;
 

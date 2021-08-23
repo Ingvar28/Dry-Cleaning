@@ -1,0 +1,1 @@
+CREATE SCHEMA drycleaning DEFAULT CHARACTER SET utf-8;

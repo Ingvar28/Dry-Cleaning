@@ -5,6 +5,7 @@ import lombok.Setter;
 import lombok.ToString;
 
 import javax.persistence.*;
+import java.math.BigDecimal;
 import java.util.Set;
 
 
@@ -21,7 +22,7 @@ public class ClothesCategoryEntity {
 
     private String type;
     private String size;
-    private double price;
+    private BigDecimal price;
 
     @OneToMany(fetch = FetchType.LAZY)
     private Set<ItemEntity> items;
