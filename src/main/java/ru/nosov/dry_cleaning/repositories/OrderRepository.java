@@ -2,8 +2,8 @@ package ru.nosov.dry_cleaning.repositories;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
-import ru.nosov.dry_cleaning.entities.ClientEntity;
+import ru.nosov.dry_cleaning.entities.OrderEntity;
 
 @Repository
-public interface OrderRepository extends JpaRepository<ClientEntity, Long> {
+public interface OrderRepository extends JpaRepository<OrderEntity, Long> {
 }

@@ -5,9 +5,9 @@ package ru.nosov.dry_cleaning.controllers;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
-import ru.nosov.dry_cleaning.dto.in.ClientInDTO;
-import ru.nosov.dry_cleaning.dto.out.ClientOutDTO;
-import ru.nosov.dry_cleaning.webservices.ClientWebService;
+import ru.nosov.dry_cleaning.dto.in.OrderInDTO;
+import ru.nosov.dry_cleaning.dto.out.OrderOutDTO;
+import ru.nosov.dry_cleaning.webservices.OrderWebService;
 
 import java.util.List;
 
@@ -15,28 +15,28 @@ import java.util.List;
 @Slf4j
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/client")
-public class ClientController {
+@RequestMapping("/order")
+public class OrderController {
 
-    private final ClientWebService service;
+    private final OrderWebService service;
 
     @GetMapping("/all")
-    public List<ClientOutDTO> getAll() {
+    public List<OrderOutDTO> getAll() {
         return service.getAll();
     }
 
     @GetMapping(value = {"", "{/id}"})
-    public ClientOutDTO getById(@PathVariable Long id) {
+    public OrderOutDTO getById(@PathVariable Long id) {
         return service.getById(id);
     }
 
     @PostMapping
-    public ClientOutDTO create(@RequestBody ClientInDTO dto) {
+    public OrderOutDTO create(@RequestBody OrderInDTO dto) {
         return service.create(dto);
     }
 
     @PutMapping
-    public ClientOutDTO update(@RequestBody ClientInDTO dto) {
+    public OrderOutDTO update(@RequestBody OrderInDTO dto) {
         return service.update(dto);
     }
 

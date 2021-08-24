@@ -11,7 +11,7 @@ public class ClientOutDTO {
     private String email;
     private String clientLevel;
     private String description;
-    private Long orderId;
+//    private Long orderId;
 
 
 

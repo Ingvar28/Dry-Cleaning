@@ -14,7 +14,7 @@ public class OrderOutDTO {
     private Long item;
     private Long serviceId;
     private Long employeeId;
-    private Long orderStatus;
+    private String orderStatus;
 
 
 }

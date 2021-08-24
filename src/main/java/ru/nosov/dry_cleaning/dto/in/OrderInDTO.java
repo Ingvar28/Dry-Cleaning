@@ -14,7 +14,7 @@ public class OrderInDTO {
     private Long item;
     private Long serviceId;
     private Long employeeId;
-    private Long orderStatus;
+    private String orderStatus;
 
 
 }

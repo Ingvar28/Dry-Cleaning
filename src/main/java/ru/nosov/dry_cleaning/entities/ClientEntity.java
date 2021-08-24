@@ -2,6 +2,7 @@ package ru.nosov.dry_cleaning.entities;
 
 import lombok.*;
 import javax.persistence.*;
+import java.util.Set;
 
 @Entity(name = "Client")
 @AllArgsConstructor
@@ -23,6 +24,7 @@ public class ClientEntity {
 
 //    @OneToMany(fetch = FetchType.LAZY)
 //    private Set<OrderEntity> orders;
+    //TODO decide about @OneToMany clientToOrders
 
 
 }
