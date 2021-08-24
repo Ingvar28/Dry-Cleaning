@@ -8,6 +8,7 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.Set;
 
 @Entity(name = "Order")
 @Getter
@@ -34,8 +35,8 @@ public class OrderEntity {
     @JoinColumn(name = "payment_id")
     private PaymentEntity payment;
 
-//    @OneToMany(fetch = FetchType.EAGER)
-//    private Set<ItemEntity> items;
+    @OneToMany(fetch = FetchType.EAGER)
+    private Set<ItemEntity> items;
 
 
     @OneToOne(fetch = FetchType.EAGER)

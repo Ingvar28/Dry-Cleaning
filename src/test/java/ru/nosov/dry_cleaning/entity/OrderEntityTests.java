@@ -1,15 +1,14 @@
 package ru.nosov.dry_cleaning.entity;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.hamcrest.Matchers;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
-import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.restdocs.JUnitRestDocumentation;
@@ -21,39 +20,37 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 import ru.nosov.dry_cleaning.dto.in.ClientInDTO;
 import ru.nosov.dry_cleaning.dto.in.OrderInDTO;
-import ru.nosov.dry_cleaning.dto.out.ClientOutDTO;
-import ru.nosov.dry_cleaning.dto.out.OrderOutDTO;
 import ru.nosov.dry_cleaning.entities.ClientEntity;
 import ru.nosov.dry_cleaning.entities.OrderEntity;
 import ru.nosov.dry_cleaning.repositories.ClientRepository;
+import ru.nosov.dry_cleaning.repositories.OrderRepository;
 import ru.nosov.dry_cleaning.services.OrderService;
 import ru.nosov.dry_cleaning.webservices.OrderWebService;
 
 import javax.annotation.Resource;
 import javax.transaction.Transactional;
 
-import static org.junit.Assert.assertEquals;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.documentationConfiguration;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @SpringBootTest
-//@DataJpaTest
-@RunWith(SpringJUnit4ClassRunner.class)
-//@RunWith(SpringRunner.class)
+////@DataJpaTest
+//@RunWith(SpringJUnit4ClassRunner.class)
+@RunWith(SpringRunner.class)
 @ActiveProfiles(profiles = "test")
 @EntityScan({"ru.nosov.dry_cleaning.entities"})
 @Transactional
 
-public class ClientEntityTests {
+public class OrderEntityTests {
     MockMvc mockMvc;
 
 
     @Resource
     private ClientRepository clientRepository;
+    private OrderRepository orderRepository;
     private OrderWebService orderWebService;
     private OrderService orderService;
 
@@ -66,6 +63,7 @@ public class ClientEntityTests {
     @Rule
     public JUnitRestDocumentation restDocumentation = new JUnitRestDocumentation("target/generated-snippets");
     private Long savedId;
+    private Long clientSavedId;
 
 
     @Before
@@ -81,8 +79,14 @@ public class ClientEntityTests {
         testClient.setEmail("JohnWeak@gmail.com");
         testClient.setClientLevel("Bronze");
         testClient.setDescription("Angry man");
-        ClientEntity saved = clientRepository.save(testClient);
-        savedId = saved.getId();
+        ClientEntity clientSaved = clientRepository.save(testClient);
+        clientSavedId = clientSaved.getId();
+
+        OrderEntity testOrder = new OrderEntity();
+        testOrder.setOrderStartTime(2021.08.08);
+        testOrder.setOrderEndTime();
+        testOrder.setOrderEndTime();
+        testOrder.setService();
     }
 
 
@@ -92,25 +96,18 @@ public class ClientEntityTests {
     //TODO make Services test
 
 
+
     @Test
-    public void testCreate() throws Exception {
-        String uri = "/client";
-        ClientInDTO dto = new ClientInDTO();
-        dto.setId(1L);
-        dto.setFirstName("John");
-        dto.setLastName("Weak");
-        dto.setPhone("123456789");
-        dto.setEmail("JohnWeak@gmail.com");
-        dto.setClientLevel("Bronze");
-        dto.setDescription("Angry man");
+    public void testCreateOrder() throws Exception {
+        String uri = "/order";
+        OrderInDTO dto = new OrderInDTO();
+        dto.setClientId(clientSavedId);
         String content = objectMapper.writeValueAsString(dto);
         mockMvc.perform(post(uri).contentType(MediaType.APPLICATION_JSON).content(content))
                 .andDo(document(uri.replace("/", "\\")))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("lastName").value("Weak"));
+                .andExpect(jsonPath("clientId").value(clientSavedId));
     }
-
-
 
     @Test
     public void testGetById() throws Exception {

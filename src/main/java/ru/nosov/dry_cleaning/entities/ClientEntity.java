@@ -22,9 +22,10 @@ public class ClientEntity {
     private String clientLevel;
     private String description;
 
-//    @OneToMany(fetch = FetchType.LAZY)
-//    private Set<OrderEntity> orders;
-    //TODO decide about @OneToMany clientToOrders
+
+    @OneToMany(fetch = FetchType.LAZY)
+    private Set<OrderEntity> orders;
+    //TODO finish OrderWebService
 
 
 }

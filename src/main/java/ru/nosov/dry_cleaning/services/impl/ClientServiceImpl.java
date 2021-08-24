@@ -42,8 +42,10 @@ public class ClientServiceImpl implements ClientService {
         clientEntity.setEmail(email);
         clientEntity.setClientLevel(clientLevel);
         clientEntity.setDescription(description);
+
         return clientRepository.save(clientEntity);
     }
+
 
     @Override
     public void deleteById(Long id) {
