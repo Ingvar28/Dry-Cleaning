@@ -26,7 +26,7 @@ public class ClientEntity {
     @OneToMany(fetch = FetchType.LAZY)
     private Set<OrderEntity> orders;
     //TODO finish OrderWebService
-    //!!!!!!!!!!!!!!!!Test
+
 
 
 }

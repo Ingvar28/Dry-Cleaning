@@ -83,10 +83,10 @@ public class OrderEntityTests {
         clientSavedId = clientSaved.getId();
 
         OrderEntity testOrder = new OrderEntity();
-        testOrder.setOrderStartTime(2021.08.08);
-        testOrder.setOrderEndTime();
-        testOrder.setOrderEndTime();
-        testOrder.setService();
+//        testOrder.setOrderStartTime(2021.08.08);
+//        testOrder.setOrderEndTime();
+//        testOrder.setOrderEndTime();
+//        testOrder.setService();
     }
 
 
