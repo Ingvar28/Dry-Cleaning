@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Diagram>
+  <ID>Persistence</ID>
+  <OriginalElement>JavaeeElement:/a5bac9cf/entityManagerFactory/Dry-Cleaning/jpa/JPA/PersistenceModel</OriginalElement>
+  <nodes>
+    <node x="151.0" y="623.0322580645161">OrderEntity#file://D:/Users/Nosov/Projects/IdeaProjects/DiplomProject/Dry-Cleaning/src/main/java/ru/nosov/dry_cleaning/entities/OrderEntity.java</node>
+    <node x="501.99999999999994" y="379.0">ServiceTypeEntity#file://D:/Users/Nosov/Projects/IdeaProjects/DiplomProject/Dry-Cleaning/src/main/java/ru/nosov/dry_cleaning/entities/ServiceTypeEntity.java</node>
+    <node x="342.0" y="313.0">ItemEntity#file://D:/Users/Nosov/Projects/IdeaProjects/DiplomProject/Dry-Cleaning/src/main/java/ru/nosov/dry_cleaning/entities/ItemEntity.java</node>
+    <node x="187.0" y="335.0">ClientEntity#file://D:/Users/Nosov/Projects/IdeaProjects/DiplomProject/Dry-Cleaning/src/main/java/ru/nosov/dry_cleaning/entities/ClientEntity.java</node>
+    <node x="65.84090909090907" y="0.0">PositionEntity#file://D:/Users/Nosov/Projects/IdeaProjects/DiplomProject/Dry-Cleaning/src/main/java/ru/nosov/dry_cleaning/entities/PositionEntity.java</node>
+    <node x="0.0" y="379.0">PaymentEntity#file://D:/Users/Nosov/Projects/IdeaProjects/DiplomProject/Dry-Cleaning/src/main/java/ru/nosov/dry_cleaning/entities/PaymentEntity.java</node>
+    <node x="339.5" y="150.0">ClothesCategoryEntity#file://D:/Users/Nosov/Projects/IdeaProjects/DiplomProject/Dry-Cleaning/src/main/java/ru/nosov/dry_cleaning/entities/ClothesCategoryEntity.java</node>
+    <node x="677.0" y="106.0">AbstractAuditable#jar://C:/Users/Nosov/.m2/repository/org/springframework/data/spring-data-jpa/2.5.3/spring-data-jpa-2.5.3.jar!/org/springframework/data/jpa/domain/AbstractAuditable.class</node>
+    <node x="58.840909090909065" y="150.0">EmployeeEntity#file://D:/Users/Nosov/Projects/IdeaProjects/DiplomProject/Dry-Cleaning/src/main/java/ru/nosov/dry_cleaning/entities/EmployeeEntity.java</node>
+    <node x="678.0" y="0.0">AbstractPersistable#jar://C:/Users/Nosov/.m2/repository/org/springframework/data/spring-data-jpa/2.5.3/spring-data-jpa-2.5.3.jar!/org/springframework/data/jpa/domain/AbstractPersistable.class</node>
+  </nodes>
+  <notes />
+  <edges>
+    <edge source="ItemEntity#file://D:/Users/Nosov/Projects/IdeaProjects/DiplomProject/Dry-Cleaning/src/main/java/ru/nosov/dry_cleaning/entities/ItemEntity.java" target="ClothesCategoryEntity#file://D:/Users/Nosov/Projects/IdeaProjects/DiplomProject/Dry-Cleaning/src/main/java/ru/nosov/dry_cleaning/entities/ClothesCategoryEntity.java" relationship="RELATION">
+      <point x="0.0" y="-105.0" />
+      <point x="0.0" y="61.0" />
+    </edge>
+    <edge source="OrderEntity#file://D:/Users/Nosov/Projects/IdeaProjects/DiplomProject/Dry-Cleaning/src/main/java/ru/nosov/dry_cleaning/entities/OrderEntity.java" target="EmployeeEntity#file://D:/Users/Nosov/Projects/IdeaProjects/DiplomProject/Dry-Cleaning/src/main/java/ru/nosov/dry_cleaning/entities/EmployeeEntity.java" relationship="RELATION">
+      <point x="-103.5" y="0.0" />
+      <point x="-17.5" y="684.0322580645161" />
+      <point x="-17.5" y="211.0" />
+      <point x="-64.5" y="0.0" />
+    </edge>
+    <edge source="AbstractAuditable#jar://C:/Users/Nosov/.m2/repository/org/springframework/data/spring-data-jpa/2.5.3/spring-data-jpa-2.5.3.jar!/org/springframework/data/jpa/domain/AbstractAuditable.class" target="AbstractPersistable#jar://C:/Users/Nosov/.m2/repository/org/springframework/data/spring-data-jpa/2.5.3/spring-data-jpa-2.5.3.jar!/org/springframework/data/jpa/domain/AbstractPersistable.class" relationship="INHERITANCE">
+      <point x="0.0" y="-39.0" />
+      <point x="0.0" y="28.0" />
+    </edge>
+    <edge source="OrderEntity#file://D:/Users/Nosov/Projects/IdeaProjects/DiplomProject/Dry-Cleaning/src/main/java/ru/nosov/dry_cleaning/entities/OrderEntity.java" target="PaymentEntity#file://D:/Users/Nosov/Projects/IdeaProjects/DiplomProject/Dry-Cleaning/src/main/java/ru/nosov/dry_cleaning/entities/PaymentEntity.java" relationship="RELATION">
+      <point x="-96.0" y="-61.0" />
+      <point x="75.5" y="50.0" />
+    </edge>
+    <edge source="OrderEntity#file://D:/Users/Nosov/Projects/IdeaProjects/DiplomProject/Dry-Cleaning/src/main/java/ru/nosov/dry_cleaning/entities/OrderEntity.java" target="ServiceTypeEntity#file://D:/Users/Nosov/Projects/IdeaProjects/DiplomProject/Dry-Cleaning/src/main/java/ru/nosov/dry_cleaning/entities/ServiceTypeEntity.java" relationship="RELATION">
+      <point x="103.5" y="0.0" />
+      <point x="567.0" y="684.0322580645161" />
+      <point x="0.0" y="50.0" />
+    </edge>
+    <edge source="PaymentEntity#file://D:/Users/Nosov/Projects/IdeaProjects/DiplomProject/Dry-Cleaning/src/main/java/ru/nosov/dry_cleaning/entities/PaymentEntity.java" target="EmployeeEntity#file://D:/Users/Nosov/Projects/IdeaProjects/DiplomProject/Dry-Cleaning/src/main/java/ru/nosov/dry_cleaning/entities/EmployeeEntity.java" relationship="RELATION">
+      <point x="0.0" y="-50.0" />
+      <point x="83.0" y="298.0" />
+      <point x="123.34090909090907" y="298.0" />
+      <point x="0.0" y="61.0" />
+    </edge>
+    <edge source="ItemEntity#file://D:/Users/Nosov/Projects/IdeaProjects/DiplomProject/Dry-Cleaning/src/main/java/ru/nosov/dry_cleaning/entities/ItemEntity.java" target="OrderEntity#file://D:/Users/Nosov/Projects/IdeaProjects/DiplomProject/Dry-Cleaning/src/main/java/ru/nosov/dry_cleaning/entities/OrderEntity.java" relationship="RELATION">
+      <point x="0.0" y="105.0" />
+      <point x="412.0" y="669.0322580645161" />
+      <point x="103.5" y="-15.0" />
+    </edge>
+    <edge source="OrderEntity#file://D:/Users/Nosov/Projects/IdeaProjects/DiplomProject/Dry-Cleaning/src/main/java/ru/nosov/dry_cleaning/entities/OrderEntity.java" target="ItemEntity#file://D:/Users/Nosov/Projects/IdeaProjects/DiplomProject/Dry-Cleaning/src/main/java/ru/nosov/dry_cleaning/entities/ItemEntity.java" relationship="RELATION">
+      <point x="96.0" y="-61.0" />
+      <point x="-61.5" y="105.0" />
+    </edge>
+    <edge source="OrderEntity#file://D:/Users/Nosov/Projects/IdeaProjects/DiplomProject/Dry-Cleaning/src/main/java/ru/nosov/dry_cleaning/entities/OrderEntity.java" target="ClientEntity#file://D:/Users/Nosov/Projects/IdeaProjects/DiplomProject/Dry-Cleaning/src/main/java/ru/nosov/dry_cleaning/entities/ClientEntity.java" relationship="RELATION">
+      <point x="-15.0" y="-61.0" />
+      <point x="-15.0" y="94.0" />
+    </edge>
+    <edge source="ClientEntity#file://D:/Users/Nosov/Projects/IdeaProjects/DiplomProject/Dry-Cleaning/src/main/java/ru/nosov/dry_cleaning/entities/ClientEntity.java" target="OrderEntity#file://D:/Users/Nosov/Projects/IdeaProjects/DiplomProject/Dry-Cleaning/src/main/java/ru/nosov/dry_cleaning/entities/OrderEntity.java" relationship="RELATION">
+      <point x="0.0" y="94.0" />
+      <point x="0.0" y="-61.00025806451606" />
+    </edge>
+    <edge source="EmployeeEntity#file://D:/Users/Nosov/Projects/IdeaProjects/DiplomProject/Dry-Cleaning/src/main/java/ru/nosov/dry_cleaning/entities/EmployeeEntity.java" target="PositionEntity#file://D:/Users/Nosov/Projects/IdeaProjects/DiplomProject/Dry-Cleaning/src/main/java/ru/nosov/dry_cleaning/entities/PositionEntity.java" relationship="RELATION">
+      <point x="0.0" y="-61.0" />
+      <point x="0.0" y="50.0" />
+    </edge>
+  </edges>
+  <settings layout="Hierarchic" zoom="0.7406143344709898" showDependencies="false" x="411.5" y="373.0" />
+  <SelectedNodes>
+    <node>ItemEntity#file://D:/Users/Nosov/Projects/IdeaProjects/DiplomProject/Dry-Cleaning/src/main/java/ru/nosov/dry_cleaning/entities/ItemEntity.java</node>
+  </SelectedNodes>
+  <Categories>
+    <Category>Embeddables</Category>
+    <Category>Properties</Category>
+    <Category>Superclasses</Category>
+  </Categories>
+</Diagram>
+
