@@ -13,20 +13,20 @@ import javax.persistence.*;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name = "item")
+@Table(name = "items")
 public class ItemEntity{
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne(fetch = FetchType.EAGER)
-    @MapsId
-    @OnDelete(action = OnDeleteAction.CASCADE)
-    @JoinColumn(name = "order_id", nullable = false)
-    private OrderEntity order;
 
     @ManyToOne(fetch = FetchType.EAGER)
+    @OnDelete(action = OnDeleteAction.CASCADE)
+    @JoinColumn(name = "orders_id", nullable = false, updatable = false)
+    private OrderEntity order;
+
+    @OneToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "clothes_category_id", nullable = false)
     private ClothesCategoryEntity clothesCategory;
 

@@ -27,10 +27,10 @@ public class OrderEntity {
     @Column(name = "order_Start_Time", updatable = false)
     private LocalDateTime orderStartTime;
 
-    @PrePersist
-    public void toCreate() {
-        setOrderStartTime(LocalDateTime.now());
-    }
+//    @PrePersist
+//    public void toCreate() {
+//        setOrderStartTime(LocalDateTime.now());
+//    }
 
 
     private LocalDateTime orderEndTime;
@@ -39,8 +39,7 @@ public class OrderEntity {
     private ClientEntity client;
 
     @OneToOne(fetch = FetchType.EAGER)
-    @MapsId
-    @JoinColumn(name = "payment_id")
+    @JoinColumn(name = "payment_id", nullable = false)
     private PaymentEntity payment;
 
     @OneToMany(fetch = FetchType.EAGER)
@@ -48,12 +47,14 @@ public class OrderEntity {
 
 
     @OneToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "service_type_id", nullable = false)
     @MapsId
-    @JoinColumn(name = "service_id")
     private ServiceTypeEntity service;
 
     @ManyToOne(fetch = FetchType.EAGER)
     private EmployeeEntity employee;
+
+
 
     private String orderStatus;
 
