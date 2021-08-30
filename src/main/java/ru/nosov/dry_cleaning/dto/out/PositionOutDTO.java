@@ -7,6 +7,5 @@ public class PositionOutDTO {
     private Long id;
     private String jobTitle;
     private String duties;
-    private Long employeeId;
 
 }

@@ -26,7 +26,6 @@ public class OrderServiceImpl implements OrderService {
     private final OrderRepository orderRepository;
     private final ClientRepository clientRepository;
     private final PaymentRepository paymentRepository;
-    //private final ItemRepository itemRepository;
     private final ServiceTypeRepository serviceTypeRepository;
     private final EmployeeRepository employeeRepository;
 
@@ -37,11 +36,10 @@ public class OrderServiceImpl implements OrderService {
     private static final String DTO_MUST_NOT_BE_NULL_MESSAGE = "DTO must not be null!";
 
     @Transactional
-    public OrderEntity create(LocalDateTime orderStartTime, LocalDateTime orderEndTime,
-                              Long clientId, Long paymentId,Long serviceId,
+    public OrderEntity create(LocalDateTime orderEndTime,
+                              Long clientId, Long paymentId, Long serviceId,
                               Long employeeId, String orderStatus) {
         OrderEntity orderEntity = new OrderEntity();
-        orderEntity.setOrderStartTime(orderStartTime);
         orderEntity.setOrderEndTime(orderEndTime);
         ClientEntity clientEntity = clientRepository.findById(clientId).orElse(null);
         orderEntity.setClient(clientEntity);

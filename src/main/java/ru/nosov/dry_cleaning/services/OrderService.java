@@ -11,8 +11,8 @@ import java.util.List;
 public interface OrderService {
 
     @Transactional
-    OrderEntity create(LocalDateTime orderStartTime, LocalDateTime orderEndTime,
-                       Long clientId, Long paymentId,Long serviceId,
+    OrderEntity create(LocalDateTime orderEndTime,
+                       Long clientId, Long paymentId, Long serviceId,
                        Long employeeId, String orderStatus);
 
     @Transactional

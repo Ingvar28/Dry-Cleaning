@@ -4,9 +4,9 @@ package ru.nosov.dry_cleaning.controllers;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
-import ru.nosov.dry_cleaning.dto.in.ClientInDTO;
-import ru.nosov.dry_cleaning.dto.out.ClientOutDTO;
-import ru.nosov.dry_cleaning.webservices.ClientWebService;
+import ru.nosov.dry_cleaning.dto.in.ItemInDTO;
+import ru.nosov.dry_cleaning.dto.out.ItemOutDTO;
+import ru.nosov.dry_cleaning.webservices.ItemWebService;
 
 import java.util.List;
 
@@ -14,28 +14,28 @@ import java.util.List;
 @Slf4j
 @RestController
 @RequiredArgsConstructor
-@RequestMapping(value = "/client", method = {RequestMethod.GET, RequestMethod.POST, RequestMethod.PUT, RequestMethod.DELETE})
-public class ClientController {
+@RequestMapping(value = "/item", method = {RequestMethod.GET, RequestMethod.POST, RequestMethod.PUT, RequestMethod.DELETE})
+public class ItemController {
 
-    private final ClientWebService service;
+    private final ItemWebService service;
 
     @GetMapping("/all")
-    public List<ClientOutDTO> getAll() {
+    public List<ItemOutDTO> getAll() {
         return service.getAll();
     }
 
     @GetMapping(value = {"", "{/id}"})
-    public ClientOutDTO getById(@PathVariable Long id) {
+    public ItemOutDTO getById(@PathVariable Long id) {
         return service.getById(id);
     }
 
     @PostMapping
-    public ClientOutDTO create(@RequestBody ClientInDTO dto) {
+    public ItemOutDTO create(@RequestBody ItemInDTO dto) {
         return service.create(dto);
     }
 
     @PutMapping
-    public ClientOutDTO update(@RequestBody ClientInDTO dto) {
+    public ItemOutDTO update(@RequestBody ItemInDTO dto) {
         return service.update(dto);
     }
 

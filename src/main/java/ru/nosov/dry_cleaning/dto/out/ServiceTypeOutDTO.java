@@ -9,5 +9,4 @@ public class ServiceTypeOutDTO {
     private Long id;
     private String type;
     private BigDecimal price;
-    private Long orderId;
 }

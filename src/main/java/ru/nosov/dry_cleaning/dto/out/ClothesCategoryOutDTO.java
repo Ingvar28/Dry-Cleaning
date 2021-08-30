@@ -10,6 +10,5 @@ public class ClothesCategoryOutDTO {
     private String type;
     private String size;
     private BigDecimal price;
-    private Long item;
 
 }

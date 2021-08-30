@@ -44,7 +44,6 @@ public class OrderWebServiceImpl implements OrderWebService {
             throw new DryCleaningApiException(NO_CLIENT_MESSAGE);
         }
         OrderEntity newOrder = service.create(
-                dto.getOrderStartTime(),
                 dto.getOrderEndTime(),
                 dto.getClientId(),
                 dto.getPaymentId(),
@@ -58,7 +57,6 @@ public class OrderWebServiceImpl implements OrderWebService {
         } else {
             return service.toOutDTO(
                     service.create(
-                            dto.getOrderStartTime(),
                             dto.getOrderEndTime(),
                             dto.getClientId(),
                             dto.getPaymentId(),

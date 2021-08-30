@@ -11,7 +11,6 @@ public class OrderOutDTO {
     private LocalDateTime orderEndTime;
     private Long clientId;
     private Long paymentId;
-    private Long item;
     private Long serviceId;
     private Long employeeId;
     private String orderStatus;

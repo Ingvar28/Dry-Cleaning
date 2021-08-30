@@ -4,9 +4,9 @@ package ru.nosov.dry_cleaning.controllers;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
-import ru.nosov.dry_cleaning.dto.in.ClientInDTO;
-import ru.nosov.dry_cleaning.dto.out.ClientOutDTO;
-import ru.nosov.dry_cleaning.webservices.ClientWebService;
+import ru.nosov.dry_cleaning.dto.in.EmployeeInDTO;
+import ru.nosov.dry_cleaning.dto.out.EmployeeOutDTO;
+import ru.nosov.dry_cleaning.webservices.EmployeeWebService;
 
 import java.util.List;
 
@@ -14,28 +14,28 @@ import java.util.List;
 @Slf4j
 @RestController
 @RequiredArgsConstructor
-@RequestMapping(value = "/client", method = {RequestMethod.GET, RequestMethod.POST, RequestMethod.PUT, RequestMethod.DELETE})
-public class ClientController {
+@RequestMapping(value = "/employee", method = {RequestMethod.GET, RequestMethod.POST, RequestMethod.PUT, RequestMethod.DELETE})
+public class EmployeeController {
 
-    private final ClientWebService service;
+    private final EmployeeWebService service;
 
     @GetMapping("/all")
-    public List<ClientOutDTO> getAll() {
+    public List<EmployeeOutDTO> getAll() {
         return service.getAll();
     }
 
     @GetMapping(value = {"", "{/id}"})
-    public ClientOutDTO getById(@PathVariable Long id) {
+    public EmployeeOutDTO getById(@PathVariable Long id) {
         return service.getById(id);
     }
 
     @PostMapping
-    public ClientOutDTO create(@RequestBody ClientInDTO dto) {
+    public EmployeeOutDTO create(@RequestBody EmployeeInDTO dto) {
         return service.create(dto);
     }
 
     @PutMapping
-    public ClientOutDTO update(@RequestBody ClientInDTO dto) {
+    public EmployeeOutDTO update(@RequestBody EmployeeInDTO dto) {
         return service.update(dto);
     }
 
