@@ -1,8 +1,5 @@
-#spring:
-#  datasource:
-#    url: jdbc:h2:file:./spring_test
-#    username: sa
-#    password: password
+server:
+  port: 8081
 
 spring:
   data:
@@ -12,16 +9,20 @@ spring:
   datasource:
     driverClassName: com.mysql.jdbc.Driver
     username: root
-    password:
-    url: jdbc:mysql://localhost:3306/drycleaning
+    password: My$QLr00t
+    url: jdbc:mysql://localhost:5306/drycleaning
 
   jpa:
-    database-platform: org.hibernate.dialect.MySQL5InnoDBDialect
+    #    database-platform: org.hibernate.dialect.MySQL5InnoDBDialect
     hibernate:
       ddl-auto: update
     show-sql: true
 
-
+#spring:
+#  datasource:
+#    url: jdbc:h2:file:./spring_test
+#    username: sa
+#    password: password
 #  h2:
 #    console:
 #      enabled: true
@@ -34,15 +35,14 @@ spring:
 #    generate-ddl: false
 #    hibernate:
 #      ddl-auto: none
-  sql:
-    init:
-      mode: always
-  freemarker:
-    suffix: .ftlh
-    settings:
-      recognize_standard_file_extensions: true
-springdoc:
-  swagger-ui:
-    disable-swagger-default-url: true
-server:
-  port: 8081
+#  sql:
+#    init:
+#      mode: always
+#  freemarker:
+#    suffix: .ftlh
+#    settings:
+#      recognize_standard_file_extensions: true
+#springdoc:
+#  swagger-ui:
+#    disable-swagger-default-url: true
+

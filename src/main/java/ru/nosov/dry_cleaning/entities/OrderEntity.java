@@ -27,12 +27,6 @@ public class OrderEntity {
     @Column(name = "order_Start_Time", updatable = false)
     private LocalDateTime orderStartTime;
 
-//    @PrePersist
-//    public void toCreate() {
-//        setOrderStartTime(LocalDateTime.now());
-//    }
-
-
     private LocalDateTime orderEndTime;
 
     @ManyToOne(fetch = FetchType.EAGER)
@@ -48,7 +42,6 @@ public class OrderEntity {
 
     @OneToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "service_type_id", nullable = false)
-    @MapsId
     private ServiceTypeEntity service;
 
     @ManyToOne(fetch = FetchType.EAGER)
