@@ -18,6 +18,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 import ru.nosov.dry_cleaning.dto.in.ClientInDTO;
+import ru.nosov.dry_cleaning.dto.out.ClientOutDTO;
 import ru.nosov.dry_cleaning.entities.ClientEntity;
 import ru.nosov.dry_cleaning.repositories.ClientRepository;
 import ru.nosov.dry_cleaning.services.OrderService;
@@ -26,6 +27,8 @@ import ru.nosov.dry_cleaning.webservices.OrderWebService;
 import javax.annotation.Resource;
 import javax.transaction.Transactional;
 
+import java.util.Optional;
+
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.documentationConfiguration;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
@@ -33,9 +36,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @SpringBootTest
-//@DataJpaTest
 @RunWith(SpringJUnit4ClassRunner.class)
-//@RunWith(SpringRunner.class)
 @ActiveProfiles(profiles = "test")
 @EntityScan({"ru.nosov.dry_cleaning.entities"})
 @Transactional
@@ -43,11 +44,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 public class ClientEntityTests {
     MockMvc mockMvc;
 
-
     @Resource
     private ClientRepository clientRepository;
-    private OrderWebService orderWebService;
-    private OrderService orderService;
 
     @Autowired
     WebApplicationContext webApplicationContext;
@@ -87,14 +85,7 @@ public class ClientEntityTests {
     @Test
     public void testCreate() throws Exception {
         String uri = "/client";
-        ClientInDTO dto = new ClientInDTO();
-        dto.setId(1L);
-        dto.setFirstName("John");
-        dto.setLastName("Weak");
-        dto.setPhone("123456789");
-        dto.setEmail("JohnWeak@gmail.com");
-        dto.setClientLevel("Bronze");
-        dto.setDescription("Angry man");
+        ClientInDTO dto = objectMapper.convertValue(clientRepository.findById(savedId), ClientInDTO.class);
         String content = objectMapper.writeValueAsString(dto);
         mockMvc.perform(post(uri).contentType(MediaType.APPLICATION_JSON).content(content))
                 .andDo(document(uri.replace("/", "\\")))
@@ -107,7 +98,7 @@ public class ClientEntityTests {
     @Test
     public void testGetById() throws Exception {
         String uri = "/client/{id}";
-        mockMvc.perform(get(uri, 1).contentType(MediaType.APPLICATION_JSON))
+        mockMvc.perform(get(uri, savedId).contentType(MediaType.APPLICATION_JSON))
                 .andDo(document(uri.replace("/", "\\")))
                 .andExpect(status().isOk());
     }
@@ -124,7 +115,7 @@ public class ClientEntityTests {
     public void testUpdate() throws Exception {
         String uri = "/client";
         ClientInDTO dto = new ClientInDTO();
-        dto.setId(1L);
+        dto.setId(savedId);
         dto.setFirstName("Bruce");
         dto.setLastName("Wain");
         dto.setPhone("123456789");
@@ -142,7 +133,7 @@ public class ClientEntityTests {
     @Test
     public void testDelete() throws Exception {
         String uri = "/client/{id}";
-        Long idToDelete = 1L;
+        Long idToDelete = savedId;
         Assert.assertTrue("There was not such entity to remove!", clientRepository.existsById(idToDelete));
         mockMvc.perform(delete(uri, idToDelete).contentType(MediaType.APPLICATION_JSON))
                 .andDo(document(uri.replace("/", "\\")))

@@ -15,7 +15,7 @@ import java.util.List;
 @Slf4j
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/order")
+@RequestMapping(value = "/order", method = {RequestMethod.GET, RequestMethod.PUT, RequestMethod.DELETE})
 public class OrderController {
 
     private final OrderWebService service;

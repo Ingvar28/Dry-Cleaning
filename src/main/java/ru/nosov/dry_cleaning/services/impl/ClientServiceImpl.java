@@ -28,7 +28,7 @@ public class ClientServiceImpl implements ClientService {
     private final ClientRepository clientRepository;
     private final ObjectMapper mapper;
 
-    private static final String NO_CLIENT_MESSAGE = "There is no such User!";
+    private static final String NO_CLIENT_MESSAGE = "There is no such Client!";
     private static final String DTO_MUST_NOT_BE_NULL_MESSAGE = "DTO must not be null!";
 
     @Transactional

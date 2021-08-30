@@ -52,17 +52,22 @@ public class OrderWebServiceImpl implements OrderWebService {
                 dto.getEmployeeId(),
                 dto.getOrderStatus()
         );
+        //TODO Закончить логику создания, если нет такого клиента
+        if (clientEntity == null) {
+            return service.toOutDTO(newOrder);
+        } else {
+            return service.toOutDTO(
+                    service.create(
+                            dto.getOrderStartTime(),
+                            dto.getOrderEndTime(),
+                            dto.getClientId(),
+                            dto.getPaymentId(),
+                            dto.getServiceId(),
+                            dto.getEmployeeId(),
+                            dto.getOrderStatus()
+                    ));
+        }
 
-        return service.toOutDTO(
-                service.create(
-                dto.getOrderStartTime(),
-                dto.getOrderEndTime(),
-                dto.getClientId(),
-                dto.getPaymentId(),
-                dto.getServiceId(),
-                dto.getEmployeeId(),
-                dto.getOrderStatus()
-        ));
     }
 
     @Override

@@ -4,6 +4,7 @@ package ru.nosov.dry_cleaning.controllers;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import ru.nosov.dry_cleaning.dto.in.ClientInDTO;
 import ru.nosov.dry_cleaning.dto.out.ClientOutDTO;
@@ -15,7 +16,8 @@ import java.util.List;
 @Slf4j
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/client")
+@Controller
+@RequestMapping(value = "/client", method = {RequestMethod.GET, RequestMethod.PUT, RequestMethod.DELETE})
 public class ClientController {
 
     private final ClientWebService service;

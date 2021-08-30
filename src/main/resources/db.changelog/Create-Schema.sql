@@ -12,8 +12,6 @@ CREATE TABLE if not exists drycleaning.client
     CONSTRAINT pk_client PRIMARY KEY (id)
 );
 
-ALTER TABLE  drycleaning.client
-    ADD CONSTRAINT uc_client_email UNIQUE (email);
 
 CREATE TABLE  if not exists drycleaning.clothes_category
 (

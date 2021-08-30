@@ -20,7 +20,7 @@ public class ClientEntity {
     private String lastName;
     @Column(length = 15, nullable = false)
     private String phone;
-    @Column(length = 40, nullable = false, unique = true)
+    @Column(length = 40, nullable = false)
     private String email;
     @Column(length = 40, nullable = false)
     private String clientLevel;
