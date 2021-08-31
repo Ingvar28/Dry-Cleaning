@@ -14,7 +14,7 @@ import java.util.List;
 @Slf4j
 @RestController
 @RequiredArgsConstructor
-@RequestMapping(value = "/payment", method = {RequestMethod.GET, RequestMethod.POST, RequestMethod.PUT, RequestMethod.DELETE})
+@RequestMapping(value = "/payment", method = {RequestMethod.GET, RequestMethod.PUT, RequestMethod.DELETE})
 public class PaymentController {
 
     private final PaymentWebService service;

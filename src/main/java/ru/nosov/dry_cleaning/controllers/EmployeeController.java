@@ -14,7 +14,7 @@ import java.util.List;
 @Slf4j
 @RestController
 @RequiredArgsConstructor
-@RequestMapping(value = "/employee", method = {RequestMethod.GET, RequestMethod.POST, RequestMethod.PUT, RequestMethod.DELETE})
+@RequestMapping(value = "/employee", method = {RequestMethod.GET, RequestMethod.PUT, RequestMethod.DELETE})
 public class EmployeeController {
 
     private final EmployeeWebService service;

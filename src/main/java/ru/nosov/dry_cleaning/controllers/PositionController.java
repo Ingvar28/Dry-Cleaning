@@ -14,7 +14,7 @@ import java.util.List;
 @Slf4j
 @RestController
 @RequiredArgsConstructor
-@RequestMapping(value = "/position", method = {RequestMethod.GET, RequestMethod.POST, RequestMethod.PUT, RequestMethod.DELETE})
+@RequestMapping(value = "/position", method = {RequestMethod.GET, RequestMethod.PUT, RequestMethod.DELETE})
 public class PositionController {
 
     private final PositionWebService service;

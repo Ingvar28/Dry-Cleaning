@@ -14,7 +14,7 @@ import java.util.List;
 @Slf4j
 @RestController
 @RequiredArgsConstructor
-@RequestMapping(value = "/servicetype", method = {RequestMethod.GET, RequestMethod.POST, RequestMethod.PUT, RequestMethod.DELETE})
+@RequestMapping(value = "/servicetype", method = {RequestMethod.GET, RequestMethod.PUT, RequestMethod.DELETE})
 public class ServiceTypeController {
 
     private final ServiceTypeWebService service;
