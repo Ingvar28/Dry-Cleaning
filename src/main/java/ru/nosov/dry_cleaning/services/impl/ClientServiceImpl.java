@@ -28,7 +28,7 @@ public class ClientServiceImpl implements ClientService {
     private final ClientRepository clientRepository;
     private final ObjectMapper mapper;
 
-    private static final String NO_CLIENT_MESSAGE = "There is no such Client!";
+    private static final String THERE_IS_NO_SUCH_CLIENT = "There is no such Client!";
     private static final String DTO_MUST_NOT_BE_NULL_MESSAGE = "DTO must not be null!";
 
     @Transactional
@@ -51,7 +51,7 @@ public class ClientServiceImpl implements ClientService {
     public void deleteById(Long id) {
         log.debug(String.format("Deleting client by id %s.%n", id));
         if (!clientRepository.existsById(id)) {
-            throw new DryCleaningApiException(NO_CLIENT_MESSAGE);
+            throw new DryCleaningApiException(THERE_IS_NO_SUCH_CLIENT);
         }
         clientRepository.deleteById(id);
     }
@@ -63,7 +63,7 @@ public class ClientServiceImpl implements ClientService {
         if (client.isPresent()) {
             return client.get();
         } else {
-            throw new DryCleaningApiException(NO_CLIENT_MESSAGE);
+            throw new DryCleaningApiException(THERE_IS_NO_SUCH_CLIENT);
         }
     }
 
@@ -77,8 +77,10 @@ public class ClientServiceImpl implements ClientService {
     public ClientEntity update(Long id, String firstName, String lastName,
                                String phone, String email, String clientLevel,
                                String description) {
-        log.debug(String.format("Updating client: %s, %s, %s, %s, %s, %s",firstName, lastName, phone, email, clientLevel, description));
-        ClientEntity clientEntity = clientRepository.findById(id).orElseThrow(() -> new DryCleaningApiException(NO_CLIENT_MESSAGE));
+        log.debug(String.format("Updating client: %s, %s, %s, %s, %s, %s, %s",
+                id, firstName, lastName, phone, email, clientLevel, description));
+        ClientEntity clientEntity = clientRepository.findById(id).
+                orElseThrow(() -> new DryCleaningApiException(THERE_IS_NO_SUCH_CLIENT));
         clientEntity.setFirstName(firstName);
         clientEntity.setLastName(lastName);
         clientEntity.setPhone(phone);

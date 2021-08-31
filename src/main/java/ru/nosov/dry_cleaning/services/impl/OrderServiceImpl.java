@@ -4,7 +4,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
-import ru.nosov.dry_cleaning.dto.in.ClientInDTO;
 import ru.nosov.dry_cleaning.dto.in.OrderInDTO;
 import ru.nosov.dry_cleaning.dto.out.OrderOutDTO;
 import ru.nosov.dry_cleaning.entities.*;
@@ -32,7 +31,11 @@ public class OrderServiceImpl implements OrderService {
     private final ObjectMapper mapper;
 
 
-    private static final String NO_ORDER_MESSAGE = "There is no such Order!";
+    private static final String THERE_IS_NO_SUCH_ORDER = "There is no such Order!";
+    private static final String THERE_IS_NO_SUCH_CLIENT = "There is no such Client!";
+    private static final String THERE_IS_NO_SUCH_PAYMENT = "There is no such Payment!";
+    private static final String THERE_IS_NO_SUCH_SERVICE_TYPE = "There is no such Service Type!";
+    private static final String THERE_IS_NO_SUCH_EMPLOYEE = "There is no such  Employee!";
     private static final String DTO_MUST_NOT_BE_NULL_MESSAGE = "DTO must not be null!";
 
     @Transactional
@@ -41,18 +44,16 @@ public class OrderServiceImpl implements OrderService {
                               Long employeeId, String orderStatus) {
         OrderEntity orderEntity = new OrderEntity();
         orderEntity.setOrderEndTime(orderEndTime);
-        ClientEntity clientEntity = clientRepository.findById(clientId).orElse(null);
-        orderEntity.setClient(clientEntity);
-        PaymentEntity payment = paymentRepository.findById(paymentId).orElse(null);
-        orderEntity.setPayment(payment);
-        //Для Связи OneToMany с itemEntity
-//        ItemEntity List<ItemEntity> = itemRepository.findAllById()
-//        orderEntity.setItems(item);
-        ServiceTypeEntity serviceType = serviceTypeRepository.findById(serviceId).orElse(null);
-        orderEntity.setService(serviceType);
-        EmployeeEntity employee = employeeRepository.findById(employeeId).orElse(null);
-        orderEntity.setEmployee(employee);
+        orderEntity.setClient(clientRepository.findById(clientId).
+                orElseThrow(() -> new DryCleaningApiException(THERE_IS_NO_SUCH_CLIENT)));
+        orderEntity.setPayment(paymentRepository.findById(paymentId).
+                orElseThrow(() -> new DryCleaningApiException(THERE_IS_NO_SUCH_PAYMENT)));
+        orderEntity.setService(serviceTypeRepository.findById(serviceId).
+                orElseThrow(() -> new DryCleaningApiException(THERE_IS_NO_SUCH_SERVICE_TYPE)));
+        orderEntity.setEmployee(employeeRepository.findById(employeeId).
+                orElseThrow(() -> new DryCleaningApiException(THERE_IS_NO_SUCH_EMPLOYEE)));
         orderEntity.setOrderStatus(orderStatus);
+
         return orderRepository.save(orderEntity);
     }
 
@@ -60,7 +61,7 @@ public class OrderServiceImpl implements OrderService {
     public void deleteById(Long id) {
         log.debug(String.format("Deleting order by id %s.%n", id));
         if (!orderRepository.existsById(id)) {
-            throw new DryCleaningApiException(NO_ORDER_MESSAGE);
+            throw new DryCleaningApiException(THERE_IS_NO_SUCH_ORDER);
         }
         orderRepository.deleteById(id);
     }
@@ -72,7 +73,7 @@ public class OrderServiceImpl implements OrderService {
         if (order.isPresent()) {
             return order.get();
         } else {
-            throw new DryCleaningApiException(NO_ORDER_MESSAGE);
+            throw new DryCleaningApiException(THERE_IS_NO_SUCH_ORDER);
         }
     }
 
@@ -87,11 +88,14 @@ public class OrderServiceImpl implements OrderService {
                               Long employeeId, String orderStatus) {
         log.debug(String.format("Updating order: %s, %s, %s",
                 orderEndTime, employeeId, orderStatus));
-        OrderEntity orderEntity = orderRepository.findById(id).orElseThrow(() -> new DryCleaningApiException(NO_ORDER_MESSAGE));
+
+        OrderEntity orderEntity = orderRepository.findById(id).
+                orElseThrow(() -> new DryCleaningApiException(THERE_IS_NO_SUCH_ORDER));
         orderEntity.setOrderEndTime(orderEndTime);
-        EmployeeEntity employee = employeeRepository.findById(employeeId).orElse(null);
-        orderEntity.setEmployee(employee);
+        orderEntity.setEmployee(employeeRepository.findById(employeeId).
+                orElseThrow(() -> new DryCleaningApiException(THERE_IS_NO_SUCH_EMPLOYEE)));
         orderEntity.setOrderStatus(orderStatus);
+
         return orderRepository.save(orderEntity);
     }
 

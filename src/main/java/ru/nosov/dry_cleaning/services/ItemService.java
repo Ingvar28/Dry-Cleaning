@@ -10,9 +10,9 @@ import java.util.List;
 public interface ItemService {
 
     @Transactional
-    ItemEntity create(String material,
-                      Long orderId,
+    ItemEntity create(Long orderId,
                       Long clothesCategoryId,
+                      String material,
                       String wash,
                       String squeezeOut,
                       String dry,
@@ -28,9 +28,9 @@ public interface ItemService {
     List<ItemEntity> getAll();
 
     @Transactional
-    ItemEntity update(Long id, String material,
-                      Long orderId,
+    ItemEntity update(Long id, Long orderId,
                       Long clothesCategoryId,
+                      String material,
                       String wash,
                       String squeezeOut,
                       String dry,
