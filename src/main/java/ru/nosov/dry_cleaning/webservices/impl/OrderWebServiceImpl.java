@@ -9,6 +9,7 @@ import ru.nosov.dry_cleaning.entities.ClientEntity;
 import ru.nosov.dry_cleaning.entities.OrderEntity;
 import ru.nosov.dry_cleaning.exceptions.DryCleaningApiException;
 import ru.nosov.dry_cleaning.repositories.ClientRepository;
+import ru.nosov.dry_cleaning.repositories.OrderRepository;
 import ru.nosov.dry_cleaning.services.OrderService;
 import ru.nosov.dry_cleaning.webservices.OrderWebService;
 
@@ -22,6 +23,7 @@ public class OrderWebServiceImpl implements OrderWebService {
 
     private final OrderService service;
     private final ClientRepository clientRepository;
+    private final OrderRepository orderRepository;
 
     private static final String NO_CLIENT_MESSAGE = "There is no such Client!";
 
@@ -51,20 +53,9 @@ public class OrderWebServiceImpl implements OrderWebService {
                 dto.getEmployeeId(),
                 dto.getOrderStatus()
         );
-        //TODO Закончить логику создания, если нет такого клиента
-        if (clientEntity == null) {
-            return service.toOutDTO(newOrder);
-        } else {
-            return service.toOutDTO(
-                    service.create(
-                            dto.getOrderEndTime(),
-                            dto.getClientId(),
-                            dto.getPaymentId(),
-                            dto.getServiceId(),
-                            dto.getEmployeeId(),
-                            dto.getOrderStatus()
-                    ));
-        }
+        newOrder.setClient(clientEntity);
+
+        return service.toOutDTO(orderRepository.save(newOrder));
 
     }
 

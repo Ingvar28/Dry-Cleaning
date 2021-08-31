@@ -12,13 +12,13 @@ import java.util.Optional;
 @EnableJpaAuditing(auditorAwareRef = "auditorProvider")
 public class JpaAuditingConfiguration {
 
-    @Bean
-    public AuditorAware<String> auditorProvider() {
-
-        /*
-          if you are using spring security, you can get the currently logged username with following code segment.
-          SecurityContextHolder.getContext().getAuthentication().getName()
-         */
-        return () -> Optional.ofNullable("chathuranga");
-    }
+//    @Bean
+//    public AuditorAware<String> auditorProvider() {
+//
+//        /*
+//          if you are using spring security, you can get the currently logged username with following code segment.
+//          SecurityContextHolder.getContext().getAuthentication().getName()
+//         */
+//        return () -> Optional.ofNullable("auditor");
+//    }
 }

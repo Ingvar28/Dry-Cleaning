@@ -7,6 +7,7 @@ import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.internal.matchers.Null;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -62,7 +63,6 @@ public class OrderEntityTests {
 
     @Rule
     public JUnitRestDocumentation restDocumentation = new JUnitRestDocumentation("target/generated-snippets");
-    private Long savedId;
     private Long clientSavedId;
 
 
@@ -81,20 +81,11 @@ public class OrderEntityTests {
         testClient.setDescription("Angry man");
         ClientEntity clientSaved = clientRepository.save(testClient);
         clientSavedId = clientSaved.getId();
+        //TODO Finish test
+//        OrderEntity testOrder = orderService.create(null,
+//                savedId,)
 
-        OrderEntity testOrder = new OrderEntity();
-//        testOrder.setOrderStartTime(2021.08.08);
-//        testOrder.setOrderEndTime();
-//        testOrder.setOrderEndTime();
-//        testOrder.setService();
     }
-
-
-
-    //TODO make Entity test
-    //TODO make Controller test
-    //TODO make Services test
-
 
 
     @Test
