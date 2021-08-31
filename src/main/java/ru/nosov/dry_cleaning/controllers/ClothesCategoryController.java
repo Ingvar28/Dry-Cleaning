@@ -24,7 +24,7 @@ public class ClothesCategoryController {
         return service.getAll();
     }
 
-    @GetMapping(value = {"", "{/id}"})
+    @GetMapping(value = {"", "{/id}"})//TODO
     public ClothesCategoryOutDTO getById(@PathVariable Long id) {
         return service.getById(id);
     }

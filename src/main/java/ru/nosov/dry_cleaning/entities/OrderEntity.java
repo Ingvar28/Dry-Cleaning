@@ -16,7 +16,7 @@ import java.util.Set;
 @AllArgsConstructor
 @NoArgsConstructor
 @EntityListeners(AuditingEntityListener.class)
-@Table(name = "orders")
+@Table(name = "dry_cleaning_order")//TODO
 public class OrderEntity {
 
     @Id

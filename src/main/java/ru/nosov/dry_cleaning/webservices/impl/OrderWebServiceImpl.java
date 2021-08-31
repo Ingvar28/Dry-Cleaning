@@ -41,7 +41,7 @@ public class OrderWebServiceImpl implements OrderWebService {
 
     @Override
     public OrderOutDTO create(OrderInDTO dto) {
-        ClientEntity clientEntity = clientRepository.getById(dto.getClientId());
+        ClientEntity clientEntity = clientRepository.findById();//TODO
         if (clientEntity == null) {
             throw new DryCleaningApiException(NO_CLIENT_MESSAGE);
         }

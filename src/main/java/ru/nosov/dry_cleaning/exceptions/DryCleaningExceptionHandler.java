@@ -14,7 +14,7 @@ import java.util.Optional;
 public class DryCleaningExceptionHandler {
 
     @ExceptionHandler({MethodArgumentTypeMismatchException.class})
-    public ResponseEntity<Object> handleMethodArgumentTypeMismatch(
+    public ResponseEntity<ApiError> handleMethodArgumentTypeMismatch(
             MethodArgumentTypeMismatchException ex, WebRequest request) {
         String error = ex.getName() + " should be of type " + Optional.ofNullable(ex.getRequiredType())
                 .map(Class::getName)
@@ -24,10 +24,32 @@ public class DryCleaningExceptionHandler {
     }
 
     @ExceptionHandler({DryCleaningApiException.class})
-    protected ResponseEntity<Object> handleDryCleaningInternalException(
+    protected ResponseEntity<ApiError> handleDryCleaningInternalException(
             Exception ex, WebRequest request) {
         ApiError apiError =
                 new ApiError(HttpStatus.BAD_REQUEST, ex.getLocalizedMessage(), ex.getMessage());
         return new ResponseEntity<>(apiError, new HttpHeaders(), apiError.getStatus());
+    }
+
+
+    public enum TypicalError {
+        UNKNOWN(HttpStatus.INTERNAL_SERVER_ERROR),
+        NOT_SUCH_ENTITY(HttpStatus.BAD_REQUEST);
+
+
+        private HttpStatus status;
+
+        TypicalError(HttpStatus status) {
+
+            this.status = status;
+        }
+
+        public HttpStatus getStatus() {
+            return status;
+        }
+
+        public void setStatus(HttpStatus status) {
+            this.status = status;
+        }
     }
 }

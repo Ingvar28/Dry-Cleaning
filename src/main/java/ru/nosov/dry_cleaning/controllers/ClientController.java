@@ -14,7 +14,7 @@ import java.util.List;
 @Slf4j
 @RestController
 @RequiredArgsConstructor
-@RequestMapping(value = "/client", method = {RequestMethod.GET, RequestMethod.PUT, RequestMethod.DELETE})
+@RequestMapping(value = "/client")
 public class ClientController {
 
     private final ClientWebService service;
