@@ -63,31 +63,30 @@ CREATE TABLE if not exists drycleaning.service_type
     CONSTRAINT pk_service_type PRIMARY KEY (id)
 );
 
-CREATE TABLE if not exists drycleaning.orders
+CREATE TABLE drycleaning.dry_cleaning_order
 (
     id               BIGINT AUTO_INCREMENT NOT NULL,
-    order_start_time datetime              NOT NULL,
+    order_start_time datetime              NULL,
     order_end_time   datetime              NULL,
-    client_id        BIGINT                NOT NULL,
+    client_id        BIGINT                NULL,
     payment_id       BIGINT                NOT NULL,
     service_type_id  BIGINT                NOT NULL,
-    employee_id      BIGINT                NOT NULL,
+    employee_id      BIGINT                NULL,
     order_status     VARCHAR(255)          NULL,
-    CONSTRAINT pk_orders PRIMARY KEY (id)
+    CONSTRAINT pk_dry_cleaning_order PRIMARY KEY (id)
 );
 
-ALTER TABLE drycleaning.orders
-    ADD CONSTRAINT FK_ORDERS_ON_CLIENT FOREIGN KEY (client_id) REFERENCES drycleaning.client (id);
+ALTER TABLE drycleaning.dry_cleaning_order
+    ADD CONSTRAINT FK_DRY_CLEANING_ORDER_ON_CLIENT FOREIGN KEY (client_id) REFERENCES drycleaning.client (id);
 
-ALTER TABLE drycleaning.orders
-    ADD CONSTRAINT FK_ORDERS_ON_EMPLOYEE FOREIGN KEY (employee_id) REFERENCES drycleaning.employee (id);
+ALTER TABLE drycleaning.dry_cleaning_order
+    ADD CONSTRAINT FK_DRY_CLEANING_ORDER_ON_EMPLOYEE FOREIGN KEY (employee_id) REFERENCES drycleaning.employee (id);
 
-ALTER TABLE drycleaning.orders
-    ADD CONSTRAINT FK_ORDERS_ON_PAYMENT FOREIGN KEY (payment_id) REFERENCES drycleaning.payment (id);
+ALTER TABLE drycleaning.dry_cleaning_order
+    ADD CONSTRAINT FK_DRY_CLEANING_ORDER_ON_PAYMENT FOREIGN KEY (payment_id) REFERENCES drycleaning.payment (id);
 
-ALTER TABLE drycleaning.orders
-    ADD CONSTRAINT FK_ORDERS_ON_SERVICE_TYPE FOREIGN KEY (service_type_id) REFERENCES drycleaning.service_type (id);
-
+ALTER TABLE drycleaning.dry_cleaning_order
+    ADD CONSTRAINT FK_DRY_CLEANING_ORDER_ON_SERVICE_TYPE FOREIGN KEY (service_type_id) REFERENCES drycleaning.service_type (id);
 CREATE TABLE if not exists drycleaning.items
 (
     id                  BIGINT AUTO_INCREMENT NOT NULL,
@@ -107,4 +106,4 @@ ALTER TABLE drycleaning.items
     ADD CONSTRAINT FK_ITEMS_ON_CLOTHES_CATEGORY FOREIGN KEY (clothes_category_id) REFERENCES drycleaning.clothes_category (id);
 
 ALTER TABLE drycleaning.items
-    ADD CONSTRAINT FK_ITEMS_ON_ORDERS FOREIGN KEY (orders_id) REFERENCES drycleaning.orders (id);
+    ADD CONSTRAINT FK_ITEMS_ON_ORDERS FOREIGN KEY (orders_id) REFERENCES drycleaning.dry_cleaning_order (id);

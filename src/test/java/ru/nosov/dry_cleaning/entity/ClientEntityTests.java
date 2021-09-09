@@ -18,16 +18,11 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 import ru.nosov.dry_cleaning.dto.in.ClientInDTO;
-import ru.nosov.dry_cleaning.dto.out.ClientOutDTO;
 import ru.nosov.dry_cleaning.entities.ClientEntity;
 import ru.nosov.dry_cleaning.repositories.ClientRepository;
-import ru.nosov.dry_cleaning.services.OrderService;
-import ru.nosov.dry_cleaning.webservices.OrderWebService;
 
 import javax.annotation.Resource;
 import javax.transaction.Transactional;
-
-import java.util.Optional;
 
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.documentationConfiguration;
@@ -76,12 +71,6 @@ public class ClientEntityTests {
     }
 
 
-
-    //TODO make Entity test
-    //TODO make Controller test
-    //TODO make Services test
-
-
     @Test
     public void testCreate() throws Exception {
         String uri = "/client";
@@ -92,7 +81,6 @@ public class ClientEntityTests {
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("lastName").value("Weak"));
     }
-
 
 
     @Test

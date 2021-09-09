@@ -28,7 +28,7 @@ public class ItemEntity{
 
     @OneToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "clothes_category_id", nullable = false)
-    private clothesCategoryEntity clothesCategory;
+    private ClothesCategoryEntity clothesCategory;
 
     private String material;
     private String wash;

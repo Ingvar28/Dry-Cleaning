@@ -8,6 +8,6 @@ import java.math.BigDecimal;
 @Data
 public class ServiceTypeOutDTO extends AbstractOutDTO {
 
-    private String type;
+    private String serviceType;
     private BigDecimal price;
 }

@@ -109,7 +109,13 @@
         <dependency>
             <groupId>uk.co.jemos.podam</groupId>
             <artifactId>podam</artifactId>
-            <version>7.2.7.RELEASE</version>
+            <version>7.2.5.RELEASE</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>uk.co.jemos.podam</groupId>
+            <artifactId>podam</artifactId>
+            <version>7.2.5.RELEASE</version>
             <scope>compile</scope>
         </dependency>
 

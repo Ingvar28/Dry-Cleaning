@@ -15,13 +15,13 @@ import java.math.BigDecimal;
 @AllArgsConstructor
 @NoArgsConstructor
 @Table(name = "clothes_category")
-public class clothesCategoryEntity {
+public class ClothesCategoryEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String type;
+    private String clothesCategory;
     private String size;
     private BigDecimal price;
 

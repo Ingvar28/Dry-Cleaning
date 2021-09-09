@@ -2,7 +2,7 @@ package ru.nosov.dry_cleaning.services;
 
 import ru.nosov.dry_cleaning.dto.in.ClothesCategoryInDTO;
 import ru.nosov.dry_cleaning.dto.out.ClothesCategoryOutDTO;
-import ru.nosov.dry_cleaning.entities.clothesCategoryEntity;
+import ru.nosov.dry_cleaning.entities.ClothesCategoryEntity;
 
 import javax.transaction.Transactional;
 import java.math.BigDecimal;
@@ -11,25 +11,25 @@ import java.util.List;
 public interface ClothesCategoryService {
 
     @Transactional
-    clothesCategoryEntity create(String type,
+    ClothesCategoryEntity create(String type,
                                  String size,
                                  BigDecimal price);
 
     @Transactional
     void deleteById(Long id);
 
-    clothesCategoryEntity getById(Long id);
+    ClothesCategoryEntity getById(Long id);
 
-    List<clothesCategoryEntity> getAll();
+    List<ClothesCategoryEntity> getAll();
 
     @Transactional
-    clothesCategoryEntity update(Long id,
+    ClothesCategoryEntity update(Long id,
                                  String type,
                                  String size,
                                  BigDecimal price);
 
-    ClothesCategoryInDTO toInDTO(clothesCategoryEntity clothescategoryEntity);
+    ClothesCategoryInDTO toInDTO(ClothesCategoryEntity clothescategoryEntity);
 
-    ClothesCategoryOutDTO toOutDTO(clothesCategoryEntity clothescategoryEntity);
+    ClothesCategoryOutDTO toOutDTO(ClothesCategoryEntity clothescategoryEntity);
 
 }

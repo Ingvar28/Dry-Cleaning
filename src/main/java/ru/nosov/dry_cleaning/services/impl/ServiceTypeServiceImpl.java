@@ -32,7 +32,7 @@ public class ServiceTypeServiceImpl implements ServiceTypeService {
     @Transactional
     public ServiceTypeEntity create(String type, BigDecimal price) {
         ServiceTypeEntity serviceType = new ServiceTypeEntity();
-        serviceType.setType(type);
+        serviceType.setServiceType(type);
         serviceType.setPrice(price);
 
         return serviceTypeRepository.save(serviceType);
@@ -71,7 +71,7 @@ public class ServiceTypeServiceImpl implements ServiceTypeService {
                 type, price));
         ServiceTypeEntity serviceType = serviceTypeRepository.findById(id).
                 orElseThrow(() -> new DryCleaningApiException(THERE_IS_NO_SUCH_SERVICE));
-        serviceType.setType(type);
+        serviceType.setServiceType(type);
         serviceType.setPrice(price);
 
         return serviceTypeRepository.save(serviceType);

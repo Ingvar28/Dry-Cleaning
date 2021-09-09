@@ -1,6 +1,5 @@
 package ru.nosov.dry_cleaning.dto.in;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -8,7 +7,6 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@JsonIgnoreProperties(ignoreUnknown = true)
 public class ClientInDTO extends AbstractInDTO {
 
     private String firstName;
@@ -18,7 +16,8 @@ public class ClientInDTO extends AbstractInDTO {
     private String clientLevel;
     private String description;
 
-
+    //TODO Добавлять List для зависимостей
+    //private List<OrderEntity> orders;
 
 
 }

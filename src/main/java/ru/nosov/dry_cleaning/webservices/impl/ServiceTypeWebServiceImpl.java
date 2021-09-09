@@ -33,7 +33,7 @@ public class ServiceTypeWebServiceImpl implements ServiceTypeWebService {
     @Override
     public ServiceTypeOutDTO create(ServiceTypeInDTO dto) {
         return service.toOutDTO(service.create(
-                dto.getType(),
+                dto.getServiceType(),
                 dto.getPrice()
         ));
     }
@@ -42,7 +42,7 @@ public class ServiceTypeWebServiceImpl implements ServiceTypeWebService {
     public ServiceTypeOutDTO update(ServiceTypeInDTO dto) {
         return service.toOutDTO(service.update(
                 dto.getId(),
-                dto.getType(),
+                dto.getServiceType(),
                 dto.getPrice()
         ));
     }
