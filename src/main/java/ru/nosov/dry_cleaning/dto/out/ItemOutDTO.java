@@ -3,8 +3,8 @@ package ru.nosov.dry_cleaning.dto.out;
 import lombok.Data;
 
 @Data
-public class ItemOutDTO {
-    private Long id;
+public class ItemOutDTO extends AbstractOutDTO {
+
     private Long orderId;
     private Long clothesCategoryId;
 

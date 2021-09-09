@@ -15,7 +15,7 @@ import java.util.List;
 @Slf4j
 @RestController
 @RequiredArgsConstructor
-@RequestMapping(value = "/order", method = {RequestMethod.GET, RequestMethod.PUT, RequestMethod.DELETE})
+@RequestMapping(value = "/order")
 public class OrderController {
 
     private final OrderWebService service;
@@ -25,7 +25,7 @@ public class OrderController {
         return service.getAll();
     }
 
-    @GetMapping(value = {"", "{/id}"})
+    @GetMapping(value = {"", "/{id}"})
     public OrderOutDTO getById(@PathVariable Long id) {
         return service.getById(id);
     }

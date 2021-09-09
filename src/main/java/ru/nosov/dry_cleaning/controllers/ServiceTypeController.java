@@ -14,7 +14,7 @@ import java.util.List;
 @Slf4j
 @RestController
 @RequiredArgsConstructor
-@RequestMapping(value = "/servicetype", method = {RequestMethod.GET, RequestMethod.PUT, RequestMethod.DELETE})
+@RequestMapping(value = "/servicetype")
 public class ServiceTypeController {
 
     private final ServiceTypeWebService service;
@@ -24,7 +24,7 @@ public class ServiceTypeController {
         return service.getAll();
     }
 
-    @GetMapping(value = {"", "{/id}"})
+    @GetMapping(value = {"", "/{id}"})
     public ServiceTypeOutDTO getById(@PathVariable Long id) {
         return service.getById(id);
     }

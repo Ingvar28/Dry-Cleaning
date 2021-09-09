@@ -5,8 +5,8 @@ import lombok.Data;
 import java.math.BigDecimal;
 
 @Data
-public class ClothesCategoryInDTO {
-    private Long id;
+public class ClothesCategoryInDTO extends AbstractInDTO {
+
     private String type;
     private String size;
     private BigDecimal price;

@@ -9,8 +9,8 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class ClientInDTO {
-    private Long id;
+public class ClientInDTO extends AbstractInDTO {
+
     private String firstName;
     private String lastName;
     private String phone;

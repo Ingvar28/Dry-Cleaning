@@ -14,7 +14,7 @@ import java.util.List;
 @Slf4j
 @RestController
 @RequiredArgsConstructor
-@RequestMapping(value = "/employee", method = {RequestMethod.GET, RequestMethod.PUT, RequestMethod.DELETE})
+@RequestMapping(value = "/employee")
 public class EmployeeController {
 
     private final EmployeeWebService service;
@@ -24,7 +24,7 @@ public class EmployeeController {
         return service.getAll();
     }
 
-    @GetMapping(value = {"", "{/id}"})
+    @GetMapping(value = {"", "/{id}"})
     public EmployeeOutDTO getById(@PathVariable Long id) {
         return service.getById(id);
     }

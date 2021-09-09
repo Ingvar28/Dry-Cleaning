@@ -3,8 +3,8 @@ package ru.nosov.dry_cleaning.dto.out;
 import lombok.Data;
 
 @Data
-public class ClientOutDTO {
-    private Long id;
+public class ClientOutDTO extends AbstractOutDTO {
+
     private String firstName;
     private String lastName;
     private String phone;

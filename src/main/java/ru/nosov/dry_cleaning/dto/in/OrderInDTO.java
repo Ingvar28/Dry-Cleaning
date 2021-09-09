@@ -5,8 +5,8 @@ import lombok.Data;
 import java.time.LocalDateTime;
 
 @Data
-public class OrderInDTO {
-    private Long id;
+public class OrderInDTO extends AbstractInDTO {
+
     private LocalDateTime orderStartTime;
     private LocalDateTime orderEndTime;
     private Long clientId;

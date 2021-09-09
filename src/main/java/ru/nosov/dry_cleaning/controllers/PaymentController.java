@@ -14,7 +14,7 @@ import java.util.List;
 @Slf4j
 @RestController
 @RequiredArgsConstructor
-@RequestMapping(value = "/payment", method = {RequestMethod.GET, RequestMethod.PUT, RequestMethod.DELETE})
+@RequestMapping(value = "/payment")
 public class PaymentController {
 
     private final PaymentWebService service;
@@ -24,7 +24,7 @@ public class PaymentController {
         return service.getAll();
     }
 
-    @GetMapping(value = {"", "{/id}"})
+    @GetMapping(value = {"", "/{id}"})
     public PaymentOutDTO getById(@PathVariable Long id) {
         return service.getById(id);
     }
