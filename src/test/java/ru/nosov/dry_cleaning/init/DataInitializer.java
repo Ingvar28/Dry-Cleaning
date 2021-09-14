@@ -93,7 +93,7 @@ public class DataInitializer {
         PaymentEntity paymentSaved = paymentRepository.save(validPayment);
         Long paymentSavedId = paymentSaved.getId();
 
-        validClothesCategory.setClothesCategory("Сoat");
+        validClothesCategory.setCategory("Сoat");
         validClothesCategory.setPrice(BigDecimal.valueOf(500.00));
         validClothesCategory.setSize("More 50 cm");
         ClothesCategoryEntity clothesCategorySaved = clothesCategoryRepository.save(validClothesCategory);

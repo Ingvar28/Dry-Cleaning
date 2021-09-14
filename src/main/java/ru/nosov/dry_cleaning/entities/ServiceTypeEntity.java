@@ -4,6 +4,7 @@ import lombok.*;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
+import java.util.Set;
 
 
 @Entity(name = "ServiceType")
@@ -12,17 +13,16 @@ import java.math.BigDecimal;
 @AllArgsConstructor
 @NoArgsConstructor
 @Table(name = "service_type")
-public class ServiceTypeEntity {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+@ToString(callSuper = true)
+public class ServiceTypeEntity extends AbstractEntity{
 
     private String serviceType;
     private BigDecimal price;
 
-//    @OneToMany(fetch = FetchType.LAZY)
-//    private Set<OrderEntity> orders;
+
+    @ToString.Exclude
+    @OneToMany(mappedBy = "service")
+    private Set<OrderEntity> orders;
 
 
 

@@ -34,7 +34,7 @@ public class ClothesCategoryServiceImpl implements ClothesCategoryService {
                                         String size,
                                         BigDecimal price) {
         ClothesCategoryEntity clothesCategoryEntity = new ClothesCategoryEntity();
-        clothesCategoryEntity.setClothesCategory(type);
+        clothesCategoryEntity.setCategory(type);
         clothesCategoryEntity.setSize(size);
         clothesCategoryEntity.setPrice(price);
 
@@ -73,7 +73,7 @@ public class ClothesCategoryServiceImpl implements ClothesCategoryService {
         log.debug(String.format("Updating ClothesCategory: %s, %s, %s, %s", id, type, size, price));
         ClothesCategoryEntity clothesCategoryEntity = clothesCategoryRepository.findById(id).
                 orElseThrow(() -> new DryCleaningApiException(NO_SUCH_CLOTHES_CATEGORY));
-        clothesCategoryEntity.setClothesCategory(type);
+        clothesCategoryEntity.setCategory(type);
         clothesCategoryEntity.setSize(size);
         clothesCategoryEntity.setPrice(price);
         return clothesCategoryRepository.save(clothesCategoryEntity);

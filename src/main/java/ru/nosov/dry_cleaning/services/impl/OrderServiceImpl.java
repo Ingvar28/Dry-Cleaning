@@ -6,7 +6,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import ru.nosov.dry_cleaning.dto.in.OrderInDTO;
 import ru.nosov.dry_cleaning.dto.out.OrderOutDTO;
-import ru.nosov.dry_cleaning.entities.*;
+import ru.nosov.dry_cleaning.entities.OrderEntity;
 import ru.nosov.dry_cleaning.exceptions.DryCleaningApiException;
 import ru.nosov.dry_cleaning.repositories.*;
 import ru.nosov.dry_cleaning.services.OrderService;

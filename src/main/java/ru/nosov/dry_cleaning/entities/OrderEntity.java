@@ -1,6 +1,7 @@
 package ru.nosov.dry_cleaning.entities;
 
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.*;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
@@ -15,17 +16,16 @@ import java.util.Set;
 @AllArgsConstructor
 @NoArgsConstructor
 @EntityListeners(AuditingEntityListener.class)
-@Table(name = "dry_cleaning_order")//TODO
-public class OrderEntity {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+@Table(name = "dry_cleaning_order")
+@ToString(callSuper = true)
+public class OrderEntity  extends AbstractEntity{
 
     @CreatedDate()
-    @Column(name = "order_Start_Time", updatable = false)
+    @Column(name = "order_start_time", updatable = false)
+    @JsonFormat(pattern = "dd.MM.yyyy")
     private LocalDateTime orderStartTime;
 
+    @JsonFormat(pattern = "dd.MM.yyyy")
     private LocalDateTime orderEndTime;
 
     @ManyToOne(fetch = FetchType.EAGER)
@@ -35,19 +35,22 @@ public class OrderEntity {
     @JoinColumn(name = "payment_id", nullable = false)
     private PaymentEntity payment;
 
-    @OneToMany(fetch = FetchType.EAGER)
+
+    @OneToMany(mappedBy = "order",fetch = FetchType.EAGER)
     private Set<ItemEntity> items;
 
 
-    @OneToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "service_type_id", nullable = false)
     private ServiceTypeEntity service;
 
     @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "employee_id")
     private EmployeeEntity employee;
 
 
     private String orderStatus;
+
 
 
 }

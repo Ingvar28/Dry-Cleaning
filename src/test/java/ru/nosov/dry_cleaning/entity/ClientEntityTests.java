@@ -35,7 +35,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @ActiveProfiles(profiles = "test")
 @EntityScan({"ru.nosov.dry_cleaning.entities"})
 @Transactional
-
 public class ClientEntityTests {
     MockMvc mockMvc;
 

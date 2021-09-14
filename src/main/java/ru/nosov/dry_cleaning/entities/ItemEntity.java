@@ -14,19 +14,16 @@ import javax.persistence.*;
 @AllArgsConstructor
 @NoArgsConstructor
 @Table(name = "items")
-public class ItemEntity{
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+@ToString(callSuper = true)
+public class ItemEntity extends AbstractEntity {
 
 
     @ManyToOne(fetch = FetchType.EAGER)
     @OnDelete(action = OnDeleteAction.CASCADE)
-    @JoinColumn(name = "orders_id", nullable = false, updatable = false)
+    @JoinColumn(name = "order_id", nullable = false, updatable = false)
     private OrderEntity order;
 
-    @OneToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "clothes_category_id", nullable = false)
     private ClothesCategoryEntity clothesCategory;
 

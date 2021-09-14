@@ -1,12 +1,10 @@
 package ru.nosov.dry_cleaning.entities;
 
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.*;
+import java.util.Set;
 
 @Entity(name = "Position")
 @Getter
@@ -14,15 +12,14 @@ import javax.persistence.*;
 @AllArgsConstructor
 @NoArgsConstructor
 @Table(name = "position")
-public class PositionEntity {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+@ToString(callSuper = true)
+public class PositionEntity extends AbstractEntity{
 
     private String jobTitle;
     private String duties;
 
-//    @OneToMany(fetch = FetchType.LAZY)
-//    private Set<EmployeeEntity> employees;
+    @ToString.Exclude
+    @JoinColumn(name = "position_id")
+    @OneToMany
+    private Set<EmployeeEntity> employee;
 }
