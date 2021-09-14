@@ -19,8 +19,7 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 import ru.nosov.dry_cleaning.dto.in.OrderInDTO;
 import ru.nosov.dry_cleaning.init.DataInitializer;
-import ru.nosov.dry_cleaning.repositories.ClientRepository;
-import ru.nosov.dry_cleaning.repositories.OrderRepository;
+import ru.nosov.dry_cleaning.repositories.EmployeeRepository;
 
 import javax.annotation.Resource;
 import javax.transaction.Transactional;
@@ -38,13 +37,13 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @EntityScan({"ru.nosov.dry_cleaning.entities"})
 @Transactional
 
-public class OrderEntityTests {
+public class EmployeeEntityTests {
     MockMvc mockMvc;
 
 
+
     @Resource
-    private ClientRepository clientRepository;
-    private OrderRepository orderRepository;
+    private EmployeeRepository employeeRepository;
 
     @Autowired
     WebApplicationContext webApplicationContext;
@@ -74,8 +73,8 @@ public class OrderEntityTests {
 
     @Test
     public void testCreateOrder() throws Exception {
-        String uri = "/order";
-        OrderInDTO dto = objectMapper.convertValue(orderRepository.findById(dataInitializer.orderEntity.getId()), OrderInDTO.class);
+        String uri = "/employee";
+        OrderInDTO dto = objectMapper.convertValue(employeeRepository.findById(dataInitializer.orderEntity.getId()), OrderInDTO.class);
         String content = objectMapper.writeValueAsString(dto);
         mockMvc.perform(post(uri).contentType(MediaType.APPLICATION_JSON).content(content))
                 .andDo(document(uri.replace("/", "\\")))
@@ -85,7 +84,7 @@ public class OrderEntityTests {
 
     @Test
     public void testGetById() throws Exception {
-        String uri = "/order/{id}";
+        String uri = "/employee/{id}";
         mockMvc.perform(get(uri, 1).contentType(MediaType.APPLICATION_JSON))
                 .andDo(document(uri.replace("/", "\\")))
                 .andExpect(status().isOk());
@@ -93,7 +92,7 @@ public class OrderEntityTests {
 
     @Test
     public void testGetAll() throws Exception {
-        String uri = "/order/all";
+        String uri = "/employee/all";
         mockMvc.perform(get(uri).contentType(MediaType.APPLICATION_JSON))
                 .andDo(document(uri.replace("/", "\\")))
                 .andExpect(status().isOk());
@@ -101,8 +100,8 @@ public class OrderEntityTests {
 
     @Test
     public void testUpdate() throws Exception {
-        String uri = "/Order";
-        OrderInDTO dto = objectMapper.convertValue(orderRepository.findById(dataInitializer.orderEntity.getId()), OrderInDTO.class);
+        String uri = "/employee";
+        OrderInDTO dto = objectMapper.convertValue(employeeRepository.findById(dataInitializer.orderEntity.getId()), OrderInDTO.class);
         dto.setOrderEndTime(LocalDateTime.now().plusDays(3));
         String content = objectMapper.writeValueAsString(dto);
         mockMvc.perform(post(uri).contentType(MediaType.APPLICATION_JSON).content(content))
@@ -114,19 +113,19 @@ public class OrderEntityTests {
 
     @Test
     public void testDelete() throws Exception {
-        String uri = "/order/{id}";
-        OrderInDTO dto = objectMapper.convertValue(orderRepository.findById(dataInitializer.orderEntity.getId()), OrderInDTO.class);
+        String uri = "/employee/{id}";
+        OrderInDTO dto = objectMapper.convertValue(employeeRepository.findById(dataInitializer.orderEntity.getId()), OrderInDTO.class);
         Long idToDelete = dto.getId();
-        Assert.assertTrue("There was not such entity to remove!", orderRepository.existsById(idToDelete));
+        Assert.assertTrue("There was not such entity to remove!", employeeRepository.existsById(idToDelete));
         mockMvc.perform(delete(uri, idToDelete).contentType(MediaType.APPLICATION_JSON))
                 .andDo(document(uri.replace("/", "\\")))
                 .andExpect(status().isOk());
-        Assert.assertFalse("The entity was not removed!", orderRepository.existsById(idToDelete));
+        Assert.assertFalse("The entity was not removed!", employeeRepository.existsById(idToDelete));
     }
 
     @Test
     public void whenMethodArgumentMismatch_thenBadRequest() throws Exception {
-        String uri = "/order/{id}";
+        String uri = "/employee/{id}";
         mockMvc.perform(get(uri, "StingInsteadLong").contentType(MediaType.APPLICATION_JSON))
                 .andDo(document(uri.replace("/", "\\")))
                 .andExpect(status().isBadRequest())

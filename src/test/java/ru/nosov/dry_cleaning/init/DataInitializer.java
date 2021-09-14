@@ -23,13 +23,15 @@ import java.util.Set;
 public class DataInitializer {
 
     private final ClientService clientService;
-    private final ClothesCategoryService clothesCategoryService;
-    private final EmployeeService employeeService;
-    private final ItemService itemService;
-    private final OrderService orderService;
-    private final PaymentService paymentService;
-    private final PositionService positionService;
-    private final ServiceTypeService serviceTypeService;
+
+    //TODO remove
+//    private final ClothesCategoryService clothesCategoryService;
+//    private final EmployeeService employeeService;
+//    private final ItemService itemService;
+//    private final OrderService orderService;
+//    private final PaymentService paymentService;
+//    private final PositionService positionService;
+//    private final ServiceTypeService serviceTypeService;
 
     @Resource
     private ClientRepository clientRepository;
@@ -50,77 +52,87 @@ public class DataInitializer {
 
     public static PodamFactory factory = new PodamFactoryImpl();
 
-    public ClientEntity validClient = factory.manufacturePojo(ClientEntity.class);
-    public ClothesCategoryEntity validClothesCategory = factory.manufacturePojo(ClothesCategoryEntity.class);
-    public EmployeeEntity validEmployee = factory.manufacturePojo(EmployeeEntity.class);
-    public ItemEntity validItem = factory.manufacturePojo(ItemEntity.class);
-    public OrderEntity validOrder = factory.manufacturePojo(OrderEntity.class);
-    public PaymentEntity validPayment = factory.manufacturePojo(PaymentEntity.class);
-    public PositionEntity validPosition = factory.manufacturePojo(PositionEntity.class);
-    public ServiceTypeEntity validServiceType = factory.manufacturePojo(ServiceTypeEntity.class);
+//      TODO remove
+//    public ClientEntity validClient = factory.manufacturePojo(ClientEntity.class);
+//    public ClothesCategoryEntity validClothesCategory = factory.manufacturePojo(ClothesCategoryEntity.class);
+//    public EmployeeEntity validEmployee = factory.manufacturePojo(EmployeeEntity.class);
+//    public ItemEntity validItem = factory.manufacturePojo(ItemEntity.class);
+//    public OrderEntity validOrder = factory.manufacturePojo(OrderEntity.class);
+//    public PaymentEntity validPayment = factory.manufacturePojo(PaymentEntity.class);
+//    public PositionEntity validPosition = factory.manufacturePojo(PositionEntity.class);
+//    public ServiceTypeEntity validServiceType = factory.manufacturePojo(ServiceTypeEntity.class);
+
+    public ClientEntity clientEntity = new ClientEntity();
+    public ClothesCategoryEntity clothesCategoryEntity = new ClothesCategoryEntity();
+    public EmployeeEntity employeeEntity = new EmployeeEntity();
+    public ItemEntity itemEntity =new ItemEntity();
+    public OrderEntity orderEntity = new OrderEntity();
+    public PaymentEntity paymentEntity = new PaymentEntity();
+    public PositionEntity positionEntity = new PositionEntity();
+    public ServiceTypeEntity validServiceType = new ServiceTypeEntity();
     public static final Integer LEGAL_MAX_ID = 10;
+
+
 
 
     public void initializeData() {
 
-        validClient.setFirstName("John");
-        validClient.setLastName("Weak");
-        validClient.setPhone("123456789");
-        validClient.setEmail("JohnWeak@gmail.com");
-        validClient.setClientLevel("Bronze");
-        validClient.setDescription("Angry man");
+        clientEntity.setFirstName("John");
+        clientEntity.setLastName("Weak");
+        clientEntity.setPhone("123456789");
+        clientEntity.setEmail("JohnWeak@gmail.com");
+        clientEntity.setClientLevel("Bronze");
+        clientEntity.setDescription("Angry man");
         Set<OrderEntity> orders = new HashSet<>();
-        validClient.setOrders(orders);
-        ClientEntity clientSaved = clientRepository.save(validClient);
-        Long clientSavedId = clientSaved.getId();
+        clientEntity.setOrders(orders);
+        clientRepository.save(clientEntity);
 
 
-        validPosition.setDuties("Cashier and Cleaning worker ");
-        validPosition.setJobTitle("Master");
-        PositionEntity positionSaved = positionRepository.save(validPosition);
-        Long positionSavedId = positionSaved.getId();
 
-        validEmployee.setFirstName("Bruce");
-        validEmployee.setLastName("Wain");
-        validEmployee.setPhone("987654321");
-        validEmployee.setPosition(positionSaved);
-        EmployeeEntity employeeSaved = employeeRepository.save(validEmployee);
-        Long employeeSavedId = employeeSaved.getId();
+        positionEntity.setDuties("Cashier and Cleaning worker ");
+        positionEntity.setJobTitle("Master");
+       positionRepository.save(positionEntity);
 
 
-        validPayment.setPaymentMethod("Credit Card");
-        validPayment.setStatus("Paid");
-        PaymentEntity paymentSaved = paymentRepository.save(validPayment);
-        Long paymentSavedId = paymentSaved.getId();
+        employeeEntity.setFirstName("Bruce");
+        employeeEntity.setLastName("Wain");
+        employeeEntity.setPhone("987654321");
+        employeeEntity.setPosition(positionEntity);
+        employeeRepository.save(employeeEntity);
 
-        validClothesCategory.setClothesCategory("Сoat");
-        validClothesCategory.setPrice(BigDecimal.valueOf(500.00));
-        validClothesCategory.setSize("More 50 cm");
-        ClothesCategoryEntity clothesCategorySaved = clothesCategoryRepository.save(validClothesCategory);
-        Long clothesCategorySavedId = clothesCategorySaved.getId();
+
+        paymentEntity.setPaymentMethod("Credit Card");
+        paymentEntity.setStatus("Paid");
+        paymentEntity.setEmployee(employeeEntity);
+        paymentRepository.save(paymentEntity);
+
+        clothesCategoryEntity.setClothesCategory("Сoat");
+        clothesCategoryEntity.setPrice(BigDecimal.valueOf(500.00));
+        clothesCategoryEntity.setSize("More 50 cm");
+        clothesCategoryRepository.save(clothesCategoryEntity);
+
 
         validServiceType.setPrice(BigDecimal.valueOf(1000.00));
         validServiceType.setServiceType("Dry Cleaning");
-        ServiceTypeEntity serviceTypeSaved = serviceTypeRepository.save(validServiceType);
-        Long serviceTypeSavedId = serviceTypeSaved.getId();
-
-        validItem.setOrder(validOrder);
-        validItem.setClothesCategory(clothesCategorySaved);
-        validItem.setMaterial("Material");
-        validItem.setDryCleaning("Accessed");
-        validItem.setWash("30 degrees");
-        ItemEntity itemSaved = itemRepository.save(validItem);
-        Long itemSavedId = itemSaved.getId();
+        serviceTypeRepository.save(validServiceType);
 
 
-        validOrder.setOrderEndTime(LocalDateTime.now().plusDays(7));
-        validOrder.setClient(clientSaved);
-        validOrder.setPayment(paymentSaved);
+        itemEntity.setOrder(orderEntity);
+        itemEntity.setClothesCategory(clothesCategoryEntity);
+        itemEntity.setMaterial("Material");
+        itemEntity.setDryCleaning("Accessed");
+        itemEntity.setWash("30 degrees");
+        itemEntity.setOrder(orderEntity);
+        itemRepository.save(itemEntity);
+
+
+        orderEntity.setOrderEndTime(LocalDateTime.now().plusDays(7));
+        orderEntity.setClient(clientEntity);
+        orderEntity.setPayment(paymentEntity);
         Set<ItemEntity> items = new HashSet<>();
-        items.add(itemSaved);
-        validOrder.setItems(items);
-        OrderEntity orderSaved = orderRepository.save(validOrder);
-        Long orderSavedId = orderSaved.getId();
+        items.add(itemEntity);
+        orderEntity.setItems(items);
+        orderRepository.save(orderEntity);
     }
 
     //TODO finish PODAM
@@ -131,7 +143,7 @@ public class DataInitializer {
 
     private void initializeOrder() {
         OrderInDTO dto = factory.manufacturePojo(OrderInDTO.class);
-        validOrder.setOrderEndTime(dto.getOrderEndTime());
+        orderEntity.setOrderEndTime(dto.getOrderEndTime());
 
     }
 
@@ -139,7 +151,7 @@ public class DataInitializer {
         ClientInDTO dto = factory.manufacturePojo(ClientInDTO.class);
         for (int i = 0; i < LEGAL_MAX_ID; i++) {
 
-            validClient = clientService.create(
+            clientEntity = clientService.create(
                     dto.getFirstName(),
                     dto.getLastName(),
                     dto.getPhone(),
@@ -147,7 +159,7 @@ public class DataInitializer {
                     dto.getDescription(),
                     dto.getClientLevel()
             );
-            log.info("Created for test: {}", validClient);
+            log.info("Created for test: {}", clientEntity);
         }
     }
 
