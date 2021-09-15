@@ -19,5 +19,5 @@ public interface PositionWebService {
     PositionOutDTO update(PositionInDTO dto);
 
     @Transactional
-    void delete(Long id);
+    void deleteById(Long id);
 }

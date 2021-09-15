@@ -32,23 +32,16 @@ public class PositionWebServiceImpl implements PositionWebService {
 
     @Override
     public PositionOutDTO create(PositionInDTO dto) {
-        return service.toOutDTO(service.create(
-                dto.getJobTitle(),
-                dto.getDuties()
-        ));
+        return service.toOutDTO(service.create(dto));
     }
 
     @Override
     public PositionOutDTO update(PositionInDTO dto) {
-        return service.toOutDTO(service.update(
-                dto.getId(),
-                dto.getJobTitle(),
-                dto.getDuties()
-        ));
+        return service.toOutDTO(service.update(dto));
     }
 
     @Override
-    public void delete(Long id) {
+    public void deleteById(Long id) {
         service.deleteById(id);
     }
 }

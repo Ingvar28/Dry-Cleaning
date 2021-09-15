@@ -32,23 +32,16 @@ public class ServiceTypeWebServiceImpl implements ServiceTypeWebService {
 
     @Override
     public ServiceTypeOutDTO create(ServiceTypeInDTO dto) {
-        return service.toOutDTO(service.create(
-                dto.getServiceType(),
-                dto.getPrice()
-        ));
+        return service.toOutDTO(service.create(dto));
     }
 
     @Override
     public ServiceTypeOutDTO update(ServiceTypeInDTO dto) {
-        return service.toOutDTO(service.update(
-                dto.getId(),
-                dto.getServiceType(),
-                dto.getPrice()
-        ));
+        return service.toOutDTO(service.update(dto));
     }
 
     @Override
-    public void delete(Long id) {
+    public void deleteById(Long id) {
         service.deleteById(id);
     }
 }

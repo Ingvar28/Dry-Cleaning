@@ -19,5 +19,5 @@ public interface ItemWebService {
     ItemOutDTO update(ItemInDTO dto);
 
     @Transactional
-    void delete(Long id);
+    void deleteById(Long id);
 }

@@ -19,5 +19,5 @@ public interface OrderWebService {
     OrderOutDTO update(OrderInDTO dto);
 
     @Transactional
-    void delete(Long id);
+    void deleteById(Long id);
 }

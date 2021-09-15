@@ -32,37 +32,16 @@ public class ItemWebServiceImpl implements ItemWebService {
 
     @Override
     public ItemOutDTO create(ItemInDTO dto) {
-        return service.toOutDTO(service.create(
-                dto.getOrderId(),
-                dto.getClothesCategoryId(),
-                dto.getMaterial(),
-                dto.getWash(),
-                dto.getSqueezeOut(),
-                dto.getDry(),
-                dto.getIron(),
-                dto.getWhite(),
-                dto.getDryCleaning()
-        ));
+        return service.toOutDTO(service.create(dto));
     }
 
     @Override
     public ItemOutDTO update(ItemInDTO dto) {
-        return service.toOutDTO(service.update(
-                dto.getId(),
-                dto.getOrderId(),
-                dto.getClothesCategoryId(),
-                dto.getMaterial(),
-                dto.getWash(),
-                dto.getSqueezeOut(),
-                dto.getDry(),
-                dto.getIron(),
-                dto.getWhite(),
-                dto.getDryCleaning()
-        ));
+        return service.toOutDTO(service.update(dto));
     }
 
     @Override
-    public void delete(Long id) {
+    public void deleteById(Long id) {
         service.deleteById(id);
     }
 }

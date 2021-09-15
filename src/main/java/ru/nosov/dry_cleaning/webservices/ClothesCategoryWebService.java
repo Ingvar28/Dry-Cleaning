@@ -19,5 +19,5 @@ public interface ClothesCategoryWebService {
     ClothesCategoryOutDTO update(ClothesCategoryInDTO dto);
 
     @Transactional
-    void delete(Long id);
+    void deleteById(Long id);
 }

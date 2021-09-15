@@ -32,27 +32,16 @@ public class EmployeeWebServiceImpl implements EmployeeWebService {
 
     @Override
     public EmployeeOutDTO create(EmployeeInDTO dto) {
-        return service.toOutDTO(service.create(
-                dto.getFirstName(),
-                dto.getLastName(),
-                dto.getPhone(),
-                dto.getPositionId()
-        ));
+        return service.toOutDTO(service.create(dto));
     }
 
     @Override
     public EmployeeOutDTO update(EmployeeInDTO dto) {
-        return service.toOutDTO(service.update(
-                dto.getId(),
-                dto.getFirstName(),
-                dto.getLastName(),
-                dto.getPhone(),
-                dto.getPositionId()
-        ));
+        return service.toOutDTO(service.update(dto));
     }
 
     @Override
-    public void delete(Long id) {
+    public void deleteById(Long id) {
         service.deleteById(id);
     }
 }

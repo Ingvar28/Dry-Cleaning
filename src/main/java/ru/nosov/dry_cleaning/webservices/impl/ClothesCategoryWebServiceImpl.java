@@ -32,25 +32,16 @@ public class ClothesCategoryWebServiceImpl implements ClothesCategoryWebService 
 
     @Override
     public ClothesCategoryOutDTO create(ClothesCategoryInDTO dto) {
-        return service.toOutDTO(service.create(
-                dto.getType(),
-                dto.getSize(),
-                dto.getPrice()
-        ));
+        return service.toOutDTO(service.create(dto));
     }
 
     @Override
     public ClothesCategoryOutDTO update(ClothesCategoryInDTO dto) {
-        return service.toOutDTO(service.update(
-                dto.getId(),
-                dto.getType(),
-                dto.getSize(),
-                dto.getPrice()
-        ));
+        return service.toOutDTO(service.update(dto));
     }
 
     @Override
-    public void delete(Long id) {
+    public void deleteById(Long id) {
         service.deleteById(id);
     }
 }

@@ -32,25 +32,16 @@ public class PaymentWebServiceImpl implements PaymentWebService {
 
     @Override
     public PaymentOutDTO create(PaymentInDTO dto) {
-        return service.toOutDTO(service.create(
-                dto.getPaymentMethod(),
-                dto.getStatus(),
-                dto.getEmployeeId()
-        ));
+        return service.toOutDTO(service.create(dto));
     }
 
     @Override
     public PaymentOutDTO update(PaymentInDTO dto) {
-        return service.toOutDTO(service.update(
-                dto.getId(),
-                dto.getPaymentMethod(),
-                dto.getStatus(),
-                dto.getEmployeeId()
-        ));
+        return service.toOutDTO(service.update(dto));
     }
 
     @Override
-    public void delete(Long id) {
+    public void deleteById(Long id) {
         service.deleteById(id);
     }
 }

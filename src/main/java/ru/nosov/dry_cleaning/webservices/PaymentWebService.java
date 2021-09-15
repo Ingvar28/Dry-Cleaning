@@ -19,5 +19,5 @@ public interface PaymentWebService {
     PaymentOutDTO update(PaymentInDTO dto);
 
     @Transactional
-    void delete(Long id);
+    void deleteById(Long id);
 }

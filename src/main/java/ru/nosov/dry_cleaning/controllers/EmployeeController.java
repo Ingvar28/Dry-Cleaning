@@ -41,7 +41,7 @@ public class EmployeeController {
 
     @DeleteMapping("/{id}")
     public void delete(@PathVariable Long id) {
-        service.delete(id);
+        service.deleteById(id);
     }
 
 }

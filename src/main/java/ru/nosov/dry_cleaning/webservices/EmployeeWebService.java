@@ -19,5 +19,5 @@ public interface EmployeeWebService {
     EmployeeOutDTO update(EmployeeInDTO dto);
 
     @Transactional
-    void delete(Long id);
+    void deleteById(Long id);
 }
