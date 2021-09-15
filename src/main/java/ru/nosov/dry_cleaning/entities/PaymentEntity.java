@@ -12,11 +12,9 @@ import javax.persistence.*;
 @AllArgsConstructor
 @NoArgsConstructor
 @Table(name = "payment")
-public class PaymentEntity {
+@ToString(callSuper = true)
+public class PaymentEntity  extends AbstractEntity{
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
     private String paymentMethod;
     private String status;
 

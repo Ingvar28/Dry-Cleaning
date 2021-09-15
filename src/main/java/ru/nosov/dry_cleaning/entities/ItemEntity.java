@@ -14,12 +14,8 @@ import javax.persistence.*;
 @AllArgsConstructor
 @NoArgsConstructor
 @Table(name = "items")
-public class ItemEntity {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-
+@ToString(callSuper = true)
+public class ItemEntity extends AbstractEntity {
 
 
     @ManyToOne(fetch = FetchType.LAZY)

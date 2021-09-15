@@ -10,10 +10,9 @@ import java.util.Set;
 @Getter
 @Setter
 @Table(name = "client")
-public class ClientEntity {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+@ToString(callSuper = true)
+public class ClientEntity  extends AbstractEntity{
+
     @Column(length = 20, nullable = false)
     private String firstName;
     @Column(length = 40, nullable = false)

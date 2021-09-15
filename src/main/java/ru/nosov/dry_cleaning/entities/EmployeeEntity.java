@@ -11,11 +11,9 @@ import java.util.Set;
 @AllArgsConstructor
 @NoArgsConstructor
 @Table(name = "employee")
-public class EmployeeEntity {
+@ToString(callSuper = true)
+public class EmployeeEntity extends AbstractEntity{
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
 
     private String firstName;
     private String lastName;

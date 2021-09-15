@@ -12,11 +12,9 @@ import java.math.BigDecimal;
 @AllArgsConstructor
 @NoArgsConstructor
 @Table(name = "service_type")
-public class ServiceTypeEntity {
+public class ServiceTypeEntity extends AbstractEntity {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+
 
     private String serviceType;
     private BigDecimal price;

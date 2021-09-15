@@ -4,15 +4,10 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.springframework.stereotype.Service;
 import ru.nosov.dry_cleaning.dto.in.*;
-import ru.nosov.dry_cleaning.entities.ItemEntity;
 
 import java.math.BigDecimal;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.LocalTime;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 @Service
 @Getter

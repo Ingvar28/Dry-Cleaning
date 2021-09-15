@@ -15,12 +15,9 @@ import java.util.Set;
 @AllArgsConstructor
 @NoArgsConstructor
 @EntityListeners(AuditingEntityListener.class)
-@Table(name = "order_cart")//TODO
-public class OrderEntity {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+@Table(name = "order_cart")
+@ToString(callSuper = true)
+public class OrderEntity  extends AbstractEntity{
 
     @CreatedDate()
     @Column(name = "order_Start_Time", updatable = false)
