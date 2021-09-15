@@ -3,6 +3,7 @@ package ru.nosov.dry_cleaning.dto.out;
 import lombok.Data;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Data
 public class OrderOutDTO extends AbstractOutDTO {
@@ -14,6 +15,8 @@ public class OrderOutDTO extends AbstractOutDTO {
     private Long serviceId;
     private Long employeeId;
     private String orderStatus;
+
+    private List<Long> itemIdList;
 
 
 }

@@ -3,6 +3,7 @@ package ru.nosov.dry_cleaning.dto.in;
 import lombok.Data;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Data
 public class OrderInDTO extends AbstractInDTO {
@@ -14,6 +15,8 @@ public class OrderInDTO extends AbstractInDTO {
     private Long serviceId;
     private Long employeeId;
     private String orderStatus;
+
+    private List<Long> itemIdList;
 
 
 }

@@ -4,6 +4,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
+
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -16,8 +18,7 @@ public class ClientInDTO extends AbstractInDTO {
     private String clientLevel;
     private String description;
 
-    //TODO Добавлять List для зависимостей
-    //private List<OrderEntity> orders;
+    private List<Long> orderIdList;
 
 
 }

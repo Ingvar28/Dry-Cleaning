@@ -124,7 +124,6 @@ public class DataInitializer {
         itemEntity.setMaterial("Material");
         itemEntity.setDryCleaning("Accessed");
         itemEntity.setWash("30 degrees");
-        itemEntity.setOrder(orderEntity);
         itemRepository.save(itemEntity);
 
         orderEntity.setId(Long.valueOf(1));
