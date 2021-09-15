@@ -7,7 +7,7 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
-import java.util.Set;
+import java.util.List;
 
 @Entity(name = "Order")
 @Getter
@@ -17,7 +17,7 @@ import java.util.Set;
 @EntityListeners(AuditingEntityListener.class)
 @Table(name = "order_cart")
 @ToString(callSuper = true)
-public class OrderEntity  extends AbstractEntity{
+public class OrderEntity extends AbstractEntity {
 
     @CreatedDate()
     @Column(name = "order_Start_Time", updatable = false)
@@ -32,8 +32,8 @@ public class OrderEntity  extends AbstractEntity{
     @JoinColumn(name = "payment_id", nullable = false)
     private PaymentEntity payment;
 
-    @OneToMany(mappedBy = "order",fetch = FetchType.EAGER, orphanRemoval = true)
-    private Set<ItemEntity> items;
+    @OneToMany(mappedBy = "order", fetch = FetchType.EAGER, orphanRemoval = true)
+    private List<ItemEntity> items;
 
 
     @OneToOne(fetch = FetchType.EAGER)

@@ -1,19 +1,18 @@
 package ru.nosov.dry_cleaning.services.impl;
 
 
-import ru.nosov.dry_cleaning.dto.in.ClientInDTO;
-import ru.nosov.dry_cleaning.dto.out.ClientOutDTO;
-import ru.nosov.dry_cleaning.entities.ClientEntity;
-import ru.nosov.dry_cleaning.exceptions.DryCleaningApiException;
-import ru.nosov.dry_cleaning.repositories.ClientRepository;
-import ru.nosov.dry_cleaning.services.ClientService;
-
-
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
-
+import ru.nosov.dry_cleaning.dto.in.ClientInDTO;
+import ru.nosov.dry_cleaning.dto.out.ClientOutDTO;
+import ru.nosov.dry_cleaning.entities.ClientEntity;
+import ru.nosov.dry_cleaning.entities.OrderEntity;
+import ru.nosov.dry_cleaning.exceptions.DryCleaningApiException;
+import ru.nosov.dry_cleaning.repositories.ClientRepository;
+import ru.nosov.dry_cleaning.repositories.OrderRepository;
+import ru.nosov.dry_cleaning.services.ClientService;
 
 import javax.transaction.Transactional;
 import java.util.List;
@@ -25,6 +24,7 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class ClientServiceImpl implements ClientService {
 
+
     private final ClientRepository clientRepository;
     private final ObjectMapper mapper;
 
@@ -32,20 +32,9 @@ public class ClientServiceImpl implements ClientService {
     private static final String DTO_MUST_NOT_BE_NULL_MESSAGE = "DTO must not be null!";
 
     @Transactional
-    public ClientEntity create(String firstName, String lastName,
-                               String phone, String email, String clientLevel,
-                               String description) {
-        ClientEntity clientEntity = new ClientEntity();
-        clientEntity.setFirstName(firstName);
-        clientEntity.setLastName(lastName);
-        clientEntity.setPhone(phone);
-        clientEntity.setEmail(email);
-        clientEntity.setClientLevel(clientLevel);
-        clientEntity.setDescription(description);
-
-        return clientRepository.save(clientEntity);
+    public ClientEntity create(ClientInDTO dto) {
+        return clientRepository.save(inDTOToEntity(dto));
     }
-
 
     @Override
     public void deleteById(Long id) {
@@ -74,20 +63,11 @@ public class ClientServiceImpl implements ClientService {
     }
 
     @Override
-    public ClientEntity update(Long id, String firstName, String lastName,
-                               String phone, String email, String clientLevel,
-                               String description) {
-        log.debug(String.format("Updating client: %s, %s, %s, %s, %s, %s, %s",
-                id, firstName, lastName, phone, email, clientLevel, description));
-        ClientEntity clientEntity = clientRepository.findById(id).
-                orElseThrow(() -> new DryCleaningApiException(THERE_IS_NO_SUCH_CLIENT));
-        clientEntity.setFirstName(firstName);
-        clientEntity.setLastName(lastName);
-        clientEntity.setPhone(phone);
-        clientEntity.setEmail(email);
-        clientEntity.setClientLevel(clientLevel);
-        clientEntity.setDescription(description);
-        return clientRepository.save(clientEntity);
+    public ClientEntity update(ClientInDTO dto) {
+        log.debug(String.format("Updating client: %s",
+                dto.toString()));
+
+        return clientRepository.save(inDTOToEntity(dto));
     }
 
     @Override
@@ -103,6 +83,15 @@ public class ClientServiceImpl implements ClientService {
         return Optional.ofNullable(clientEntity)
                 .map(ent -> mapper.convertValue(ent, ClientOutDTO.class))
                 .orElseThrow(() -> new DryCleaningApiException(DTO_MUST_NOT_BE_NULL_MESSAGE));
+    }
+
+
+    public ClientEntity inDTOToEntity(ClientInDTO dto) {
+
+        return Optional.ofNullable(dto)
+                .map(ent -> mapper.convertValue(ent, ClientEntity.class))
+                .orElseThrow(() -> new DryCleaningApiException(DTO_MUST_NOT_BE_NULL_MESSAGE));
+
     }
 
 

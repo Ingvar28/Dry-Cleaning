@@ -5,13 +5,12 @@ import ru.nosov.dry_cleaning.dto.out.ServiceTypeOutDTO;
 import ru.nosov.dry_cleaning.entities.ServiceTypeEntity;
 
 import javax.transaction.Transactional;
-import java.math.BigDecimal;
 import java.util.List;
 
 public interface ServiceTypeService {
 
     @Transactional
-    ServiceTypeEntity create(String type, BigDecimal price);
+    ServiceTypeEntity create(ServiceTypeInDTO dto);
 
     @Transactional
     void deleteById(Long id);
@@ -21,10 +20,11 @@ public interface ServiceTypeService {
     List<ServiceTypeEntity> getAll();
 
     @Transactional
-    ServiceTypeEntity update(Long id, String type, BigDecimal price);
+    ServiceTypeEntity update(ServiceTypeInDTO dto);
 
     ServiceTypeInDTO toInDTO(ServiceTypeEntity serviceTypeEntity);
-
     ServiceTypeOutDTO toOutDTO(ServiceTypeEntity serviceTypeEntity);
+    ServiceTypeEntity inDTOToEntity(ServiceTypeInDTO dto);
+
 
 }

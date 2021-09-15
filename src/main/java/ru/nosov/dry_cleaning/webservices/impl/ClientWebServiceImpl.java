@@ -14,12 +14,13 @@ import java.util.stream.Collectors;
 @Slf4j
 @Service
 @RequiredArgsConstructor
-public class ClientWebServiceImpl  implements ClientWebService {
+public class ClientWebServiceImpl implements ClientWebService {
 
     private final ClientService service;
 
     @Override
-    public ClientOutDTO getById(Long id) { return service.toOutDTO(service.getById(id));
+    public ClientOutDTO getById(Long id) {
+        return service.toOutDTO(service.getById(id));
     }
 
     @Override
@@ -31,29 +32,16 @@ public class ClientWebServiceImpl  implements ClientWebService {
 
     @Override
     public ClientOutDTO create(ClientInDTO dto) {
-        return service.toOutDTO(service.create(
-                dto.getFirstName(),
-                dto.getLastName(),
-                dto.getPhone(),
-                dto.getEmail(),
-                dto.getClientLevel(),
-                dto.getDescription()
-        ));
+        return service.toOutDTO(service.create(dto));
     }
 
     @Override
     public ClientOutDTO update(ClientInDTO dto) {
-        return service.toOutDTO(service.update(
-                dto.getId(),
-                dto.getFirstName(),
-                dto.getLastName(),
-                dto.getPhone(),
-                dto.getEmail(),
-                dto.getClientLevel(),
-                dto.getDescription()
-        ));
+        return service.toOutDTO(service.update(dto));
     }
 
     @Override
-    public void delete(Long id) { service.deleteById(id); }
+    public void deleteById(Long id) {
+        service.deleteById(id);
+    }
 }

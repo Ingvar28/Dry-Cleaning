@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import ru.nosov.dry_cleaning.dto.in.ClientInDTO;
 import ru.nosov.dry_cleaning.dto.in.OrderInDTO;
 import ru.nosov.dry_cleaning.dto.out.OrderOutDTO;
 import ru.nosov.dry_cleaning.entities.*;
@@ -39,22 +40,8 @@ public class OrderServiceImpl implements OrderService {
     private static final String DTO_MUST_NOT_BE_NULL_MESSAGE = "DTO must not be null!";
 
     @Transactional
-    public OrderEntity create(LocalDateTime orderEndTime,
-                              Long clientId, Long paymentId, Long serviceId,
-                              Long employeeId, String orderStatus) {
-        OrderEntity orderEntity = new OrderEntity();
-        orderEntity.setOrderEndTime(orderEndTime);
-        orderEntity.setClient(clientRepository.findById(clientId).
-                orElseThrow(() -> new DryCleaningApiException(THERE_IS_NO_SUCH_CLIENT)));
-        orderEntity.setPayment(paymentRepository.findById(paymentId).
-                orElseThrow(() -> new DryCleaningApiException(THERE_IS_NO_SUCH_PAYMENT)));
-        orderEntity.setService(serviceTypeRepository.findById(serviceId).
-                orElseThrow(() -> new DryCleaningApiException(THERE_IS_NO_SUCH_SERVICE_TYPE)));
-        orderEntity.setEmployee(employeeRepository.findById(employeeId).
-                orElseThrow(() -> new DryCleaningApiException(THERE_IS_NO_SUCH_EMPLOYEE)));
-        orderEntity.setOrderStatus(orderStatus);
-
-        return orderRepository.save(orderEntity);
+    public OrderEntity create(OrderInDTO dto) {
+        return orderRepository.save(inDTOToEntity(dto));
     }
 
     @Override
@@ -84,19 +71,9 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public OrderEntity update(Long id,LocalDateTime orderEndTime,
-                              Long employeeId, String orderStatus) {
-        log.debug(String.format("Updating order: %s, %s, %s",
-                orderEndTime, employeeId, orderStatus));
-
-        OrderEntity orderEntity = orderRepository.findById(id).
-                orElseThrow(() -> new DryCleaningApiException(THERE_IS_NO_SUCH_ORDER));
-        orderEntity.setOrderEndTime(orderEndTime);
-        orderEntity.setEmployee(employeeRepository.findById(employeeId).
-                orElseThrow(() -> new DryCleaningApiException(THERE_IS_NO_SUCH_EMPLOYEE)));
-        orderEntity.setOrderStatus(orderStatus);
-
-        return orderRepository.save(orderEntity);
+    public OrderEntity update(OrderInDTO dto) {
+        log.debug(String.format("Updating order: %s", dto.toString()));
+        return orderRepository.save(inDTOToEntity(dto));
     }
 
     @Override
@@ -111,6 +88,14 @@ public class OrderServiceImpl implements OrderService {
     public OrderOutDTO toOutDTO(OrderEntity orderEntity) {
         return Optional.ofNullable(orderEntity)
                 .map(ent -> mapper.convertValue(ent, OrderOutDTO.class))
+                .orElseThrow(() -> new DryCleaningApiException(DTO_MUST_NOT_BE_NULL_MESSAGE));
+
+    }
+
+    public OrderEntity inDTOToEntity(OrderInDTO dto) {
+
+        return Optional.ofNullable(dto)
+                .map(ent -> mapper.convertValue(ent, OrderEntity.class))
                 .orElseThrow(() -> new DryCleaningApiException(DTO_MUST_NOT_BE_NULL_MESSAGE));
 
     }

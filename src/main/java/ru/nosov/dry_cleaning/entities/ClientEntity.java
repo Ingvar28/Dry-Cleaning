@@ -1,8 +1,9 @@
 package ru.nosov.dry_cleaning.entities;
 
 import lombok.*;
+
 import javax.persistence.*;
-import java.util.Set;
+import java.util.List;
 
 @Entity(name = "Client")
 @AllArgsConstructor
@@ -27,7 +28,7 @@ public class ClientEntity  extends AbstractEntity{
 
 
     @OneToMany(mappedBy = "client",fetch = FetchType.LAZY)
-    private Set<OrderEntity> orders;
+    private List<OrderEntity> orders;
 
 
 

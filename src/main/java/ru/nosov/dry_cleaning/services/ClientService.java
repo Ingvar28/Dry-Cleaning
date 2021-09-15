@@ -9,9 +9,7 @@ import java.util.List;
 public interface ClientService {
 
     @Transactional
-    ClientEntity create(String firstName, String lastName,
-                        String phone, String email, String clientLevel,
-                        String description);
+    ClientEntity create(ClientInDTO dto);
 
     @Transactional
     void deleteById(Long id);
@@ -21,11 +19,12 @@ public interface ClientService {
     List<ClientEntity> getAll();
 
     @Transactional
-    ClientEntity update(Long id, String firstName, String lastName,
-                        String phone, String email, String clientLevel,
-                        String description);
+    ClientEntity update(ClientInDTO dto);
 
     ClientInDTO toInDTO(ClientEntity clientEntity);
     ClientOutDTO toOutDTO(ClientEntity clientEntity);
+    ClientEntity inDTOToEntity(ClientInDTO dto);
+
+
 
 }

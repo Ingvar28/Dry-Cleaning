@@ -5,8 +5,10 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import ru.nosov.dry_cleaning.dto.in.ClientInDTO;
 import ru.nosov.dry_cleaning.dto.in.ItemInDTO;
 import ru.nosov.dry_cleaning.dto.out.ItemOutDTO;
+import ru.nosov.dry_cleaning.entities.ClientEntity;
 import ru.nosov.dry_cleaning.entities.ItemEntity;
 import ru.nosov.dry_cleaning.exceptions.DryCleaningApiException;
 import ru.nosov.dry_cleaning.repositories.ClothesCategoryRepository;
@@ -25,8 +27,6 @@ import java.util.Optional;
 public class ItemServiceImpl implements ItemService {
 
     private final ItemRepository itemRepository;
-    private final OrderRepository orderRepository;
-    private final ClothesCategoryRepository clothesCategoryRepository;
     private final ObjectMapper mapper;
 
     private static final String THERE_IS_NO_SUCH_ITEM = "There is no such Item!";
@@ -36,23 +36,9 @@ public class ItemServiceImpl implements ItemService {
 
     @Transactional
 
-    public ItemEntity create(Long orderId, Long clothesCategoryId, String material,
-                             String wash, String squeezeOut, String dry, String iron,
-                             String white, String dryCleaning) {
-        ItemEntity itemEntity = new ItemEntity();
-        itemEntity.setOrder(orderRepository.findById(orderId).
-                orElseThrow(() -> new DryCleaningApiException(THERE_IS_NO_SUCH_ORDER)));
-        itemEntity.setClothesCategory(clothesCategoryRepository.findById(clothesCategoryId).
-                orElseThrow(() -> new DryCleaningApiException(THERE_IS_NO_SUCH_CLOTHES_CATEGORY)));
-        itemEntity.setMaterial(material);
-        itemEntity.setWash(wash);
-        itemEntity.setSqueezeOut(squeezeOut);
-        itemEntity.setDry(dry);
-        itemEntity.setIron(iron);
-        itemEntity.setWhite(white);
-        itemEntity.setDryCleaning(dryCleaning);
+    public ItemEntity create(ItemInDTO dto) {
 
-        return itemRepository.save(itemEntity);
+        return itemRepository.save(inDTOToEntity(dto));
     }
 
 
@@ -83,28 +69,11 @@ public class ItemServiceImpl implements ItemService {
     }
 
     @Override
-    public ItemEntity update(Long id, Long orderId, Long clothesCategoryId, String material,
-                             String wash, String squeezeOut, String dry, String iron,
-                             String white, String dryCleaning) {
-        log.debug(String.format("Updating Item: %s, %s, %s, %s, %s, %s, %s, %s, %s, %s",
-                id, orderId, clothesCategoryId, material,
-                wash, squeezeOut, dry, iron,
-                white, dryCleaning));
-        ItemEntity itemEntity = itemRepository.findById(id).
-                orElseThrow(() -> new DryCleaningApiException(THERE_IS_NO_SUCH_ITEM));
-        itemEntity.setOrder(orderRepository.findById(orderId).
-                orElseThrow(() -> new DryCleaningApiException(THERE_IS_NO_SUCH_ORDER)));
-        itemEntity.setClothesCategory(clothesCategoryRepository.findById(clothesCategoryId).
-                orElseThrow(() -> new DryCleaningApiException(THERE_IS_NO_SUCH_CLOTHES_CATEGORY)));
-        itemEntity.setMaterial(material);
-        itemEntity.setWash(wash);
-        itemEntity.setSqueezeOut(squeezeOut);
-        itemEntity.setDry(dry);
-        itemEntity.setIron(iron);
-        itemEntity.setWhite(white);
-        itemEntity.setDryCleaning(dryCleaning);
+    public ItemEntity update(ItemInDTO dto) {
+        log.debug(String.format("Updating Item: %s",
+                dto.toString()));
 
-        return itemRepository.save(itemEntity);
+        return itemRepository.save(inDTOToEntity(dto));
     }
 
     @Override
@@ -120,6 +89,14 @@ public class ItemServiceImpl implements ItemService {
         return Optional.ofNullable(itemEntity)
                 .map(ent -> mapper.convertValue(ent, ItemOutDTO.class))
                 .orElseThrow(() -> new DryCleaningApiException(DTO_MUST_NOT_BE_NULL_MESSAGE));
+    }
+
+    public ItemEntity inDTOToEntity(ItemInDTO dto) {
+
+        return Optional.ofNullable(dto)
+                .map(ent -> mapper.convertValue(ent, ItemEntity.class))
+                .orElseThrow(() -> new DryCleaningApiException(DTO_MUST_NOT_BE_NULL_MESSAGE));
+
     }
 
 }

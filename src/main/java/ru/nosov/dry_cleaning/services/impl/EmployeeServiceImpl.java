@@ -10,7 +10,6 @@ import ru.nosov.dry_cleaning.dto.out.EmployeeOutDTO;
 import ru.nosov.dry_cleaning.entities.EmployeeEntity;
 import ru.nosov.dry_cleaning.exceptions.DryCleaningApiException;
 import ru.nosov.dry_cleaning.repositories.EmployeeRepository;
-import ru.nosov.dry_cleaning.repositories.PositionRepository;
 import ru.nosov.dry_cleaning.services.EmployeeService;
 
 import javax.transaction.Transactional;
@@ -25,24 +24,15 @@ public class EmployeeServiceImpl implements EmployeeService {
 
 
     private final EmployeeRepository employeeRepository;
-    private final PositionRepository positionRepository;
     private final ObjectMapper mapper;
 
     private static final String THERE_IS_NO_SUCH_EMPLOYEE = "There is no such Employee!";
-    private static final String THERE_IS_NO_SUCH_POSITION = "There is no such Position!";
+
     private static final String DTO_MUST_NOT_BE_NULL_MESSAGE = "DTO must not be null!";
 
     @Transactional
-    public EmployeeEntity create(String firstName, String lastName,
-                                 String phone, Long positionId) {
-        EmployeeEntity employeeEntity = new EmployeeEntity();
-        employeeEntity.setFirstName(firstName);
-        employeeEntity.setLastName(lastName);
-        employeeEntity.setPhone(phone);
-        employeeEntity.setPosition(positionRepository.findById(positionId).
-                orElseThrow(() -> new DryCleaningApiException(THERE_IS_NO_SUCH_POSITION)));
-
-        return employeeRepository.save(employeeEntity);
+    public EmployeeEntity create(EmployeeInDTO dto) {
+        return employeeRepository.save(inDTOToEntity(dto));
     }
 
 
@@ -73,17 +63,10 @@ public class EmployeeServiceImpl implements EmployeeService {
     }
 
     @Override
-    public EmployeeEntity update(Long id, String firstName, String lastName,
-                                 String phone, Long positionId) {
-        log.debug(String.format("Updating Employee: %s, %s, %s, %s, %s", id, firstName, lastName, phone, positionId));
-        EmployeeEntity employeeEntity = employeeRepository.findById(id).
-                orElseThrow(() -> new DryCleaningApiException(THERE_IS_NO_SUCH_EMPLOYEE));
-        employeeEntity.setFirstName(firstName);
-        employeeEntity.setLastName(lastName);
-        employeeEntity.setPhone(phone);
-        employeeEntity.setPosition(positionRepository.findById(positionId).
-                orElseThrow(() -> new DryCleaningApiException(THERE_IS_NO_SUCH_POSITION)));
-        return employeeRepository.save(employeeEntity);
+    public EmployeeEntity update(EmployeeInDTO dto) {
+        log.debug(String.format("Updating Employee: %s", dto.toString()));
+
+        return employeeRepository.save(inDTOToEntity(dto));
     }
 
     @Override
@@ -100,5 +83,14 @@ public class EmployeeServiceImpl implements EmployeeService {
                 .map(ent -> mapper.convertValue(ent, EmployeeOutDTO.class))
                 .orElseThrow(() -> new DryCleaningApiException(DTO_MUST_NOT_BE_NULL_MESSAGE));
     }
+
+    public EmployeeEntity inDTOToEntity(EmployeeInDTO dto) {
+
+        return Optional.ofNullable(dto)
+                .map(ent -> mapper.convertValue(ent, EmployeeEntity.class))
+                .orElseThrow(() -> new DryCleaningApiException(DTO_MUST_NOT_BE_NULL_MESSAGE));
+
+    }
+
 
 }

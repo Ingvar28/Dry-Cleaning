@@ -5,8 +5,10 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import ru.nosov.dry_cleaning.dto.in.ClientInDTO;
 import ru.nosov.dry_cleaning.dto.in.PositionInDTO;
 import ru.nosov.dry_cleaning.dto.out.PositionOutDTO;
+import ru.nosov.dry_cleaning.entities.ClientEntity;
 import ru.nosov.dry_cleaning.entities.PositionEntity;
 import ru.nosov.dry_cleaning.exceptions.DryCleaningApiException;
 import ru.nosov.dry_cleaning.repositories.PositionRepository;
@@ -29,12 +31,9 @@ public class PositionServiceImpl implements PositionService {
     private static final String DTO_MUST_NOT_BE_NULL_MESSAGE = "DTO must not be null!";
 
     @Transactional
-    public PositionEntity create(String jobTitle, String duties) {
-        PositionEntity positionEntity = new PositionEntity();
-        positionEntity.setJobTitle(jobTitle);
-        positionEntity.setDuties(duties);
+    public PositionEntity create(PositionInDTO dto) {
 
-        return positionRepository.save(positionEntity);
+        return positionRepository.save(inDTOToEntity(dto));
     }
 
 
@@ -65,13 +64,10 @@ public class PositionServiceImpl implements PositionService {
     }
 
     @Override
-    public PositionEntity update(Long id, String jobTitle, String duties) {
-        log.debug(String.format("Updating Position: %s, %s, %s", id, jobTitle, duties));
-        PositionEntity positionEntity = positionRepository.findById(id).
-                orElseThrow(() -> new DryCleaningApiException(THERE_IS_NO_SUCH_POSITION));
-        positionEntity.setJobTitle(jobTitle);
-        positionEntity.setDuties(duties);
-        return positionRepository.save(positionEntity);
+    public PositionEntity update(PositionInDTO dto) {
+        log.debug(String.format("Updating Position: %s, ", dto.toString()));
+
+        return positionRepository.save(inDTOToEntity(dto));
     }
 
     @Override
@@ -88,5 +84,14 @@ public class PositionServiceImpl implements PositionService {
                 .map(ent -> mapper.convertValue(ent, PositionOutDTO.class))
                 .orElseThrow(() -> new DryCleaningApiException(DTO_MUST_NOT_BE_NULL_MESSAGE));
     }
+
+    public PositionEntity inDTOToEntity(PositionInDTO dto) {
+
+        return Optional.ofNullable(dto)
+                .map(ent -> mapper.convertValue(ent, PositionEntity.class))
+                .orElseThrow(() -> new DryCleaningApiException(DTO_MUST_NOT_BE_NULL_MESSAGE));
+
+    }
+
 
 }

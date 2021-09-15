@@ -10,7 +10,7 @@ import java.util.List;
 public interface PaymentService {
 
     @Transactional
-    PaymentEntity create(String paymentMethod, String status, Long employeeId);
+    PaymentEntity create(PaymentInDTO dto);
 
     @Transactional
     void deleteById(Long id);
@@ -20,10 +20,12 @@ public interface PaymentService {
     List<PaymentEntity> getAll();
 
     @Transactional
-    PaymentEntity update(Long id, String paymentMethod, String status, Long employeeId);
+    PaymentEntity update(PaymentInDTO dto);
 
     PaymentInDTO toInDTO(PaymentEntity paymentEntity);
 
     PaymentOutDTO toOutDTO(PaymentEntity paymentEntity);
+
+    PaymentEntity inDTOToEntity(PaymentInDTO dto);
 
 }

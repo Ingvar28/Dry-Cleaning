@@ -13,7 +13,6 @@ import ru.nosov.dry_cleaning.repositories.ClothesCategoryRepository;
 import ru.nosov.dry_cleaning.services.ClothesCategoryService;
 
 import javax.transaction.Transactional;
-import java.math.BigDecimal;
 import java.util.List;
 import java.util.Optional;
 
@@ -30,15 +29,9 @@ public class ClothesCategoryServiceImpl implements ClothesCategoryService {
     private static final String DTO_MUST_NOT_BE_NULL_MESSAGE = "DTO must not be null!";
 
     @Transactional
-    public ClothesCategoryEntity create(String type,
-                                        String size,
-                                        BigDecimal price) {
-        ClothesCategoryEntity clothesCategoryEntity = new ClothesCategoryEntity();
-        clothesCategoryEntity.setCategory(type);
-        clothesCategoryEntity.setSize(size);
-        clothesCategoryEntity.setPrice(price);
+    public ClothesCategoryEntity create(ClothesCategoryInDTO dto) {
 
-        return clothesCategoryRepository.save(clothesCategoryEntity);
+        return clothesCategoryRepository.save(inDTOToEntity(dto));
     }
 
 
@@ -69,14 +62,9 @@ public class ClothesCategoryServiceImpl implements ClothesCategoryService {
     }
 
     @Override
-    public ClothesCategoryEntity update(Long id, String type, String size, BigDecimal price) {
-        log.debug(String.format("Updating ClothesCategory: %s, %s, %s, %s", id, type, size, price));
-        ClothesCategoryEntity clothesCategoryEntity = clothesCategoryRepository.findById(id).
-                orElseThrow(() -> new DryCleaningApiException(NO_SUCH_CLOTHES_CATEGORY));
-        clothesCategoryEntity.setCategory(type);
-        clothesCategoryEntity.setSize(size);
-        clothesCategoryEntity.setPrice(price);
-        return clothesCategoryRepository.save(clothesCategoryEntity);
+    public ClothesCategoryEntity update(ClothesCategoryInDTO dto) {
+        log.debug(String.format("Updating ClothesCategory: %s", dto.toString()));
+        return clothesCategoryRepository.save(inDTOToEntity(dto));
     }
 
     @Override
@@ -92,6 +80,14 @@ public class ClothesCategoryServiceImpl implements ClothesCategoryService {
         return Optional.ofNullable(clothescategoryEntity)
                 .map(ent -> mapper.convertValue(ent, ClothesCategoryOutDTO.class))
                 .orElseThrow(() -> new DryCleaningApiException(DTO_MUST_NOT_BE_NULL_MESSAGE));
+    }
+
+    public ClothesCategoryEntity inDTOToEntity(ClothesCategoryInDTO dto) {
+
+        return Optional.ofNullable(dto)
+                .map(ent -> mapper.convertValue(ent, ClothesCategoryEntity.class))
+                .orElseThrow(() -> new DryCleaningApiException(DTO_MUST_NOT_BE_NULL_MESSAGE));
+
     }
 
 }

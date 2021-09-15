@@ -5,8 +5,10 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import ru.nosov.dry_cleaning.dto.in.ClientInDTO;
 import ru.nosov.dry_cleaning.dto.in.ServiceTypeInDTO;
 import ru.nosov.dry_cleaning.dto.out.ServiceTypeOutDTO;
+import ru.nosov.dry_cleaning.entities.ClientEntity;
 import ru.nosov.dry_cleaning.entities.ServiceTypeEntity;
 import ru.nosov.dry_cleaning.exceptions.DryCleaningApiException;
 import ru.nosov.dry_cleaning.repositories.ServiceTypeRepository;
@@ -30,12 +32,8 @@ public class ServiceTypeServiceImpl implements ServiceTypeService {
     private static final String DTO_MUST_NOT_BE_NULL_MESSAGE = "DTO must not be null!";
 
     @Transactional
-    public ServiceTypeEntity create(String type, BigDecimal price) {
-        ServiceTypeEntity serviceType = new ServiceTypeEntity();
-        serviceType.setServiceType(type);
-        serviceType.setPrice(price);
-
-        return serviceTypeRepository.save(serviceType);
+    public ServiceTypeEntity create(ServiceTypeInDTO dto) {
+        return serviceTypeRepository.save(inDTOToEntity(dto));
     }
 
 
@@ -60,21 +58,10 @@ public class ServiceTypeServiceImpl implements ServiceTypeService {
     }
 
     @Override
-    public List<ServiceTypeEntity> getAll() {
-        log.debug(String.format("Getting all ServiceTypes.%n"));
-        return serviceTypeRepository.findAll();
-    }
+    public ServiceTypeEntity update(ServiceTypeInDTO dto) {
+        log.debug(String.format("Updating ServiceType: %s", dto.toString()));
 
-    @Override
-    public ServiceTypeEntity update(Long id, String type, BigDecimal price) {
-        log.debug(String.format("Updating ServiceType: %s, %s, %s", id,
-                type, price));
-        ServiceTypeEntity serviceType = serviceTypeRepository.findById(id).
-                orElseThrow(() -> new DryCleaningApiException(THERE_IS_NO_SUCH_SERVICE));
-        serviceType.setServiceType(type);
-        serviceType.setPrice(price);
-
-        return serviceTypeRepository.save(serviceType);
+        return serviceTypeRepository.save(inDTOToEntity(dto));
     }
 
     @Override
@@ -86,10 +73,25 @@ public class ServiceTypeServiceImpl implements ServiceTypeService {
     }
 
     @Override
+    public List<ServiceTypeEntity> getAll() {
+        log.debug(String.format("Getting all ServiceTypes.%n"));
+        return serviceTypeRepository.findAll();
+    }
+
+    @Override
     public ServiceTypeOutDTO toOutDTO(ServiceTypeEntity serviceTypeEntity) {
         return Optional.ofNullable(serviceTypeEntity)
                 .map(ent -> mapper.convertValue(ent, ServiceTypeOutDTO.class))
                 .orElseThrow(() -> new DryCleaningApiException(DTO_MUST_NOT_BE_NULL_MESSAGE));
+    }
+
+
+    public ServiceTypeEntity inDTOToEntity(ServiceTypeInDTO dto) {
+
+        return Optional.ofNullable(dto)
+                .map(ent -> mapper.convertValue(ent, ServiceTypeEntity.class))
+                .orElseThrow(() -> new DryCleaningApiException(DTO_MUST_NOT_BE_NULL_MESSAGE));
+
     }
 
 }

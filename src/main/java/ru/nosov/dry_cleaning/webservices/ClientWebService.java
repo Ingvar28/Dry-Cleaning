@@ -19,5 +19,5 @@ public interface ClientWebService {
     ClientOutDTO update(ClientInDTO dto);
 
     @Transactional
-    void delete(Long id);
+    void deleteById(Long id);
 }
