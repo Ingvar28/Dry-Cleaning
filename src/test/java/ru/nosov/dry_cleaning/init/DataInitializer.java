@@ -53,14 +53,14 @@ public class DataInitializer {
     public static PodamFactory factory = new PodamFactoryImpl();
 
 //      TODO remove
-//    public ClientEntity validClient = factory.manufacturePojo(ClientEntity.class);
-//    public ClothesCategoryEntity validClothesCategory = factory.manufacturePojo(ClothesCategoryEntity.class);
-//    public EmployeeEntity validEmployee = factory.manufacturePojo(EmployeeEntity.class);
-//    public ItemEntity validItem = factory.manufacturePojo(ItemEntity.class);
-//    public OrderEntity validOrder = factory.manufacturePojo(OrderEntity.class);
-//    public PaymentEntity validPayment = factory.manufacturePojo(PaymentEntity.class);
-//    public PositionEntity validPosition = factory.manufacturePojo(PositionEntity.class);
-//    public ServiceTypeEntity validServiceType = factory.manufacturePojo(ServiceTypeEntity.class);
+//    public ClientEntity clientEntity = factory.manufacturePojo(ClientEntity.class);
+//    public ClothesCategoryEntity clothesCategoryEntity = factory.manufacturePojo(ClothesCategoryEntity.class);
+//    public EmployeeEntity employeeEntity = factory.manufacturePojo(EmployeeEntity.class);
+//    public ItemEntity itemEntity = factory.manufacturePojo(ItemEntity.class);
+//    public OrderEntity orderEntity = factory.manufacturePojo(OrderEntity.class);
+//    public PaymentEntity paymentEntity = factory.manufacturePojo(PaymentEntity.class);
+//    public PositionEntity positionEntity = factory.manufacturePojo(PositionEntity.class);
+//    public ServiceTypeEntity serviceTypeEntity = factory.manufacturePojo(ServiceTypeEntity.class);
 
     public ClientEntity clientEntity = new ClientEntity();
     public ClothesCategoryEntity clothesCategoryEntity = new ClothesCategoryEntity();
@@ -69,7 +69,7 @@ public class DataInitializer {
     public OrderEntity orderEntity = new OrderEntity();
     public PaymentEntity paymentEntity = new PaymentEntity();
     public PositionEntity positionEntity = new PositionEntity();
-    public ServiceTypeEntity validServiceType = new ServiceTypeEntity();
+    public ServiceTypeEntity serviceTypeEntity = new ServiceTypeEntity();
     public static final Integer LEGAL_MAX_ID = 10;
 
 
@@ -77,6 +77,7 @@ public class DataInitializer {
 
     public void initializeData() {
 
+        clientEntity.setId(Long.valueOf(1));
         clientEntity.setFirstName("John");
         clientEntity.setLastName("Weak");
         clientEntity.setPhone("123456789");
@@ -88,35 +89,36 @@ public class DataInitializer {
         clientRepository.save(clientEntity);
 
 
-
+        positionEntity.setId(Long.valueOf(1));
         positionEntity.setDuties("Cashier and Cleaning worker ");
         positionEntity.setJobTitle("Master");
        positionRepository.save(positionEntity);
 
-
+        employeeEntity.setId(Long.valueOf(1));
         employeeEntity.setFirstName("Bruce");
         employeeEntity.setLastName("Wain");
         employeeEntity.setPhone("987654321");
         employeeEntity.setPosition(positionEntity);
         employeeRepository.save(employeeEntity);
 
-
+        paymentEntity.setId(Long.valueOf(1));
         paymentEntity.setPaymentMethod("Credit Card");
         paymentEntity.setStatus("Paid");
         paymentEntity.setEmployee(employeeEntity);
         paymentRepository.save(paymentEntity);
 
-        clothesCategoryEntity.setClothesCategory("Сoat");
+        clothesCategoryEntity.setId(Long.valueOf(1));
+        clothesCategoryEntity.setCategory("Сoat");
         clothesCategoryEntity.setPrice(BigDecimal.valueOf(500.00));
         clothesCategoryEntity.setSize("More 50 cm");
         clothesCategoryRepository.save(clothesCategoryEntity);
 
+        serviceTypeEntity.setId(Long.valueOf(1));
+        serviceTypeEntity.setPrice(BigDecimal.valueOf(1000.00));
+        serviceTypeEntity.setServiceType("Dry Cleaning");
+        serviceTypeRepository.save(serviceTypeEntity);
 
-        validServiceType.setPrice(BigDecimal.valueOf(1000.00));
-        validServiceType.setServiceType("Dry Cleaning");
-        serviceTypeRepository.save(validServiceType);
-
-
+        itemEntity.setId(Long.valueOf(1));
         itemEntity.setOrder(orderEntity);
         itemEntity.setClothesCategory(clothesCategoryEntity);
         itemEntity.setMaterial("Material");
@@ -125,7 +127,7 @@ public class DataInitializer {
         itemEntity.setOrder(orderEntity);
         itemRepository.save(itemEntity);
 
-
+        orderEntity.setId(Long.valueOf(1));
         orderEntity.setOrderEndTime(LocalDateTime.now().plusDays(7));
         orderEntity.setClient(clientEntity);
         orderEntity.setPayment(paymentEntity);

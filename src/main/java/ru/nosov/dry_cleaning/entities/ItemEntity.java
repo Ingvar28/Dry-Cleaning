@@ -14,16 +14,16 @@ import javax.persistence.*;
 @AllArgsConstructor
 @NoArgsConstructor
 @Table(name = "items")
-public class ItemEntity{
+public class ItemEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
 
-    @ManyToOne(fetch = FetchType.EAGER)
-    @OnDelete(action = OnDeleteAction.CASCADE)
-    @JoinColumn(name = "orders_id", nullable = false, updatable = false)
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "order_id", nullable = false, updatable = false)
     private OrderEntity order;
 
     @OneToOne(fetch = FetchType.EAGER)
@@ -37,5 +37,7 @@ public class ItemEntity{
     private String iron;
     private String white;
     private String dryCleaning;
+
+
 
 }

@@ -7,7 +7,7 @@ import java.math.BigDecimal;
 @Data
 public class ClothesCategoryOutDTO extends AbstractOutDTO {
 
-    private String type;
+    private String category;
     private String size;
     private BigDecimal price;
 

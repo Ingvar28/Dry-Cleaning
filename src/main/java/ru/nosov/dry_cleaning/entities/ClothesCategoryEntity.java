@@ -21,7 +21,7 @@ public class ClothesCategoryEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String clothesCategory;
+    private String category;
     private String size;
     private BigDecimal price;
 

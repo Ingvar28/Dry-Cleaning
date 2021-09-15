@@ -15,7 +15,7 @@ import java.util.Set;
 @AllArgsConstructor
 @NoArgsConstructor
 @EntityListeners(AuditingEntityListener.class)
-@Table(name = "dry_cleaning_order")//TODO
+@Table(name = "order_cart")//TODO
 public class OrderEntity {
 
     @Id
@@ -35,7 +35,7 @@ public class OrderEntity {
     @JoinColumn(name = "payment_id", nullable = false)
     private PaymentEntity payment;
 
-    @OneToMany(fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "order",fetch = FetchType.EAGER, orphanRemoval = true)
     private Set<ItemEntity> items;
 
 

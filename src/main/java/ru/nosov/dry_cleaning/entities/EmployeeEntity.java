@@ -3,6 +3,7 @@ package ru.nosov.dry_cleaning.entities;
 import lombok.*;
 
 import javax.persistence.*;
+import java.util.Set;
 
 @Entity(name = "Employee")
 @Getter
@@ -24,9 +25,9 @@ public class EmployeeEntity {
     @JoinColumn(name = "position_id", nullable = false)
     private PositionEntity position;
 
-//    @OneToMany(fetch = FetchType.LAZY)
+//    @OneToMany(fetch = FetchType.LAZY)//
 //    private Set<OrderEntity> orders;
-
+//
 //    @OneToMany(fetch = FetchType.LAZY)
 //    private Set<PaymentEntity> payments;
 
