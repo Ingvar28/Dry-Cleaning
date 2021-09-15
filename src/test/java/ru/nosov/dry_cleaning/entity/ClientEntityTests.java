@@ -68,6 +68,7 @@ public class ClientEntityTests {
         testClient.setDescription("Angry man");
         ClientEntity saved = clientRepository.save(testClient);
         savedId = saved.getId();
+
     }
 
 
@@ -132,7 +133,7 @@ public class ClientEntityTests {
     @Test
     public void whenMethodArgumentMismatch_thenBadRequest() throws Exception {
         String uri = "/client/{id}";
-        mockMvc.perform(get(uri, "StingInsteadLong").contentType(MediaType.APPLICATION_JSON))
+        mockMvc.perform(get(uri, "StringInsteadLong").contentType(MediaType.APPLICATION_JSON))
                 .andDo(document(uri.replace("/", "\\")))
                 .andExpect(status().isBadRequest())
                 .andExpect(jsonPath("errors", Matchers.contains("id should be of type java.lang.Long")));

@@ -4,20 +4,8 @@ import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
-import ru.nosov.dry_cleaning.dto.in.ClientInDTO;
-import ru.nosov.dry_cleaning.dto.in.OrderInDTO;
 import ru.nosov.dry_cleaning.entities.*;
-import ru.nosov.dry_cleaning.repositories.*;
 import ru.nosov.dry_cleaning.services.*;
-import uk.co.jemos.podam.api.PodamFactory;
-import uk.co.jemos.podam.api.PodamFactoryImpl;
-
-import javax.annotation.Resource;
-import javax.transaction.Transactional;
-import java.math.BigDecimal;
-import java.time.LocalDateTime;
-import java.util.HashSet;
-import java.util.Set;
 
 @Service
 @RequiredArgsConstructor
@@ -33,68 +21,83 @@ public class DataInitializer {
     private final PaymentService paymentService;
     private final PositionService positionService;
     private final ServiceTypeService serviceTypeService;
-    
+
     private final ValidDTO validDTO;
-    
-//    
-//
-//    @Resource
-//    private ClientRepository clientRepository;
-//    @Resource
-//    private ClothesCategoryRepository clothesCategoryRepository;
-//    @Resource
-//    private EmployeeRepository employeeRepository;
-//    @Resource
-//    private ItemRepository itemRepository;
-//    @Resource
-//    private OrderRepository orderRepository;
-//    @Resource
-//    private PaymentRepository paymentRepository;
-//    @Resource
-//    private PositionRepository positionRepository;
-//    @Resource
-//    private ServiceTypeRepository serviceTypeRepository;
-//
-//    public static PodamFactory factory = new PodamFactoryImpl();
 
-//      TODO remove
-//    public ClientEntity clientEntity = factory.manufacturePojo(ClientEntity.class);
-//    public ClothesCategoryEntity clothesCategoryEntity = factory.manufacturePojo(ClothesCategoryEntity.class);
-//    public EmployeeEntity employeeEntity = factory.manufacturePojo(EmployeeEntity.class);
-//    public ItemEntity itemEntity = factory.manufacturePojo(ItemEntity.class);
-//    public OrderEntity orderEntity = factory.manufacturePojo(OrderEntity.class);
-//    public PaymentEntity paymentEntity = factory.manufacturePojo(PaymentEntity.class);
-//    public PositionEntity positionEntity = factory.manufacturePojo(PositionEntity.class);
-//    public ServiceTypeEntity serviceTypeEntity = factory.manufacturePojo(ServiceTypeEntity.class);
+    private ClientEntity clientEntity;
+    private ClothesCategoryEntity clothesCategoryEntity;
+    private EmployeeEntity employeeEntity;
+    private ItemEntity itemEntity;
+    private OrderEntity orderEntity;
+    private PaymentEntity paymentEntity;
+    private PositionEntity positionEntity;
+    private ServiceTypeEntity serviceTypeEntity;
 
-//    public ClientEntity clientEntity = new ClientEntity();
-//    public ClothesCategoryEntity clothesCategoryEntity = new ClothesCategoryEntity();
-//    public EmployeeEntity employeeEntity = new EmployeeEntity();
-//    public ItemEntity itemEntity = new ItemEntity();
-//    public OrderEntity orderEntity = new OrderEntity();
-//    public PaymentEntity paymentEntity = new PaymentEntity();
-//    public PositionEntity positionEntity = new PositionEntity();
-//    public ServiceTypeEntity serviceTypeEntity = new public ClientEntity clientEntity = new ClientEntity();
-//    TODO finis Initializer
-//    private ClientEntity clientEntity;
-//    private ClothesCategoryEntity clothesCategoryEntity;
-//    private EmployeeEntity employeeEntity;
-//    private ItemEntity itemEntity;
-//    private OrderEntity orderEntity;
-//    private PaymentEntity paymentEntity;
-//    private PositionEntity positionEntity;
-//    private ServiceTypeEntity serviceTypeEntity;
-    private static final Integer LEGAL_MAX_ID = 10;
 
-    
-    //TODO finish PODAM
+    public static final Long LEGAL_MAX_ID = 1L;
+    public static final Long ILLEGAL_MAX_ID = 2L;
+
+
+
     public void initData() {
         initializeClient();
+        initializeClothesCategory();
+        initializePosition();
+        initializeEmployee();
+        initializePayment();
+        initializeServiceType();
+        initializeItem();
+        initializeOrder();
+
 
     }
-    
-    private void initializeClient() {
 
+    private void initializeClient() {
+        ClientEntity clientEntity = clientService.create(validDTO.getClientInDTO());
+        log.info("Created client entity: {}", clientEntity);
+        this.clientEntity = clientEntity;
+    }
+
+    private void initializeClothesCategory() {
+        ClothesCategoryEntity clothesCategoryEntity = clothesCategoryService.create(validDTO.getClothesCategoryInDTO());
+        log.info("Created ClothesCategory entity: {}", clothesCategoryEntity);
+        this.clothesCategoryEntity = clothesCategoryEntity;
+    }
+
+    private void initializeEmployee() {
+        EmployeeEntity employeeEntity = employeeService.create(validDTO.getEmployeeInDTO());
+        log.info("Created Employee entity: {}", employeeEntity);
+        this.employeeEntity = employeeEntity;
+    }
+
+    private void initializeItem() {
+        ItemEntity itemEntity = itemService.create(validDTO.getItemInDTO());
+        log.info("Created Item entity: {}", itemEntity);
+        this.itemEntity = itemEntity;
+    }
+
+    private void initializeOrder() {
+        OrderEntity orderEntity = orderService.create(validDTO.getOrderInDTO());
+        log.info("Created Order entity: {}", orderEntity);
+        this.orderEntity = orderEntity;
+    }
+
+    private void initializePayment() {
+        PaymentEntity paymentEntity = paymentService.create(validDTO.getPaymentInDTO());
+        log.info("Created Payment entity: {}", paymentEntity);
+        this.paymentEntity = paymentEntity;
+    }
+
+    private void initializePosition() {
+        PositionEntity positionEntity = positionService.create(validDTO.getPositionInDTO());
+        log.info("Created Position entity: {}", positionEntity);
+        this.positionEntity = positionEntity;
+    }
+
+    private void initializeServiceType() {
+        ServiceTypeEntity serviceTypeEntity = serviceTypeService.create(validDTO.getServiceTypeInDTO());
+        log.info("Created ServiceType entity: {}", serviceTypeEntity);
+        this.serviceTypeEntity = serviceTypeEntity;
     }
 
 
