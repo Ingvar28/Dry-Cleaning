@@ -7,8 +7,10 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import ru.nosov.dry_cleaning.dto.in.PaymentInDTO;
 import ru.nosov.dry_cleaning.dto.out.PaymentOutDTO;
+import ru.nosov.dry_cleaning.entities.EmployeeEntity;
 import ru.nosov.dry_cleaning.entities.PaymentEntity;
 import ru.nosov.dry_cleaning.exceptions.DryCleaningApiException;
+import ru.nosov.dry_cleaning.repositories.EmployeeRepository;
 import ru.nosov.dry_cleaning.repositories.PaymentRepository;
 import ru.nosov.dry_cleaning.services.PaymentService;
 
@@ -23,22 +25,35 @@ import java.util.Optional;
 public class PaymentServiceImpl implements PaymentService {
 
     private final PaymentRepository paymentRepository;
+    private final EmployeeRepository employeeRepository;
     private final ObjectMapper mapper;
 
     private static final String THERE_IS_NO_SUCH_PAYMENT = "There is no such Payment!";
-
+    private static final String NO_SUCH_ENTITY = "There are no such entity ";
     private static final String DTO_MUST_NOT_BE_NULL_MESSAGE = "DTO must not be null!";
 
     @Transactional
     public PaymentEntity create(PaymentInDTO dto) {
 
-        return paymentRepository.save(inDTOToEntity(dto));
+        if (dto == null) {
+            throw new DryCleaningApiException(DTO_MUST_NOT_BE_NULL_MESSAGE + dto);
+        }
+
+        EmployeeEntity employeeEntity = employeeRepository.findById(dto.getEmployeeId())
+                .orElseThrow(() -> new DryCleaningApiException(
+                        NO_SUCH_ENTITY + EmployeeEntity.class + " " + dto.getEmployeeId()));
+
+        PaymentEntity entity = mapper.convertValue(dto, PaymentEntity.class);
+        entity.setEmployee(employeeEntity);
+
+        return paymentRepository.save(entity);
     }
 
 
     @Override
     public void deleteById(Long id) {
         log.debug(String.format("Deleting Payment by id %s.%n", id));
+
         if (!paymentRepository.existsById(id)) {
             throw new DryCleaningApiException(THERE_IS_NO_SUCH_PAYMENT);
         }
@@ -64,8 +79,26 @@ public class PaymentServiceImpl implements PaymentService {
 
     @Override
     public PaymentEntity update(PaymentInDTO dto) {
-        log.debug(String.format("Updating Payment: %s", dto.toString()));
-        return paymentRepository.save(inDTOToEntity(dto));
+
+        if (dto == null) {
+            throw new DryCleaningApiException(DTO_MUST_NOT_BE_NULL_MESSAGE + dto);
+        }
+
+        log.debug(String.format("Updating Payment: %s", dto));
+
+        paymentRepository.findById(dto.getId())
+                .orElseThrow(() -> new DryCleaningApiException(
+                        NO_SUCH_ENTITY + PaymentEntity.class + " " + dto.getId()));
+
+
+        EmployeeEntity employeeEntity = employeeRepository.findById(dto.getEmployeeId())
+                .orElseThrow(() -> new DryCleaningApiException(
+                        NO_SUCH_ENTITY + EmployeeEntity.class + " " + dto.getEmployeeId()));
+
+        PaymentEntity entity = mapper.convertValue(dto, PaymentEntity.class);
+        entity.setEmployee(employeeEntity);
+
+        return paymentRepository.save(entity);
     }
 
     @Override

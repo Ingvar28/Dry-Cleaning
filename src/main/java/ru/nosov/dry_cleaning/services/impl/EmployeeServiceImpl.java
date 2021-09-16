@@ -92,7 +92,8 @@ public class EmployeeServiceImpl implements EmployeeService {
                         NO_SUCH_ENTITY + EmployeeEntity.class + " " + dto.getId()));
 
         PositionEntity positionEntity = positionRepository.findById(dto.getPositionId())
-                .orElseThrow(() -> new DryCleaningApiException(NO_SUCH_ENTITY + PositionEntity.class + " " + dto.getPositionId()));
+                .orElseThrow(() -> new DryCleaningApiException(
+                        NO_SUCH_ENTITY + PositionEntity.class + " " + dto.getPositionId()));
 
         EmployeeEntity entity = mapper.convertValue(dto, EmployeeEntity.class);
         entity.setPosition(positionEntity);
