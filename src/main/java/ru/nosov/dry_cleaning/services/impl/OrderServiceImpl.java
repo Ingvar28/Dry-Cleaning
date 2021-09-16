@@ -4,7 +4,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
-import ru.nosov.dry_cleaning.dto.in.ClientInDTO;
 import ru.nosov.dry_cleaning.dto.in.OrderInDTO;
 import ru.nosov.dry_cleaning.dto.out.OrderOutDTO;
 import ru.nosov.dry_cleaning.entities.*;
@@ -13,7 +12,7 @@ import ru.nosov.dry_cleaning.repositories.*;
 import ru.nosov.dry_cleaning.services.OrderService;
 
 import javax.transaction.Transactional;
-import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -28,6 +27,7 @@ public class OrderServiceImpl implements OrderService {
     private final PaymentRepository paymentRepository;
     private final ServiceTypeRepository serviceTypeRepository;
     private final EmployeeRepository employeeRepository;
+    private final ItemRepository itemRepository;
 
     private final ObjectMapper mapper;
 
@@ -38,19 +38,60 @@ public class OrderServiceImpl implements OrderService {
     private static final String THERE_IS_NO_SUCH_SERVICE_TYPE = "There is no such Service Type!";
     private static final String THERE_IS_NO_SUCH_EMPLOYEE = "There is no such  Employee!";
     private static final String DTO_MUST_NOT_BE_NULL_MESSAGE = "DTO must not be null!";
+    private static final String NO_SUCH_ENTITY = "There are no such entity ";
 
     @Transactional
     public OrderEntity create(OrderInDTO dto) {
-        return orderRepository.save(inDTOToEntity(dto));
+
+        if (dto == null) {
+            throw new DryCleaningApiException(DTO_MUST_NOT_BE_NULL_MESSAGE + dto);
+        }
+
+        ClientEntity clientEntity = clientRepository.findById(dto.getClientId())
+                .orElseThrow(() -> new DryCleaningApiException(
+                        NO_SUCH_ENTITY + ClientEntity.class + " " + dto.getClientId()));
+
+        PaymentEntity paymentEntity = paymentRepository.findById(dto.getPaymentId())
+                .orElseThrow(() -> new DryCleaningApiException(
+                        NO_SUCH_ENTITY + PaymentEntity.class + " " + dto.getPaymentId()));
+
+
+        ServiceTypeEntity serviceTypeEntity = serviceTypeRepository.findById(dto.getServiceId())
+                .orElseThrow(() -> new DryCleaningApiException(
+                        NO_SUCH_ENTITY + ServiceTypeEntity.class + " " + dto.getServiceId()));
+
+        EmployeeEntity employeeEntity = employeeRepository.findById(dto.getEmployeeId())
+                .orElseThrow(() -> new DryCleaningApiException(
+                        NO_SUCH_ENTITY + EmployeeEntity.class + " " + dto.getEmployeeId()));
+
+
+        List<ItemEntity> itemEntityList = new ArrayList<>();
+        for (Long itemId : dto.getItemIdList()) {
+            ItemEntity itemEntity = itemRepository.findById(itemId)
+                    .orElseThrow(() -> new DryCleaningApiException(
+                            NO_SUCH_ENTITY + ItemEntity.class + " " + itemId));
+        }
+
+        OrderEntity entity = mapper.convertValue(dto, OrderEntity.class);
+        entity.setClient(clientEntity);
+        entity.setPayment(paymentEntity);
+        entity.setService(serviceTypeEntity);
+        entity.setEmployee(employeeEntity);
+        entity.setItems(itemEntityList);
+
+        return orderRepository.save(entity);
     }
 
     @Override
     public void deleteById(Long id) {
         log.debug(String.format("Deleting order by id %s.%n", id));
-        if (!orderRepository.existsById(id)) {
-            throw new DryCleaningApiException(THERE_IS_NO_SUCH_ORDER);
-        }
-        orderRepository.deleteById(id);
+        OrderEntity entity = orderRepository.findById(id)
+                .orElseThrow(() -> new DryCleaningApiException(
+                        NO_SUCH_ENTITY + OrderEntity.class + " " + id));
+
+        entity.setActive(false);
+        orderRepository.save(entity);
+//        orderRepository.deleteById(id);
     }
 
     @Override
@@ -72,8 +113,50 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public OrderEntity update(OrderInDTO dto) {
-        log.debug(String.format("Updating order: %s", dto.toString()));
-        return orderRepository.save(inDTOToEntity(dto));
+
+        if (dto == null) {
+            throw new DryCleaningApiException(DTO_MUST_NOT_BE_NULL_MESSAGE + dto);
+        }
+
+        log.debug(String.format("Updating order: %s", dto));
+
+        orderRepository.findById(dto.getId())
+                .orElseThrow(() -> new DryCleaningApiException(
+                        NO_SUCH_ENTITY + OrderEntity.class + " " + dto.getId()));
+
+        ClientEntity clientEntity = clientRepository.findById(dto.getClientId())
+                .orElseThrow(() -> new DryCleaningApiException(
+                        NO_SUCH_ENTITY + ClientEntity.class + " " + dto.getClientId()));
+
+        PaymentEntity paymentEntity = paymentRepository.findById(dto.getPaymentId())
+                .orElseThrow(() -> new DryCleaningApiException(
+                        NO_SUCH_ENTITY + PaymentEntity.class + " " + dto.getPaymentId()));
+
+
+        ServiceTypeEntity serviceTypeEntity = serviceTypeRepository.findById(dto.getServiceId())
+                .orElseThrow(() -> new DryCleaningApiException(
+                        NO_SUCH_ENTITY + ServiceTypeEntity.class + " " + dto.getServiceId()));
+
+        EmployeeEntity employeeEntity = employeeRepository.findById(dto.getEmployeeId())
+                .orElseThrow(() -> new DryCleaningApiException(
+                        NO_SUCH_ENTITY + EmployeeEntity.class + " " + dto.getEmployeeId()));
+
+
+        List<ItemEntity> itemEntityList = new ArrayList<>();
+        for (Long itemId : dto.getItemIdList()) {
+            ItemEntity itemEntity = itemRepository.findById(itemId)
+                    .orElseThrow(() -> new DryCleaningApiException(
+                            NO_SUCH_ENTITY + ItemEntity.class + " " + itemId));
+        }
+
+        OrderEntity entity = mapper.convertValue(dto, OrderEntity.class);
+        entity.setClient(clientEntity);
+        entity.setPayment(paymentEntity);
+        entity.setService(serviceTypeEntity);
+        entity.setEmployee(employeeEntity);
+        entity.setItems(itemEntityList);
+
+        return orderRepository.save(entity);
     }
 
     @Override
