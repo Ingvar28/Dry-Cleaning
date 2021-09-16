@@ -5,6 +5,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import ru.nosov.dry_cleaning.entities.*;
+import ru.nosov.dry_cleaning.repositories.ClientRepository;
 import ru.nosov.dry_cleaning.services.*;
 
 @Service
@@ -33,9 +34,18 @@ public class DataInitializer {
     private PositionEntity positionEntity;
     private ServiceTypeEntity serviceTypeEntity;
 
+//    private ClientEntity clientEntity = new ClientEntity();
+//    private ClothesCategoryEntity clothesCategoryEntity = new ClothesCategoryEntity();
+//    private EmployeeEntity employeeEntity = new EmployeeEntity();
+//    private ItemEntity itemEntity = new ItemEntity();
+//    private OrderEntity orderEntity = new OrderEntity();
+//    private PaymentEntity paymentEntity = new PaymentEntity();
+//    private PositionEntity positionEntity = new PositionEntity();
+//    private ServiceTypeEntity serviceTypeEntity = new ServiceTypeEntity();
 
-    public static final Long LEGAL_MAX_ID = 1L;
-    public static final Long ILLEGAL_MAX_ID = 2L;
+    private ClientRepository clientRepository;
+
+
 
 
 
@@ -55,7 +65,8 @@ public class DataInitializer {
     private void initializeClient() {
         ClientEntity clientEntity = clientService.create(validDTO.getClientInDTO());
         log.info("Created client entity: {}", clientEntity);
-        this.clientEntity = clientEntity;
+//        this.clientEntity = clientEntity;
+        this.clientEntity = clientRepository.save(clientEntity);
     }
 
     private void initializeClothesCategory() {

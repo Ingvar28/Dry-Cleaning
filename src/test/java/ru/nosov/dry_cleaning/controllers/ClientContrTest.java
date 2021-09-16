@@ -2,26 +2,26 @@ package ru.nosov.dry_cleaning.controllers;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
+import org.hamcrest.Matchers;
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Rule;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
+import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
-import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.restdocs.JUnitRestDocumentation;
-import org.springframework.restdocs.RestDocumentationContextProvider;
-import org.springframework.restdocs.RestDocumentationExtension;
 import org.springframework.test.context.ActiveProfiles;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.util.NestedServletException;
 import ru.nosov.dry_cleaning.dto.in.ClientInDTO;
+import ru.nosov.dry_cleaning.entities.ClientEntity;
 import ru.nosov.dry_cleaning.exceptions.DryCleaningApiException;
 import ru.nosov.dry_cleaning.init.DataInitializer;
 import ru.nosov.dry_cleaning.init.ValidDTO;
@@ -29,8 +29,10 @@ import ru.nosov.dry_cleaning.repositories.ClientRepository;
 import ru.nosov.dry_cleaning.services.ClientService;
 
 import javax.annotation.Resource;
+import javax.transaction.Transactional;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.documentationConfiguration;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
@@ -38,46 +40,45 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @SpringBootTest
-@ActiveProfiles("test")
+@RunWith(SpringJUnit4ClassRunner.class)
+@ActiveProfiles(profiles = "test")
+@EntityScan({"ru.nosov.dry_cleaning.entities"})
 @Transactional
 @Slf4j
-@AutoConfigureMockMvc
-@ExtendWith({RestDocumentationExtension.class, SpringExtension.class})
-public class ClientControllerTest {
+public class ClientContrTest {
+    MockMvc mockMvc;
 
-    private MockMvc mockMvc;
+    @Resource
+    private ClientRepository clientRepository;
+
+    @Autowired
+    ClientService clientService;
+
+    @Autowired
+    WebApplicationContext webApplicationContext;
+
+    @Autowired
+    ObjectMapper objectMapper;
+
+    @Rule
+    public JUnitRestDocumentation restDocumentation = new JUnitRestDocumentation("target/generated-snippets");
 
     @Autowired
     private DataInitializer dataInitializer;
 
     @Autowired
-    ObjectMapper objectMapper;
-
-    @Autowired
-    ClientService clientService;
-
-    @Resource
-    ClientRepository clientRepository;
-
-    @Autowired
     ValidDTO validDTO;
 
-    @Autowired
-    WebApplicationContext webApplicationContext;
-
-
-    @Rule
-    public JUnitRestDocumentation restDocumentation = new JUnitRestDocumentation("target/generated-snippets");
-
-
-    @Before
+    @BeforeEach
     public void setUp() {
-        this.mockMvc = MockMvcBuilders.webAppContextSetup(webApplicationContext)
-                .apply(documentationConfiguration(restDocumentation))
-                .build();
-
+        this.mockMvc =
+                MockMvcBuilders.webAppContextSetup(this.webApplicationContext)
+                        .apply(documentationConfiguration(this.restDocumentation))
+                        .build();
         dataInitializer.initData();
+
     }
+
 
     @Test
     public void testDeleteClientById() throws Exception {

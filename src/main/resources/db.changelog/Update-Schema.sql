@@ -103,7 +103,7 @@ CREATE TABLE if not exists dry_cleaning.cart_item
 );
 
 ALTER TABLE dry_cleaning.cart_item
-    ADD CONSTRAINT FK_ITEMS_ON_CLOTHES_CATEGORY FOREIGN KEY (clothes_category_id) REFERENCES clothes_category (id);
+    ADD CONSTRAINT  FK_CART_ITEM_ON_CLOTHES_CATEGORY FOREIGN KEY (clothes_category_id) REFERENCES dry_cleaning.clothes_category (id);
 
 ALTER TABLE dry_cleaning.cart_item
-    ADD CONSTRAINT FK_ITEMS_ON_ORDER FOREIGN KEY (order_id) REFERENCES order_cart (id);
+    ADD CONSTRAINT FK_CART_ITEM_ON_ORDER FOREIGN KEY (order_id) REFERENCES dry_cleaning.order_cart (id);

@@ -13,13 +13,13 @@ import javax.persistence.*;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name = "items")
+@Table(name = "cart_item")
 @ToString(callSuper = true)
 public class ItemEntity extends AbstractEntity {
 
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "order_id", nullable = false, updatable = false)
+    @JoinColumn(name = "order_cart_id", nullable = false, updatable = false)
     private OrderEntity order;
 
     @OneToOne(fetch = FetchType.EAGER)
