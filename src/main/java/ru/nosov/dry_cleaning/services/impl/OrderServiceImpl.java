@@ -66,6 +66,7 @@ public class OrderServiceImpl implements OrderService {
             ItemEntity itemEntity = itemRepository.findById(itemId)
                     .orElseThrow(() -> new DryCleaningApiException(
                             NO_SUCH_ENTITY + ItemEntity.class + " " + itemId));
+            itemEntityList.add(itemEntity);
         }
 
         OrderEntity entity = mapper.convertValue(dto, OrderEntity.class);
@@ -143,6 +144,7 @@ public class OrderServiceImpl implements OrderService {
             ItemEntity itemEntity = itemRepository.findById(itemId)
                     .orElseThrow(() -> new DryCleaningApiException(
                             NO_SUCH_ENTITY + ItemEntity.class + " " + itemId));
+            itemEntityList.add(itemEntity);
         }
 
         OrderEntity entity = mapper.convertValue(dto, OrderEntity.class);
