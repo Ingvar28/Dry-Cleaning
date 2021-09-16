@@ -33,10 +33,6 @@ public class OrderServiceImpl implements OrderService {
 
 
     private static final String THERE_IS_NO_SUCH_ORDER = "There is no such Order!";
-    private static final String THERE_IS_NO_SUCH_CLIENT = "There is no such Client!";
-    private static final String THERE_IS_NO_SUCH_PAYMENT = "There is no such Payment!";
-    private static final String THERE_IS_NO_SUCH_SERVICE_TYPE = "There is no such Service Type!";
-    private static final String THERE_IS_NO_SUCH_EMPLOYEE = "There is no such  Employee!";
     private static final String DTO_MUST_NOT_BE_NULL_MESSAGE = "DTO must not be null!";
     private static final String NO_SUCH_ENTITY = "There are no such entity ";
 

@@ -8,8 +8,7 @@ import org.springframework.stereotype.Service;
 import ru.nosov.dry_cleaning.dto.in.ClientInDTO;
 import ru.nosov.dry_cleaning.dto.in.ItemInDTO;
 import ru.nosov.dry_cleaning.dto.out.ItemOutDTO;
-import ru.nosov.dry_cleaning.entities.ClientEntity;
-import ru.nosov.dry_cleaning.entities.ItemEntity;
+import ru.nosov.dry_cleaning.entities.*;
 import ru.nosov.dry_cleaning.exceptions.DryCleaningApiException;
 import ru.nosov.dry_cleaning.repositories.ClothesCategoryRepository;
 import ru.nosov.dry_cleaning.repositories.ItemRepository;
@@ -27,28 +26,46 @@ import java.util.Optional;
 public class ItemServiceImpl implements ItemService {
 
     private final ItemRepository itemRepository;
+    private final OrderRepository orderRepository;
+    private final ClothesCategoryRepository clothesCategoryRepository;
     private final ObjectMapper mapper;
 
     private static final String THERE_IS_NO_SUCH_ITEM = "There is no such Item!";
-    private static final String THERE_IS_NO_SUCH_ORDER = "There is no such Order!";
-    private static final String THERE_IS_NO_SUCH_CLOTHES_CATEGORY = "There is no such Clothes Category!";
+    private static final String NO_SUCH_ENTITY = "There are no such entity ";
     private static final String DTO_MUST_NOT_BE_NULL_MESSAGE = "DTO must not be null!";
 
     @Transactional
 
     public ItemEntity create(ItemInDTO dto) {
+        if (dto == null) {
+            throw new DryCleaningApiException(DTO_MUST_NOT_BE_NULL_MESSAGE + dto);
+        }
 
-        return itemRepository.save(inDTOToEntity(dto));
+        OrderEntity orderEntity = orderRepository.findById(dto.getOrderId())
+                .orElseThrow(() -> new DryCleaningApiException(
+                        NO_SUCH_ENTITY + OrderEntity.class + " " + dto.getOrderId()));
+
+        ClothesCategoryEntity clothesCategoryEntity = clothesCategoryRepository.findById(dto.getClothesCategoryId())
+                .orElseThrow(() -> new DryCleaningApiException(
+                        NO_SUCH_ENTITY + ClothesCategoryEntity.class + " " + dto.getClothesCategoryId()));
+
+        ItemEntity entity = mapper.convertValue(dto, ItemEntity.class);
+        entity.setOrder(orderEntity);
+        entity.setClothesCategory(clothesCategoryEntity);
+
+        return itemRepository.save(entity);
     }
 
 
     @Override
     public void deleteById(Long id) {
         log.debug(String.format("Deleting Item by id %s.%n", id));
-        if (!itemRepository.existsById(id)) {
-            throw new DryCleaningApiException(THERE_IS_NO_SUCH_ITEM);
-        }
-        itemRepository.deleteById(id);
+        ItemEntity entity = itemRepository.findById(id)
+                .orElseThrow(() -> new DryCleaningApiException(
+                        NO_SUCH_ENTITY + ItemEntity.class + " " + id));
+
+        entity.setActive(false);
+        itemRepository.save(entity);
     }
 
     @Override
@@ -70,10 +87,30 @@ public class ItemServiceImpl implements ItemService {
 
     @Override
     public ItemEntity update(ItemInDTO dto) {
-        log.debug(String.format("Updating Item: %s",
-                dto.toString()));
+        if (dto == null) {
+            throw new DryCleaningApiException(DTO_MUST_NOT_BE_NULL_MESSAGE + dto);
+        }
 
-        return itemRepository.save(inDTOToEntity(dto));
+        log.debug(String.format("Updating Item: %s",
+                dto));
+
+        itemRepository.findById(dto.getId())
+                .orElseThrow(() -> new DryCleaningApiException(
+                        NO_SUCH_ENTITY + ItemEntity.class + " " + dto.getId()));
+
+        OrderEntity orderEntity = orderRepository.findById(dto.getOrderId())
+                .orElseThrow(() -> new DryCleaningApiException(
+                        NO_SUCH_ENTITY + OrderEntity.class + " " + dto.getOrderId()));
+
+        ClothesCategoryEntity clothesCategoryEntity = clothesCategoryRepository.findById(dto.getClothesCategoryId())
+                .orElseThrow(() -> new DryCleaningApiException(
+                        NO_SUCH_ENTITY + ClothesCategoryEntity.class + " " + dto.getClothesCategoryId()));
+
+        ItemEntity entity = mapper.convertValue(dto, ItemEntity.class);
+        entity.setOrder(orderEntity);
+        entity.setClothesCategory(clothesCategoryEntity);
+
+        return itemRepository.save(entity);
     }
 
     @Override
