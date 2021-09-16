@@ -46,6 +46,7 @@ public class ClientServiceImpl implements ClientService {
             OrderEntity orderEntity = orderRepository.findById(orderId)
                     .orElseThrow(() -> new DryCleaningApiException(
                             NO_SUCH_ENTITY + OrderEntity.class + " " + orderId));
+            orderEntityList.add(orderEntity);
         }
 
         ClientEntity entity = mapper.convertValue(dto, ClientEntity.class);
@@ -102,15 +103,17 @@ public class ClientServiceImpl implements ClientService {
                         NO_SUCH_ENTITY + ClientEntity.class + " " + dto.getId()));
 
 
-        List<OrderEntity> orderList = new ArrayList<>();
+        List<OrderEntity> orderEntityList = new ArrayList<>();
         for (Long orderId : dto.getOrderId()) {
             OrderEntity orderEntity = orderRepository.findById(orderId)
                     .orElseThrow(() -> new DryCleaningApiException(
                             NO_SUCH_ENTITY + OrderEntity.class + " " + orderId));
+
+            orderEntityList.add(orderEntity);
         }
 
         ClientEntity entity = mapper.convertValue(dto, ClientEntity.class);
-        entity.setOrders(orderList);
+        entity.setOrders(orderEntityList);
 //        return clientRepository.save(inDTOToEntity(dto));
         return clientRepository.save(entity);
     }

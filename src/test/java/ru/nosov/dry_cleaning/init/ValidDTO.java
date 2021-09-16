@@ -33,7 +33,7 @@ public class ValidDTO {
         dto.setClientLevel("Bronze");
         dto.setDescription("Angry man");
         dto.setFirstName("John");
-        dto.setOrderIdList(List.of(1L));
+        dto.setOrderId(List.of(1L));
         return dto;
     }
 
