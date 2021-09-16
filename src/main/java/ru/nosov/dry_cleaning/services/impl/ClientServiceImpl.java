@@ -98,9 +98,9 @@ public class ClientServiceImpl implements ClientService {
         }
 
         log.debug(String.format("Updating client: %s",
-                dto.toString()));
+                dto));
 
-        ClientEntity entity = clientRepository.findById(dto.getId())
+        clientRepository.findById(dto.getId())
                 .orElseThrow(() -> new DryCleaningApiException(
                         NO_SUCH_ENTITY + ClientEntity.class + " " + dto.getId()));
 
@@ -113,7 +113,7 @@ public class ClientServiceImpl implements ClientService {
                             NO_SUCH_ENTITY + OrderEntity.class + " " + orderId));
         }
 
-        entity = mapper.convertValue(dto, ClientEntity.class);
+        ClientEntity entity = mapper.convertValue(dto, ClientEntity.class);
         entity.setOrders(orderList);
 //        return clientRepository.save(inDTOToEntity(dto));
         return clientRepository.save(entity);
