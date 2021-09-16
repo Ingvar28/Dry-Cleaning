@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import ru.nosov.dry_cleaning.dto.in.EmployeeInDTO;
 import ru.nosov.dry_cleaning.dto.out.EmployeeOutDTO;
 import ru.nosov.dry_cleaning.entities.EmployeeEntity;
+import ru.nosov.dry_cleaning.entities.PositionEntity;
 import ru.nosov.dry_cleaning.exceptions.DryCleaningApiException;
 import ru.nosov.dry_cleaning.repositories.EmployeeRepository;
 import ru.nosov.dry_cleaning.services.EmployeeService;

@@ -3,6 +3,7 @@ package ru.nosov.dry_cleaning.entities;
 import lombok.*;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity(name = "Client")
@@ -28,7 +29,7 @@ public class ClientEntity  extends AbstractEntity{
 
 
     @OneToMany(mappedBy = "client",fetch = FetchType.LAZY)
-    private List<OrderEntity> orders;
+    private List<OrderEntity> orders = new ArrayList<>();
 
 
 

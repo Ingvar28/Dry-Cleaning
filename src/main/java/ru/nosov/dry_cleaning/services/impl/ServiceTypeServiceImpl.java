@@ -33,6 +33,7 @@ public class ServiceTypeServiceImpl implements ServiceTypeService {
 
     @Transactional
     public ServiceTypeEntity create(ServiceTypeInDTO dto) {
+
         return serviceTypeRepository.save(inDTOToEntity(dto));
     }
 
