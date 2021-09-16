@@ -22,8 +22,8 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.context.WebApplicationContext;
 import ru.nosov.dry_cleaning.init.DataInitializer;
 import ru.nosov.dry_cleaning.init.ValidDTO;
-import ru.nosov.dry_cleaning.repositories.ClientRepository;
-import ru.nosov.dry_cleaning.services.ClientService;
+import ru.nosov.dry_cleaning.repositories.ClothesCategoryRepository;
+import ru.nosov.dry_cleaning.services.ClothesCategoryService;
 
 import javax.annotation.Resource;
 
@@ -41,9 +41,9 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @Slf4j
 @RunWith(SpringRunner.class)
 @ExtendWith({RestDocumentationExtension.class, SpringExtension.class})
-public class ClientControllerTest {
+public class ClothesCategoryControllerTest {
 
-    private static final String URL_PREFIX = "/client";
+    private static final String URL_PREFIX = "/clothescategory";
 
 
     MockMvc mockMvc;
@@ -55,10 +55,10 @@ public class ClientControllerTest {
     ObjectMapper objectMapper;
 
     @Autowired
-    ClientService clientService;
+    ClothesCategoryService clothesCategoryService;
 
     @Resource
-    ClientRepository clientRepository;
+    ClothesCategoryRepository clothesCategoryRepository;
 
     @Autowired
     ValidDTO validDTO;
@@ -85,10 +85,11 @@ public class ClientControllerTest {
     public void testDeleteById() throws Exception {
         String uri = URL_PREFIX + "/{id}";
 
-        assertTrue(clientRepository.existsById(validDTO.getClientInDTO().getId()), "There is no Client to delete with id " + validDTO.getClientInDTO().getId());
-        this.mockMvc.perform(get(uri, validDTO.getClientInDTO().getId()).contentType(MediaType.APPLICATION_JSON))
+        assertTrue(clothesCategoryRepository.existsById(validDTO.getClothesCategoryInDTO().getId()),
+                "There is no Clothes Category to delete with id " + validDTO.getClothesCategoryInDTO().getId());
+        this.mockMvc.perform(get(uri, validDTO.getClothesCategoryInDTO().getId()).contentType(MediaType.APPLICATION_JSON))
                 .andDo(document(uri.replace("/", "\\")))
-                .andExpect(jsonPath("firstname").value(dataInitializer.getClientEntity().getFirstName()))
+                .andExpect(jsonPath("category").value(dataInitializer.getClothesCategoryEntity().getCategory()))
                 .andExpect(status().isOk());
     }
 
@@ -97,46 +98,46 @@ public class ClientControllerTest {
     public void getById() throws Exception {
         String uri = URL_PREFIX + "/{id}";
 
-        this.mockMvc.perform(get(uri, dataInitializer.getClientEntity().getId()))
+        this.mockMvc.perform(get(uri, dataInitializer.getClothesCategoryEntity().getId()))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("firstname", is(dataInitializer.getClientEntity().getFirstName())));
+                .andExpect(jsonPath("category", is(dataInitializer.getClothesCategoryEntity().getCategory())));
     }
 
     @Test
     public void getAll() throws Exception {
         this.mockMvc.perform(get(URL_PREFIX))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("firstname")
-                        .value(Matchers.contains(dataInitializer.getClientEntity().getFirstName())));
+                .andExpect(jsonPath("category")
+                        .value(Matchers.contains(dataInitializer.getClothesCategoryEntity().getCategory())));
     }
 
 
     @Test
     public void create() throws Exception {
         this.mockMvc.perform(post(URL_PREFIX).contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(dataInitializer.getClientEntity())))
+                        .content(objectMapper.writeValueAsString(dataInitializer.getClothesCategoryEntity())))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("firstname", is(validDTO.getClientInDTO().getFirstName())));
+                .andExpect(jsonPath("category", is(validDTO.getClothesCategoryInDTO().getCategory())));
     }
 
     @Test
     public void update() throws Exception {
         this.mockMvc.perform(put(URL_PREFIX)
                         .contentType(MediaType.APPLICATION_JSON).content(objectMapper.
-                                writeValueAsString(validDTO.getClientInDTO())))
+                                writeValueAsString(validDTO.getClothesCategoryInDTO())))
                 .andExpect(status().isOk());
-        assertEquals(dataInitializer.getClientEntity().getFirstName(), validDTO.getClientInDTO().getFirstName());
+        assertEquals(dataInitializer.getClothesCategoryEntity().getCategory(), validDTO.getClothesCategoryInDTO().getCategory());
     }
 
     @Test
     public void deleteById() throws Exception {
-        assertTrue(clientRepository.findById(dataInitializer.getClientEntity().getId()).isPresent());
+        assertTrue(clothesCategoryRepository.findById(dataInitializer.getClothesCategoryEntity().getId()).isPresent());
 
         String uri = URL_PREFIX + "/{id}";
-        this.mockMvc.perform(delete(uri, dataInitializer.getClientEntity().getId()))
+        this.mockMvc.perform(delete(uri, dataInitializer.getClothesCategoryEntity().getId()))
                 .andExpect(status().isOk());
 
-        assertFalse(clientRepository.findById(dataInitializer.getClientEntity().getId()).isPresent());
+        assertFalse(clothesCategoryRepository.findById(dataInitializer.getClothesCategoryEntity().getId()).isPresent());
     }
 
 

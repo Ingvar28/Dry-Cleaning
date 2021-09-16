@@ -45,6 +45,7 @@ public class DataInitializer {
 
 
     public void initData() {
+        initializeClient();
         initializeClothesCategory();
         initializePosition();
         initializeEmployee();
@@ -52,7 +53,7 @@ public class DataInitializer {
         initializeServiceType();
         initializeOrder();
         initializeItem();
-        initializeClient();
+
     }
 
     private void initializeClient() {

@@ -69,7 +69,7 @@ public class ValidDTO {
 
     private OrderInDTO initOrderDTO() {
         OrderInDTO dto = new OrderInDTO();
-        dto.setId(1L);
+//        dto.setId(2L);
         dto.setOrderStartTime(LocalDateTime.now());
         dto.setOrderEndTime(LocalDateTime.now().plusDays(7));
         dto.setClientId(1L);

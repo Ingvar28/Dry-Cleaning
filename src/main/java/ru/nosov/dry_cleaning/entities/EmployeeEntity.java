@@ -1,6 +1,7 @@
 package ru.nosov.dry_cleaning.entities;
 
 import lombok.*;
+import org.springframework.lang.Nullable;
 
 import javax.persistence.*;
 import java.util.Set;
@@ -21,6 +22,7 @@ public class EmployeeEntity extends AbstractEntity{
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "position_id", nullable = false)
+    @Nullable
     private PositionEntity position;
 
 //    @OneToMany(fetch = FetchType.LAZY)//

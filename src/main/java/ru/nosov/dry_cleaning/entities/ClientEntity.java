@@ -1,6 +1,7 @@
 package ru.nosov.dry_cleaning.entities;
 
 import lombok.*;
+import org.springframework.lang.Nullable;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -29,6 +30,7 @@ public class ClientEntity  extends AbstractEntity{
 
 
     @OneToMany(mappedBy = "client",fetch = FetchType.LAZY)
+    @Nullable
     private List<OrderEntity> orders = new ArrayList<>();
 
 

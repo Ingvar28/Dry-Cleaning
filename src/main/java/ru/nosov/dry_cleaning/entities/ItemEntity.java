@@ -4,6 +4,7 @@ package ru.nosov.dry_cleaning.entities;
 import lombok.*;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
+import org.springframework.lang.Nullable;
 
 import javax.persistence.*;
 
@@ -20,10 +21,12 @@ public class ItemEntity extends AbstractEntity {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "order_cart_id", nullable = false, updatable = false)
+    @Nullable
     private OrderEntity order;
 
     @OneToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "clothes_category_id", nullable = false)
+    @Nullable
     private ClothesCategoryEntity clothesCategory;
 
     private String material;

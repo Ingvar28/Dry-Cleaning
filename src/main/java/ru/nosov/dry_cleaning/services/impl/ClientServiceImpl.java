@@ -46,13 +46,28 @@ public class ClientServiceImpl implements ClientService {
             OrderEntity orderEntity = orderRepository.findById(orderId)
                     .orElseThrow(() -> new DryCleaningApiException(
                             NO_SUCH_ENTITY + OrderEntity.class + " " + orderId));
+
+
+//            OrderEntity orderEntity = orderRepository.getById(orderId);
+//            if(orderEntity == null) {
+//                throw new DryCleaningApiException(NO_SUCH_ENTITY + OrderEntity.class + " " + orderId);
+//            }
+
             orderEntityList.add(orderEntity);
         }
 
         ClientEntity entity = mapper.convertValue(dto, ClientEntity.class);
+//        ClientEntity entity = new ClientEntity();
+//        entity.setId(dto.getId());
+//        entity.setFirstName(dto.getFirstName());
+//        entity.setLastName(dto.getLastName());
+//        entity.setPhone(dto.getPhone());
+//        entity.setEmail(dto.getEmail());
+//        entity.setClientLevel(dto.getClientLevel());
+//        entity.setDescription(entity.getDescription());
         entity.setOrders(orderEntityList);
 
-   return clientRepository.save(entity);
+        return clientRepository.save(entity);
     }
 
     @Override
@@ -64,7 +79,6 @@ public class ClientServiceImpl implements ClientService {
 
         entity.setActive(false);
         clientRepository.save(entity);
-        //        clientRepository.deleteById(id);
 
     }
 

@@ -2,6 +2,7 @@ package ru.nosov.dry_cleaning.entities;
 
 
 import lombok.*;
+import org.springframework.lang.Nullable;
 
 import javax.persistence.*;
 
@@ -20,5 +21,6 @@ public class PaymentEntity  extends AbstractEntity{
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "employee_id", nullable = false)
+    @Nullable
     private EmployeeEntity employee;
 }
