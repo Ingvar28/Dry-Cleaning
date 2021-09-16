@@ -5,7 +5,6 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import ru.nosov.dry_cleaning.entities.*;
-import ru.nosov.dry_cleaning.repositories.ClientRepository;
 import ru.nosov.dry_cleaning.services.*;
 
 @Service
@@ -43,11 +42,6 @@ public class DataInitializer {
 //    private PositionEntity positionEntity = new PositionEntity();
 //    private ServiceTypeEntity serviceTypeEntity = new ServiceTypeEntity();
 
-    private ClientRepository clientRepository;
-
-
-
-
 
     public void initData() {
         initializeClient();
@@ -58,57 +52,54 @@ public class DataInitializer {
         initializeServiceType();
         initializeItem();
         initializeOrder();
-
-
     }
 
     private void initializeClient() {
-        ClientEntity clientEntity = clientService.create(validDTO.getClientInDTO());
-        log.info("Created client entity: {}", clientEntity);
-//        this.clientEntity = clientEntity;
-        this.clientEntity = clientRepository.save(clientEntity);
+        ClientEntity entity = clientService.create(validDTO.getClientInDTO());
+        log.info("Created client entity: {}", entity);
+        this.clientEntity = entity;
     }
 
     private void initializeClothesCategory() {
-        ClothesCategoryEntity clothesCategoryEntity = clothesCategoryService.create(validDTO.getClothesCategoryInDTO());
-        log.info("Created ClothesCategory entity: {}", clothesCategoryEntity);
-        this.clothesCategoryEntity = clothesCategoryEntity;
+        ClothesCategoryEntity entity = clothesCategoryService.create(validDTO.getClothesCategoryInDTO());
+        log.info("Created ClothesCategory entity: {}", entity);
+        this.clothesCategoryEntity = entity;
     }
 
     private void initializeEmployee() {
-        EmployeeEntity employeeEntity = employeeService.create(validDTO.getEmployeeInDTO());
-        log.info("Created Employee entity: {}", employeeEntity);
-        this.employeeEntity = employeeEntity;
+        EmployeeEntity entity = employeeService.create(validDTO.getEmployeeInDTO());
+        log.info("Created Employee entity: {}", entity);
+        this.employeeEntity = entity;
     }
 
     private void initializeItem() {
-        ItemEntity itemEntity = itemService.create(validDTO.getItemInDTO());
-        log.info("Created Item entity: {}", itemEntity);
-        this.itemEntity = itemEntity;
+        ItemEntity entity = itemService.create(validDTO.getItemInDTO());
+        log.info("Created Item entity: {}", entity);
+        this.itemEntity = entity;
     }
 
     private void initializeOrder() {
-        OrderEntity orderEntity = orderService.create(validDTO.getOrderInDTO());
-        log.info("Created Order entity: {}", orderEntity);
-        this.orderEntity = orderEntity;
+        OrderEntity entity = orderService.create(validDTO.getOrderInDTO());
+        log.info("Created Order entity: {}", entity);
+        this.orderEntity = entity;
     }
 
     private void initializePayment() {
-        PaymentEntity paymentEntity = paymentService.create(validDTO.getPaymentInDTO());
-        log.info("Created Payment entity: {}", paymentEntity);
-        this.paymentEntity = paymentEntity;
+        PaymentEntity entity = paymentService.create(validDTO.getPaymentInDTO());
+        log.info("Created Payment entity: {}", entity);
+        this.paymentEntity = entity;
     }
 
     private void initializePosition() {
-        PositionEntity positionEntity = positionService.create(validDTO.getPositionInDTO());
-        log.info("Created Position entity: {}", positionEntity);
-        this.positionEntity = positionEntity;
+        PositionEntity entity = positionService.create(validDTO.getPositionInDTO());
+        log.info("Created Position entity: {}", entity);
+        this.positionEntity = entity;
     }
 
     private void initializeServiceType() {
-        ServiceTypeEntity serviceTypeEntity = serviceTypeService.create(validDTO.getServiceTypeInDTO());
-        log.info("Created ServiceType entity: {}", serviceTypeEntity);
-        this.serviceTypeEntity = serviceTypeEntity;
+        ServiceTypeEntity entity = serviceTypeService.create(validDTO.getServiceTypeInDTO());
+        log.info("Created ServiceType entity: {}", entity);
+        this.serviceTypeEntity = entity;
     }
 
 

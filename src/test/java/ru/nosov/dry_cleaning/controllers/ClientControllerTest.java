@@ -2,32 +2,30 @@ package ru.nosov.dry_cleaning.controllers;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
-import org.junit.Before;
+import org.hamcrest.Matchers;
 import org.junit.Rule;
-import org.junit.jupiter.api.Test;
-import org.junit.runner.RunWith;
+import org.junit.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.domain.EntityScan;
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.restdocs.JUnitRestDocumentation;
+import org.springframework.restdocs.RestDocumentationExtension;
 import org.springframework.test.context.ActiveProfiles;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.context.WebApplicationContext;
-import org.springframework.web.util.NestedServletException;
-import ru.nosov.dry_cleaning.dto.in.ClientInDTO;
-import ru.nosov.dry_cleaning.exceptions.DryCleaningApiException;
 import ru.nosov.dry_cleaning.init.DataInitializer;
 import ru.nosov.dry_cleaning.init.ValidDTO;
 import ru.nosov.dry_cleaning.repositories.ClientRepository;
 import ru.nosov.dry_cleaning.services.ClientService;
 
+import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
-import javax.transaction.Transactional;
 
+import static org.hamcrest.CoreMatchers.is;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.documentationConfiguration;
@@ -36,119 +34,115 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @SpringBootTest
-@RunWith(SpringJUnit4ClassRunner.class)
-@ActiveProfiles(profiles = "test")
-@EntityScan({"ru.nosov.dry_cleaning.entities"})
+@ActiveProfiles("test")
 @Transactional
-@AutoConfigureMockMvc
 @Slf4j
+//@AutoConfigureMockMvc
+@ExtendWith({RestDocumentationExtension.class, SpringExtension.class})
 public class ClientControllerTest {
 
-    @Autowired
+    private static final String URL_PREFIX = "/client";
+
+    //    @Autowired
+//    private MockMvc mockMvc;
     MockMvc mockMvc;
-
-    @Resource
-    private ClientRepository clientRepository;
-
-    @Autowired
-    ClientService clientService;
-
-    @Autowired
-    WebApplicationContext webApplicationContext;
-
-    @Autowired
-    ObjectMapper objectMapper;
-
-    @Rule
-    public JUnitRestDocumentation restDocumentation = new JUnitRestDocumentation("target/generated-snippets");
 
     @Autowired
     private DataInitializer dataInitializer;
 
     @Autowired
+    ObjectMapper objectMapper;
+
+    @Autowired
+    ClientService clientService;
+
+    @Resource
+    ClientRepository clientRepository;
+
+    @Autowired
     ValidDTO validDTO;
 
-    @Before
+    @Autowired
+    WebApplicationContext webApplicationContext;
+
+
+    @Rule
+    public JUnitRestDocumentation restDocumentation = new JUnitRestDocumentation("target/generated-snippets");
+
+
+    @PostConstruct
     public void setUp() {
-        this.mockMvc =
-                MockMvcBuilders.webAppContextSetup(this.webApplicationContext)
-                        .apply(documentationConfiguration(this.restDocumentation))
-                        .build();
+        this.mockMvc = MockMvcBuilders.webAppContextSetup(webApplicationContext)
+                .apply(documentationConfiguration(restDocumentation))
+                .build();
+
         dataInitializer.initData();
 
     }
 
 
-    @Test
-    public void testDeleteClientById() throws Exception {
-        String uri = "/client/{id}";
-        Long id = dataInitializer.getClientEntity().getId();
-        this.mockMvc.perform(get(uri, id).contentType(MediaType.APPLICATION_JSON))
-                .andDo(document(uri.replace("/", "\\")))
-                .andExpect(jsonPath("FirstName").value(dataInitializer.getClientEntity().getFirstName()))
-                .andExpect(status().isOk());
-    }
-
-    @Test
-    public void testGetAllClients() throws Exception {
-        String uri = "/client/all";
-        this.mockMvc.perform(get(uri).contentType(MediaType.APPLICATION_JSON))
-                .andDo(document(uri.replace("/", "\\")))
-                .andExpect(status().isOk());
-    }
-
-    @Test
-    public void createClientWithTestName() throws Exception {
-        String uri = "/client/";
-        ClientInDTO dto = validDTO.getClientInDTO();
-        dto.setFirstName("Test");
-        String content = objectMapper.writeValueAsString(dto);
-        this.mockMvc.perform(post(uri).contentType(MediaType.APPLICATION_JSON).content(content))
-                .andDo(document(uri.replace("/", "\\")))
-                .andExpect(jsonPath("FirstName").value(dto.getFirstName()))
-                .andExpect(status().isOk());
-    }
-
-    @Test
-    public void createClient_NameExists() throws Exception {
-        String uri = "/client/";
-        ClientInDTO dto = validDTO.getClientInDTO();
-        String content = objectMapper.writeValueAsString(dto);
-
-        Throwable exception = assertThrows(DryCleaningApiException.class, () ->
-        {
-            try {
-                this.mockMvc.perform(post(uri).contentType(MediaType.APPLICATION_JSON).content(content))
-                        .andDo(document(uri.replace("/", "\\")));
-            } catch (NestedServletException e) {
-                throw e.getCause();
-            }
-        });
-        assertEquals(exception.getMessage(), "Client with that name already exists, id: "
-                + dataInitializer.getClientEntity().getId());
-    }
-
-    @Test
-    public void updateClientWithTestName() throws Exception {
-        String uri = "/client/";
-        ClientInDTO dto = clientService.toInDTO(dataInitializer.getClientEntity());
-        dto.setFirstName("Test");
-        String content = objectMapper.writeValueAsString(dto);
-        this.mockMvc.perform(put(uri).contentType(MediaType.APPLICATION_JSON).content(content))
-                .andDo(document(uri.replace("/", "\\")))
-                .andExpect(jsonPath("FirstName").value(dto.getFirstName()))
-                .andExpect(status().isOk());
-    }
+//
+//    private ClientEntity entity = clientService.create(validDTO.getClientInDTO());
+//    private Long id = entity.getId();
 
     @Test
     public void testDeleteById() throws Exception {
-        String uri = "/client/{id}";
-        Long id = dataInitializer.getClientEntity().getId();
+        String uri = URL_PREFIX + "/{id}";
 
-        assertTrue(clientRepository.existsById(id), "There is no Client to delete with id " + id);
-        this.mockMvc.perform(delete(uri, id).contentType(MediaType.APPLICATION_JSON))
+        assertTrue(clientRepository.existsById(validDTO.getClientInDTO().getId()), "There is no Client to delete with id " + validDTO.getClientInDTO().getId());
+        this.mockMvc.perform(get(uri, validDTO.getClientInDTO().getId()).contentType(MediaType.APPLICATION_JSON))
                 .andDo(document(uri.replace("/", "\\")))
+                .andExpect(jsonPath("firstname").value(dataInitializer.getClientEntity().getFirstName()))
                 .andExpect(status().isOk());
-        assertFalse(clientRepository.existsById(id), "Client was not deleted");
     }
+
+
+    @Test
+    public void getById() throws Exception {
+        String urlTemplate = URL_PREFIX + "/{id}";
+
+
+        this.mockMvc.perform(get(urlTemplate, dataInitializer.getClientEntity().getId()))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("firstname", is(dataInitializer.getClientEntity().getFirstName())));
+    }
+
+    @Test
+    public void getAll() throws Exception {
+        this.mockMvc.perform(get(URL_PREFIX))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("firstname")
+                        .value(Matchers.contains(dataInitializer.getClientEntity().getFirstName())));
+    }
+
+
+    @Test
+    public void create() throws Exception {
+        this.mockMvc.perform(post(URL_PREFIX).contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(dataInitializer.getClientEntity())))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("firstname", is(validDTO.getClientInDTO().getFirstName())));
+    }
+
+    @Test
+    public void update() throws Exception {
+        this.mockMvc.perform(put(URL_PREFIX)
+                        .contentType(MediaType.APPLICATION_JSON).content(objectMapper.
+                                writeValueAsString(validDTO.getClientInDTO())))
+                .andExpect(status().isOk());
+        assertEquals(dataInitializer.getClientEntity().getFirstName(), validDTO.getClientInDTO().getFirstName());
+    }
+
+    @Test
+    public void deleteById() throws Exception {
+        assertTrue(clientRepository.findById(dataInitializer.getClientEntity().getId()).isPresent());
+
+        String urlTemplate = URL_PREFIX + "/{id}";
+        this.mockMvc.perform(delete(urlTemplate, dataInitializer.getClientEntity().getId()))
+                .andExpect(status().isOk());
+
+        assertFalse(clientRepository.findById(dataInitializer.getClientEntity().getId()).isPresent());
+    }
+
+
 }
