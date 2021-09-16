@@ -11,6 +11,7 @@ import ru.nosov.dry_cleaning.entities.EmployeeEntity;
 import ru.nosov.dry_cleaning.entities.PositionEntity;
 import ru.nosov.dry_cleaning.exceptions.DryCleaningApiException;
 import ru.nosov.dry_cleaning.repositories.EmployeeRepository;
+import ru.nosov.dry_cleaning.repositories.PositionRepository;
 import ru.nosov.dry_cleaning.services.EmployeeService;
 
 import javax.transaction.Transactional;
@@ -25,11 +26,11 @@ public class EmployeeServiceImpl implements EmployeeService {
 
 
     private final EmployeeRepository employeeRepository;
+    private final PositionRepository positionRepository;
     private final ObjectMapper mapper;
 
     private static final String THERE_IS_NO_SUCH_EMPLOYEE = "There is no such Employee!";
-
-    private static final String DTO_MUST_NOT_BE_NULL_MESSAGE = "DTO must not be null!";
+private static final String DTO_MUST_NOT_BE_NULL_MESSAGE = "DTO must not be null!";
 
     @Transactional
     public EmployeeEntity create(EmployeeInDTO dto) {

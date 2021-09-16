@@ -41,14 +41,11 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @Transactional
 @Slf4j
 @RunWith(SpringRunner.class)
-//@AutoConfigureMockMvc
 @ExtendWith({RestDocumentationExtension.class, SpringExtension.class})
 public class ClientControllerTest {
 
     private static final String URL_PREFIX = "/client";
 
-    //    @Autowired
-//    private MockMvc mockMvc;
     MockMvc mockMvc;
 
     @Autowired
@@ -85,9 +82,6 @@ public class ClientControllerTest {
     }
 
 
-//
-//    private ClientEntity entity = clientService.create(validDTO.getClientInDTO());
-//    private Long id = entity.getId();
 
     @Test
     public void testDeleteById() throws Exception {
@@ -104,7 +98,6 @@ public class ClientControllerTest {
     @Test
     public void getById() throws Exception {
         String urlTemplate = URL_PREFIX + "/{id}";
-
 
         this.mockMvc.perform(get(urlTemplate, dataInitializer.getClientEntity().getId()))
                 .andExpect(status().isOk())

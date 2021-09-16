@@ -15,7 +15,7 @@ public class ClientOutDTO extends AbstractOutDTO {
     private String description;
 
 
-    private List<Long> orderIdList;
+    private List<Long> orderId;
 
 
 

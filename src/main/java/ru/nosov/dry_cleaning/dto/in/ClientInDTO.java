@@ -18,7 +18,7 @@ public class ClientInDTO extends AbstractInDTO {
     private String clientLevel;
     private String description;
 
-    private List<Long> orderIdList;
+    private List<Long> orderId;
 
 
 }

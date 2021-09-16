@@ -37,6 +37,7 @@ public class DryCleaningExceptionHandler {
         NOT_SUCH_ENTITY(HttpStatus.BAD_REQUEST);
 
 
+
         private HttpStatus status;
 
         TypicalError(HttpStatus status) {

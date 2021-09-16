@@ -9,12 +9,14 @@ import ru.nosov.dry_cleaning.dto.in.ClientInDTO;
 import ru.nosov.dry_cleaning.dto.out.ClientOutDTO;
 import ru.nosov.dry_cleaning.entities.ClientEntity;
 import ru.nosov.dry_cleaning.entities.OrderEntity;
+import ru.nosov.dry_cleaning.entities.PositionEntity;
 import ru.nosov.dry_cleaning.exceptions.DryCleaningApiException;
 import ru.nosov.dry_cleaning.repositories.ClientRepository;
 import ru.nosov.dry_cleaning.repositories.OrderRepository;
 import ru.nosov.dry_cleaning.services.ClientService;
 
 import javax.transaction.Transactional;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -24,16 +26,35 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class ClientServiceImpl implements ClientService {
 
+    private static final String THERE_IS_NO_SUCH_CLIENT = "There is no such Client!";
+    private static final String DTO_MUST_NOT_BE_NULL_MESSAGE = "DTO must not be null: ";
+    private static final String NO_SUCH_ORDERS = "There no such orders";
 
     private final ClientRepository clientRepository;
+    private final OrderRepository orderRepository;
     private final ObjectMapper mapper;
 
-    private static final String THERE_IS_NO_SUCH_CLIENT = "There is no such Client!";
-    private static final String DTO_MUST_NOT_BE_NULL_MESSAGE = "DTO must not be null!";
 
+
+    @Override
     @Transactional
     public ClientEntity create(ClientInDTO dto) {
-        return clientRepository.save(inDTOToEntity(dto));
+        if(dto == null){
+            throw new DryCleaningApiException(DTO_MUST_NOT_BE_NULL_MESSAGE + dto);
+        }
+
+        List<OrderEntity> orderList = new ArrayList<>();
+        for (Long orderId : dto.getOrderId()) {
+            OrderEntity orderEntity = orderRepository.findById(orderId)
+                    .orElseThrow(() -> new DryCleaningApiException(NO_SUCH_ORDERS + " "+ orderId));
+        }
+
+        ClientEntity entity = mapper.convertValue(dto,ClientEntity.class);
+        entity.setOrders(orderList);
+
+
+//        return clientRepository.save(inDTOToEntity(dto));
+        return clientRepository.save(entity);
     }
 
     @Override
@@ -89,7 +110,7 @@ public class ClientServiceImpl implements ClientService {
     public ClientEntity inDTOToEntity(ClientInDTO dto) {
 
         return Optional.ofNullable(dto)
-                .map(ent -> mapper.convertValue(ent, ClientEntity.class))
+                .map(ent -> mapper.convertValue(dto, ClientEntity.class))
                 .orElseThrow(() -> new DryCleaningApiException(DTO_MUST_NOT_BE_NULL_MESSAGE));
 
     }
