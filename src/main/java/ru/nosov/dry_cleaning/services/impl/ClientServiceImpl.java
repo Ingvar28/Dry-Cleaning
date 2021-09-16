@@ -105,7 +105,6 @@ public class ClientServiceImpl implements ClientService {
                         NO_SUCH_ENTITY + ClientEntity.class + " " + dto.getId()));
 
 
-
         List<OrderEntity> orderList = new ArrayList<>();
         for (Long orderId : dto.getOrderId()) {
             OrderEntity orderEntity = orderRepository.findById(orderId)

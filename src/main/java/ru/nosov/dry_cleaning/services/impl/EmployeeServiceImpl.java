@@ -7,6 +7,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import ru.nosov.dry_cleaning.dto.in.EmployeeInDTO;
 import ru.nosov.dry_cleaning.dto.out.EmployeeOutDTO;
+import ru.nosov.dry_cleaning.entities.ClientEntity;
 import ru.nosov.dry_cleaning.entities.EmployeeEntity;
 import ru.nosov.dry_cleaning.entities.PositionEntity;
 import ru.nosov.dry_cleaning.exceptions.DryCleaningApiException;
@@ -29,22 +30,36 @@ public class EmployeeServiceImpl implements EmployeeService {
     private final PositionRepository positionRepository;
     private final ObjectMapper mapper;
 
+    private static final String NO_SUCH_ENTITY = "There are no such entity ";
     private static final String THERE_IS_NO_SUCH_EMPLOYEE = "There is no such Employee!";
-private static final String DTO_MUST_NOT_BE_NULL_MESSAGE = "DTO must not be null!";
+    private static final String DTO_MUST_NOT_BE_NULL_MESSAGE = "DTO must not be null!";
 
     @Transactional
     public EmployeeEntity create(EmployeeInDTO dto) {
-        return employeeRepository.save(inDTOToEntity(dto));
+        if (dto == null) {
+            throw new DryCleaningApiException(DTO_MUST_NOT_BE_NULL_MESSAGE + dto);
+        }
+
+        PositionEntity positionEntity = positionRepository.findById(dto.getPositionId())
+                .orElseThrow(() -> new DryCleaningApiException(NO_SUCH_ENTITY + PositionEntity.class + " " + dto.getPositionId()));
+
+        EmployeeEntity entity = mapper.convertValue(dto, EmployeeEntity.class);
+        entity.setPosition(positionEntity);
+
+        return employeeRepository.save(entity);
     }
 
 
     @Override
     public void deleteById(Long id) {
         log.debug(String.format("Deleting Employee by id %s.%n", id));
-        if (!employeeRepository.existsById(id)) {
-            throw new DryCleaningApiException(THERE_IS_NO_SUCH_EMPLOYEE);
-        }
-        employeeRepository.deleteById(id);
+        EmployeeEntity entity = employeeRepository.findById(id)
+                .orElseThrow(() -> new DryCleaningApiException(
+                        NO_SUCH_ENTITY + EmployeeEntity.class + " " + id));
+
+        entity.setActive(false);
+        employeeRepository.save(entity);
+//        employeeRepository.deleteById(id);
     }
 
     @Override
@@ -66,9 +81,23 @@ private static final String DTO_MUST_NOT_BE_NULL_MESSAGE = "DTO must not be null
 
     @Override
     public EmployeeEntity update(EmployeeInDTO dto) {
-        log.debug(String.format("Updating Employee: %s", dto.toString()));
+        if (dto == null) {
+            throw new DryCleaningApiException(DTO_MUST_NOT_BE_NULL_MESSAGE + dto);
+        }
 
-        return employeeRepository.save(inDTOToEntity(dto));
+        log.debug(String.format("Updating Employee: %s", dto));
+
+        employeeRepository.findById(dto.getId())
+                .orElseThrow(() -> new DryCleaningApiException(
+                        NO_SUCH_ENTITY + EmployeeEntity.class + " " + dto.getId()));
+
+        PositionEntity positionEntity = positionRepository.findById(dto.getPositionId())
+                .orElseThrow(() -> new DryCleaningApiException(NO_SUCH_ENTITY + PositionEntity.class + " " + dto.getPositionId()));
+
+        EmployeeEntity entity = mapper.convertValue(dto, EmployeeEntity.class);
+        entity.setPosition(positionEntity);
+
+        return employeeRepository.save(entity);
     }
 
     @Override
