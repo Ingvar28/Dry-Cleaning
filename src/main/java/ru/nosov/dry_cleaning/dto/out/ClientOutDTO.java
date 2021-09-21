@@ -14,8 +14,9 @@ public class ClientOutDTO extends AbstractOutDTO {
     private String clientLevel;
     private String description;
 
+//TODO delete commented
 
-    private List<Long> orderId;
+//    private List<Long> orderId;
 
 
 

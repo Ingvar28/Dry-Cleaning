@@ -16,7 +16,9 @@ public class OrderOutDTO extends AbstractOutDTO {
     private Long employeeId;
     private String orderStatus;
 
-    private List<Long> itemIdList;
+    //TODO delete commented
+
+//    private List<Long> itemIdList;
 
 
 }

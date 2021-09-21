@@ -60,21 +60,22 @@ public class OrderServiceImpl implements OrderService {
                 .orElseThrow(() -> new DryCleaningApiException(
                         NO_SUCH_ENTITY + EmployeeEntity.class + " " + dto.getEmployeeId()));
 
+        //TODO delete commented
 
-        List<ItemEntity> itemEntityList = new ArrayList<>();
-        for (Long itemId : dto.getItemIdList()) {
-            ItemEntity itemEntity = itemRepository.findById(itemId)
-                    .orElseThrow(() -> new DryCleaningApiException(
-                            NO_SUCH_ENTITY + ItemEntity.class + " " + itemId));
-            itemEntityList.add(itemEntity);
-        }
+//        List<ItemEntity> itemEntityList = new ArrayList<>();
+//        for (Long itemId : dto.getItemIdList()) {
+//            ItemEntity itemEntity = itemRepository.findById(itemId)
+//                    .orElseThrow(() -> new DryCleaningApiException(
+//                            NO_SUCH_ENTITY + ItemEntity.class + " " + itemId));
+//            itemEntityList.add(itemEntity);
+//        }
 
         OrderEntity entity = mapper.convertValue(dto, OrderEntity.class);
         entity.setClient(clientEntity);
         entity.setPayment(paymentEntity);
         entity.setService(serviceTypeEntity);
         entity.setEmployee(employeeEntity);
-        entity.setItems(itemEntityList);
+//        entity.setItemList(itemEntityList);
 
         return orderRepository.save(entity);
     }
@@ -138,21 +139,22 @@ public class OrderServiceImpl implements OrderService {
                 .orElseThrow(() -> new DryCleaningApiException(
                         NO_SUCH_ENTITY + EmployeeEntity.class + " " + dto.getEmployeeId()));
 
-
-        List<ItemEntity> itemEntityList = new ArrayList<>();
-        for (Long itemId : dto.getItemIdList()) {
-            ItemEntity itemEntity = itemRepository.findById(itemId)
-                    .orElseThrow(() -> new DryCleaningApiException(
-                            NO_SUCH_ENTITY + ItemEntity.class + " " + itemId));
-            itemEntityList.add(itemEntity);
-        }
+        //TODO delete commented
+//
+//        List<ItemEntity> itemEntityList = new ArrayList<>();
+//        for (Long itemId : dto.getItemIdList()) {
+//            ItemEntity itemEntity = itemRepository.findById(itemId)
+//                    .orElseThrow(() -> new DryCleaningApiException(
+//                            NO_SUCH_ENTITY + ItemEntity.class + " " + itemId));
+//            itemEntityList.add(itemEntity);
+//        }
 
         OrderEntity entity = mapper.convertValue(dto, OrderEntity.class);
         entity.setClient(clientEntity);
         entity.setPayment(paymentEntity);
         entity.setService(serviceTypeEntity);
         entity.setEmployee(employeeEntity);
-        entity.setItems(itemEntityList);
+//        entity.setItemList(itemEntityList);
 
         return orderRepository.save(entity);
     }

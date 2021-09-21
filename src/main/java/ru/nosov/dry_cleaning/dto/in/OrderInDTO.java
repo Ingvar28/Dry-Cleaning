@@ -15,8 +15,9 @@ public class OrderInDTO extends AbstractInDTO {
     private Long serviceId;
     private Long employeeId;
     private String orderStatus;
+    //TODO delete commented
 
-    private List<Long> itemIdList;
+//    private List<Long> itemIdList;
 
 
 }

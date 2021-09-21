@@ -41,31 +41,22 @@ public class ClientServiceImpl implements ClientService {
             throw new DryCleaningApiException(DTO_MUST_NOT_BE_NULL_MESSAGE + dto);
         }
 
-        List<OrderEntity> orderEntityList = new ArrayList<>();
-        for (Long orderId : dto.getOrderId()) {
-            OrderEntity orderEntity = orderRepository.findById(orderId)
-                    .orElseThrow(() -> new DryCleaningApiException(
-                            NO_SUCH_ENTITY + OrderEntity.class + " " + orderId));
-
-
-//            OrderEntity orderEntity = orderRepository.getById(orderId);
-//            if(orderEntity == null) {
-//                throw new DryCleaningApiException(NO_SUCH_ENTITY + OrderEntity.class + " " + orderId);
-//            }
-
-            orderEntityList.add(orderEntity);
-        }
+        //TODO delete commented
+//
+//        List<OrderEntity> orderEntityList = new ArrayList<>();
+//        for (Long orderId : dto.getOrderId()) {
+//            OrderEntity orderEntity = orderRepository.findById(orderId)
+//                    .orElseThrow(() -> new DryCleaningApiException(
+//                            NO_SUCH_ENTITY + OrderEntity.class + " " + orderId));
+//
+//
+//
+//            orderEntityList.add(orderEntity);
+//        }
 
         ClientEntity entity = mapper.convertValue(dto, ClientEntity.class);
-//        ClientEntity entity = new ClientEntity();
-//        entity.setId(dto.getId());
-//        entity.setFirstName(dto.getFirstName());
-//        entity.setLastName(dto.getLastName());
-//        entity.setPhone(dto.getPhone());
-//        entity.setEmail(dto.getEmail());
-//        entity.setClientLevel(dto.getClientLevel());
-//        entity.setDescription(entity.getDescription());
-        entity.setOrders(orderEntityList);
+//
+//        entity.setOrderList(orderEntityList);
 
         return clientRepository.save(entity);
     }
@@ -116,19 +107,19 @@ public class ClientServiceImpl implements ClientService {
                 .orElseThrow(() -> new DryCleaningApiException(
                         NO_SUCH_ENTITY + ClientEntity.class + " " + dto.getId()));
 
+        //TODO delete commented
 
-        List<OrderEntity> orderEntityList = new ArrayList<>();
-        for (Long orderId : dto.getOrderId()) {
-            OrderEntity orderEntity = orderRepository.findById(orderId)
-                    .orElseThrow(() -> new DryCleaningApiException(
-                            NO_SUCH_ENTITY + OrderEntity.class + " " + orderId));
-
-            orderEntityList.add(orderEntity);
-        }
+//        List<OrderEntity> orderEntityList = new ArrayList<>();
+//        for (Long orderId : dto.getOrderId()) {
+//            OrderEntity orderEntity = orderRepository.findById(orderId)
+//                    .orElseThrow(() -> new DryCleaningApiException(
+//                            NO_SUCH_ENTITY + OrderEntity.class + " " + orderId));
+//
+//            orderEntityList.add(orderEntity);
+//        }
 
         ClientEntity entity = mapper.convertValue(dto, ClientEntity.class);
-        entity.setOrders(orderEntityList);
-//        return clientRepository.save(inDTOToEntity(dto));
+//        entity.setOrderList(orderEntityList);
         return clientRepository.save(entity);
     }
 

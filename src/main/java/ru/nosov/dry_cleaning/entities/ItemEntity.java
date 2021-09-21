@@ -24,7 +24,7 @@ public class ItemEntity extends AbstractEntity {
     @Nullable
     private OrderEntity order;
 
-    @OneToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "clothes_category_id", nullable = false)
     @Nullable
     private ClothesCategoryEntity clothesCategory;

@@ -26,20 +26,20 @@ public class ValidDTO {
 
     private ClientInDTO initClientDto() {
         ClientInDTO dto = new ClientInDTO();
-        dto.setId(1L);
+//        dto.setId(1L);
         dto.setLastName("Weak");
         dto.setPhone("123456789");
         dto.setEmail("JohnWeak@gmail.com");
         dto.setClientLevel("Bronze");
         dto.setDescription("Angry man");
         dto.setFirstName("John");
-        dto.setOrderId(List.of(1L));
+//        dto.setOrderId(List.of(1L));
         return dto;
     }
 
     private ClothesCategoryInDTO initClothesCategoryDTO() {
         ClothesCategoryInDTO dto = new ClothesCategoryInDTO();
-        dto.setId(1L);
+//        dto.setId(1L);
         dto.setCategory("Сoat");
         dto.setPrice(BigDecimal.valueOf(500.00));
         dto.setSize("More 50 cm");
@@ -48,7 +48,7 @@ public class ValidDTO {
 
     private EmployeeInDTO initEmployeeDTO() {
         EmployeeInDTO dto = new EmployeeInDTO();
-        dto.setId(1L);
+//        dto.setId(1L);
         dto.setFirstName("Bruce");
         dto.setLastName("Wain");
         dto.setPhone("987654321");
@@ -58,7 +58,7 @@ public class ValidDTO {
 
     private ItemInDTO initItemDTO() {
         ItemInDTO dto = new ItemInDTO();
-        dto.setId(1L);
+//        dto.setId(1L);
         dto.setOrderId(1L);
         dto.setClothesCategoryId(1L);
         dto.setMaterial("Material");
@@ -69,18 +69,22 @@ public class ValidDTO {
 
     private OrderInDTO initOrderDTO() {
         OrderInDTO dto = new OrderInDTO();
-//        dto.setId(2L);
+////        dto.setId(2L);
         dto.setOrderStartTime(LocalDateTime.now());
-        dto.setOrderEndTime(LocalDateTime.now().plusDays(7));
+        dto.setOrderEndTime(LocalDateTime.now().plusDays(3));
         dto.setClientId(1L);
         dto.setPaymentId(1L);
-        dto.setItemIdList(List.of(1L));
+        dto.setServiceId(1L);
+        dto.setEmployeeId(1L);
+        dto.setOrderStatus("In Progress");
+
+//        dto.setItemIdList(List.of(1L));
         return dto;
     }
 
     private PaymentInDTO initPaymentDTO() {
         PaymentInDTO dto = new PaymentInDTO();
-        dto.setId(1L);
+//        dto.setId(1L);
         dto.setPaymentMethod("Credit Card");
         dto.setStatus("Paid");
         dto.setEmployeeId(1L);
@@ -89,7 +93,7 @@ public class ValidDTO {
 
     private PositionInDTO initPositionDTO() {
         PositionInDTO dto = new PositionInDTO();
-        dto.setId(1L);
+//        dto.setId(1L);
         dto.setDuties("Cashier and Cleaning worker ");
         dto.setJobTitle("Master");
         return dto;
@@ -97,7 +101,7 @@ public class ValidDTO {
 
     private ServiceTypeInDTO initServiceTypeDTO() {
         ServiceTypeInDTO dto = new ServiceTypeInDTO();
-        dto.setId(1L);
+//        dto.setId(1L);
         dto.setPrice(BigDecimal.valueOf(1000.00));
         dto.setServiceType("Dry Cleaning");
         return dto;

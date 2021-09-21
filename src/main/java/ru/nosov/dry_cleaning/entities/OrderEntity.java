@@ -1,6 +1,7 @@
 package ru.nosov.dry_cleaning.entities;
 
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.*;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
@@ -21,9 +22,11 @@ import java.util.List;
 public class OrderEntity extends AbstractEntity {
 
     @CreatedDate()
+//    @JsonFormat(pattern = "dd.MM.yyyy")
     @Column(name = "order_Start_Time", updatable = false)
     private LocalDateTime orderStartTime;
 
+//    @JsonFormat(pattern = "dd.MM.yyyy")
     private LocalDateTime orderEndTime;
 
     @ManyToOne(fetch = FetchType.EAGER)
@@ -35,22 +38,30 @@ public class OrderEntity extends AbstractEntity {
     @Nullable
     private PaymentEntity payment;
 
-    @OneToMany(mappedBy = "order", fetch = FetchType.EAGER, orphanRemoval = true)
-    @Nullable
-    private List<ItemEntity> items;
-
-
-    @OneToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "service_type_id", nullable = false)
     @Nullable
     private ServiceTypeEntity service;
 
     @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "employee_id")
     @Nullable
     private EmployeeEntity employee;
-
 
     private String orderStatus;
 
 
+    @OneToMany(mappedBy = "order", fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
+    @Nullable
+    private List<ItemEntity> itemList;
+
+    public void addItem(ItemEntity item) {
+        itemList.add(item);
+        item.setOrder(this);
+    }
+
+    public void removeItem(ItemEntity item) {
+        itemList.remove(item);
+        item.setOrder(null);
+    }
 }

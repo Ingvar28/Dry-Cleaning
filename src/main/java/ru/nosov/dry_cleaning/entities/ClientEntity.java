@@ -30,9 +30,18 @@ public class ClientEntity  extends AbstractEntity{
 
 
     @OneToMany(mappedBy = "client",fetch = FetchType.LAZY)
+    @ToString.Exclude
     @Nullable
-    private List<OrderEntity> orders = new ArrayList<>();
+    private List<OrderEntity> orderList = new ArrayList<>();
 
+    public void addOrder(OrderEntity order) {
+        orderList.add(order);
+        order.setClient(this);
+    }
 
+    public void removeOrder(OrderEntity order) {
+        orderList.remove(order);
+        order.setClient(null);
+    }
 
 }
