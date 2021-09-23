@@ -32,6 +32,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.documentationConfiguration;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -104,10 +105,10 @@ public class PaymentControllerTest {
 
     @Test
     public void getAll() throws Exception {
-        this.mockMvc.perform(get(URL_PREFIX))
+        this.mockMvc.perform(get(URL_PREFIX).contentType(MediaType.APPLICATION_JSON))
+                .andDo(document(URL_PREFIX.replace("/", "\\")))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("paymentmethod")
-                        .value(Matchers.contains(dataInitializer.getPaymentEntity().getPaymentMethod())));
+                .andDo(print());
     }
 
 
@@ -116,14 +117,14 @@ public class PaymentControllerTest {
         this.mockMvc.perform(post(URL_PREFIX).contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(dataInitializer.getPaymentEntity())))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("paymentmethod", is(validDTO.getPaymentInDTO().getPaymentMethod())));
+                .andExpect(jsonPath("status", is(validDTO.getPaymentInDTO().getStatus())));
     }
 
     @Test
     public void update() throws Exception {
         this.mockMvc.perform(put(URL_PREFIX)
                         .contentType(MediaType.APPLICATION_JSON).content(objectMapper.
-                                writeValueAsString(validDTO.getPaymentInDTO())))
+                                writeValueAsString(dataInitializer.getPaymentEntity())))
                 .andExpect(status().isOk());
         assertEquals(dataInitializer.getPaymentEntity().getPaymentMethod(), validDTO.getPaymentInDTO().getPaymentMethod());
     }

@@ -32,6 +32,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.documentationConfiguration;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -105,10 +106,10 @@ public class ClothesCategoryControllerTest {
 
     @Test
     public void getAll() throws Exception {
-        this.mockMvc.perform(get(URL_PREFIX))
+        this.mockMvc.perform(get(URL_PREFIX).contentType(MediaType.APPLICATION_JSON))
+                .andDo(document(URL_PREFIX.replace("/", "\\")))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("category")
-                        .value(Matchers.contains(dataInitializer.getClothesCategoryEntity().getCategory())));
+                .andDo(print());
     }
 
 
@@ -124,7 +125,7 @@ public class ClothesCategoryControllerTest {
     public void update() throws Exception {
         this.mockMvc.perform(put(URL_PREFIX)
                         .contentType(MediaType.APPLICATION_JSON).content(objectMapper.
-                                writeValueAsString(validDTO.getClothesCategoryInDTO())))
+                                writeValueAsString(dataInitializer.getClothesCategoryEntity())))
                 .andExpect(status().isOk());
         assertEquals(dataInitializer.getClothesCategoryEntity().getCategory(), validDTO.getClothesCategoryInDTO().getCategory());
     }

@@ -32,6 +32,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.documentationConfiguration;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -104,10 +105,11 @@ public class ClientControllerTest {
 
     @Test
     public void getAll() throws Exception {
-        this.mockMvc.perform(get(URL_PREFIX))
+        this.mockMvc.perform(get(URL_PREFIX).contentType(MediaType.APPLICATION_JSON))
+                .andDo(document(URL_PREFIX.replace("/", "\\")))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("firstname")
-                        .value(Matchers.contains(dataInitializer.getClientEntity().getFirstName())));
+                .andDo(print());
+
     }
 
 
@@ -116,14 +118,14 @@ public class ClientControllerTest {
         this.mockMvc.perform(post(URL_PREFIX).contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(dataInitializer.getClientEntity())))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("firstname", is(validDTO.getClientInDTO().getFirstName())));
+                .andExpect(jsonPath("phone", is(validDTO.getClientInDTO().getPhone())));
     }
 
     @Test
     public void update() throws Exception {
         this.mockMvc.perform(put(URL_PREFIX)
                         .contentType(MediaType.APPLICATION_JSON).content(objectMapper.
-                                writeValueAsString(validDTO.getClientInDTO())))
+                                writeValueAsString(dataInitializer.getClientEntity())))
                 .andExpect(status().isOk());
         assertEquals(dataInitializer.getClientEntity().getFirstName(), validDTO.getClientInDTO().getFirstName());
     }

@@ -10,7 +10,7 @@ spring:
     driverClassName: com.mysql.jdbc.Driver
     username: root
     password: My$QLr00t
-    url: jdbc:mysql://localhost:5306/drycleaning
+    url: jdbc:mysql://localhost:5306/dry_cleaning
 
   jpa:
     #    database-platform: org.hibernate.dialect.MySQL5InnoDBDialect
